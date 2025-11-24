@@ -1,0 +1,10 @@
+rust_input: crate::api
+rust_root: rust/
+dart_output: lib/src/rust
+enable_lifetime: true
+
+type_64bit_int: true
+dart_type_rename: {}
+#  MyMediaElement: MediaElement
+
+stop_on_error: true
