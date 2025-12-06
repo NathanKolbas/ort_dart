@@ -3,7 +3,7 @@ import 'package:ort/ort.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Ort.ensureInitialized();
+  await Ort.ensureInitialized(throwOnFail: true);
 
   runApp(const MyApp());
 }
@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
 
   bool running = false;
 
-  Future<Tensor<double>> _tensorFromText(String text) async => await Tensor.fromArrayF32(
+  Tensor<double> _tensorFromText(String text) => Tensor.fromArrayF32(
     data: text.split(RegExp(r',\s+')).map((e) => double.parse(e)).toList(),
   );
 
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
 
     final Tensor<double> tensorA;
     try {
-      tensorA = await _tensorFromText(vecOne.text);
+      tensorA = _tensorFromText(vecOne.text);
     } catch (_) {
       setState(() {
         running = false;
@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
 
     final Tensor<double> tensorB;
     try {
-      tensorB = await _tensorFromText(vecTwo.text);
+      tensorB = _tensorFromText(vecTwo.text);
     } catch (_) {
       setState(() {
         running = false;

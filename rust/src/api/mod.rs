@@ -1,6 +1,7 @@
 pub mod execution_providers;
 pub mod session;
 pub mod debug;
+pub mod memory;
 pub mod tensor;
 
 #[flutter_rust_bridge::frb(init)]

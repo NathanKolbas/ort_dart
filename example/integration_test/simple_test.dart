@@ -1,20 +1,21 @@
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ort/ort.dart';
+import 'package:ort_example/main.dart';
 
-void main() {
+void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  setUpAll(() async => await Ort.ensureInitialized());
+  await Ort.ensureInitialized(throwOnFail: true);
 
   group('Tensor', () {
-    test('fromArrayF32', () async {
-      final tensor = await Tensor.fromArrayF32(data: [1, 2, 3]);
+    test('fromArrayF32', () {
+      final tensor = Tensor.fromArrayF32(data: [1, 2, 3]);
       expect(tensor.dtype, TensorElementType.float32);
     });
 
     group('fromArray', () {
-      test('f32', () async {
-        final tensor = await Tensor.fromArray(
+      test('f32', () {
+        final tensor = Tensor.fromArray(
           dtype: TensorElementType.float32,
           data: [1.0, 2.0, 3.0],
         );
@@ -22,11 +23,11 @@ void main() {
       });
     });
 
-    test('shape', () async {
-      Tensor tensor = await Tensor.fromArray(dtype: TensorElementType.int32, data: [1]);
+    test('shape', () {
+      Tensor tensor = Tensor.fromArray(dtype: TensorElementType.int32, data: [1]);
       expect(tensor.shape, [1]);
 
-      tensor = await Tensor.fromArray(
+      tensor = Tensor.fromArray(
           dtype: TensorElementType.int32,
           data: [
             1, 2, 3, 4,
@@ -37,11 +38,11 @@ void main() {
       expect(tensor.shape, [2, 4]);
     });
 
-    test('length', () async {
-      Tensor tensor = await Tensor.fromArray(dtype: TensorElementType.int32, data: [1]);
-      expect(tensor.length, 1);
+    test('length', () {
+      Tensor tensor = Tensor.fromArray(dtype: TensorElementType.int32, data: [1]);
+      expect(tensor.data.length, 1);
 
-      tensor = await Tensor.fromArray(
+      tensor = Tensor.fromArray(
         dtype: TensorElementType.int32,
         data: [
           1, 2, 3, 4,
@@ -49,60 +50,60 @@ void main() {
         ],
         shape: [2, 4]
       );
-      expect(tensor.length, 8);
+      expect(tensor.data.length, 8);
     });
 
-    test('data', () async {
+    test('data', () {
       final data = [1, 2, 3, 4];
-      final tensor = await Tensor.fromArrayI32(data: data);
+      final tensor = Tensor.fromArrayI32(data: data);
       expect(tensor.data, data);
     });
 
-    test('operator []', () async {
-      final tensor = await Tensor.fromArrayI32(data: [1, 2, 3, 4]);
-      expect(tensor[1], 2);
+    test('operator []', () {
+      final tensor = Tensor.fromArrayI32(data: [1, 2, 3, 4]);
+      expect(tensor.data[1], 2);
     });
 
-    test('operator []=', () async {
-      final tensor = await Tensor.fromArrayI32(data: [1, 2, 3, 4]);
-      expect(tensor[1], 2);
+    test('operator []=', () {
+      final tensor = Tensor.fromArrayI32(data: [1, 2, 3, 4]);
+      expect(tensor.data[1], 2);
 
-      tensor[1] = 42;
-      expect(tensor[1], 42);
+      tensor.data[1] = 42;
+      expect(tensor.data[1], 42);
     });
 
-    test('iterator', () async {
-      final tensor = await Tensor.fromArrayI32(data: [1, 2, 3, 4]);
+    test('iterator', () {
+      final tensor = Tensor.fromArrayI32(data: [1, 2, 3, 4]);
 
-      for (int i = 0; i < tensor.length; i++) {
-        tensor[i] *= 10;
+      for (int i = 0; i < tensor.data.length; i++) {
+        tensor.data[i] *= 10;
       }
 
       expect(tensor.data, [10, 20, 30, 40]);
     });
 
-    test('can not grow the Tensor', () async {
-      final tensor = await Tensor.fromArrayI32(data: [1, 2, 3, 4]);
-      expect(() => tensor.add(0), throwsA(predicate((e) => e is StateError && e.message == 'Tensor is not growable')));
+    test('can not grow the Tensor', () {
+      final tensor = Tensor.fromArrayI32(data: [1, 2, 3, 4]);
+      expect(
+        () {
+          tensor.data.add(0);
+        },
+        throwsA(predicate((e) => e is UnsupportedError
+            && e.message == 'Cannot add to a fixed-length list'
+        )),
+      );
     });
   });
 
   group('Session', () {
     test('can run session', () async {
-      const matmulModel = [
-        8, 9, 18, 0, 58, 55, 10, 17, 10, 1, 97, 10, 1, 98, 18, 1, 99, 34, 6, 77,
-        97, 116, 77, 117, 108, 18, 1, 114, 90, 9, 10, 1, 97, 18, 4, 10, 2, 8, 1,
-        90, 9, 10, 1, 98, 18, 4, 10, 2, 8, 1, 98, 9, 10, 1, 99, 18, 4, 10, 2, 8,
-        1, 66, 2, 16, 20
-      ];
-
       const List<double> vec = [1, 2, 3];
-      final tensorA = await Tensor.fromArrayF32(data: vec);
-      final tensorB = await Tensor.fromArrayF32(data: vec);
+      final tensorA = Tensor.fromArrayF32(data: vec);
+      final tensorB = Tensor.fromArrayF32(data: vec);
 
-      expect(tensorA[1], vec[1]);
+      expect(tensorA.data[1], vec[1]);
 
-      tensorA[1] = 42.0;
+      tensorA.data[1] = 42.0;
 
       final session = await Session.builder()
           .withExecutionProviders([

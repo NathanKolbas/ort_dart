@@ -287,47 +287,35 @@ impl SessionImpl {
   }
 }
 
-// #[cfg(test)]
-// mod tests {
-//   use std::collections::HashMap;
-//   use ort::error::Result;
-//   use crate::api::execution_providers::cpu::CPUExecutionProvider;
-//   use crate::api::session::SessionImpl;
-//   use crate::api::tensor::TensorImpl;
-//
-//   const MATMUL_MODEL: &[u8] = &[
-//     8, 9, 18, 0, 58, 55, 10, 17, 10, 1, 97, 10, 1, 98, 18, 1, 99, 34, 6, 77, 97, 116, 77, 117, 108,
-//     18, 1, 114, 90, 9, 10, 1, 97, 18, 4, 10, 2, 8, 1, 90, 9, 10, 1, 98, 18, 4, 10, 2, 8, 1, 98, 9,
-//     10, 1, 99, 18, 4, 10, 2, 8, 1, 66, 2, 16, 20
-//   ];
-//
-//   #[test]
-//   fn test_run_session() -> Result<()> {
-//     let mut session = SessionImpl::builder().commit_from_memory(MATMUL_MODEL)?;
-//
-//     let vec = vec![1., 2., 3.];
-//     let tensor_a = TensorImpl::from_array_f32(None, vec.clone())?;
-//     let tensor_b = TensorImpl::from_array_f32(None, vec.clone())?;
-//
-//     let output = session.run(HashMap::from([
-//       ("a".to_string(), tensor_a),
-//       ("b".to_string(), tensor_b),
-//     ]))?;
-//
-//     assert_eq!(output.len(), 1);
-//     assert_eq!(output.get("c").unwrap().tensor.try_extract_tensor::<f32>()?.1, vec![14.]);
-//
-//     Ok(())
-//   }
-//
-//   // #[test]
-//   // fn test_set_execution_providers() -> Result<()> {
-//   //   let _session = SessionImpl::builder()
-//   //     .with_execution_providers(vec![
-//   //       Box::new(CPUExecutionProvider::new())
-//   //     ])?
-//   //     .commit_from_memory(MATMUL_MODEL)?;
-//   //
-//   //   Ok(())
-//   // }
-// }
+#[cfg(test)]
+mod tests {
+  use std::collections::HashMap;
+  use ort::error::Result;
+  use crate::api::session::SessionImpl;
+  use crate::api::tensor::TensorImpl;
+
+  const MATMUL_MODEL: &[u8] = &[
+    8, 9, 18, 0, 58, 55, 10, 17, 10, 1, 97, 10, 1, 98, 18, 1, 99, 34, 6, 77, 97, 116, 77, 117, 108,
+    18, 1, 114, 90, 9, 10, 1, 97, 18, 4, 10, 2, 8, 1, 90, 9, 10, 1, 98, 18, 4, 10, 2, 8, 1, 98, 9,
+    10, 1, 99, 18, 4, 10, 2, 8, 1, 66, 2, 16, 20
+  ];
+
+  #[test]
+  fn test_run_session() -> Result<()> {
+    let mut session = SessionImpl::builder().commit_from_memory(MATMUL_MODEL)?;
+
+    let vec = vec![1., 2., 3.];
+    let tensor_a = TensorImpl::from_array_f32(None, vec.clone())?;
+    let tensor_b = TensorImpl::from_array_f32(None, vec.clone())?;
+
+    let output = session.run(HashMap::from([
+      ("a".to_string(), tensor_a),
+      ("b".to_string(), tensor_b),
+    ]))?;
+
+    assert_eq!(output.len(), 1);
+    assert_eq!(output.get("c").unwrap().tensor.try_extract_tensor::<f32>()?.1, vec![14.]);
+
+    Ok(())
+  }
+}

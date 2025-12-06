@@ -3,15 +3,29 @@ library;
 export 'src/api/session.dart';
 export 'src/api/tensor.dart' hide tensorFromImpl;
 export 'src/api/execution_providers/execution_providers.dart';
-export 'src/api/execution_providers/cpu.dart';
-export 'src/api/execution_providers/cuda.dart';
 
 export 'src/rust/api/session/builder/impl_options.dart';
+export 'src/rust/api/debug.dart' hide enableOrtDebugMessages;
 
 import 'package:flutter/foundation.dart';
 import 'package:ort/src/rust/api/debug.dart';
 
 import 'src/rust/frb_generated.dart' show RustLib;
+
+/// Options for initializing Ort.
+class OrtInitializationOptions {
+  /// Enables ORT debug messages. Defaults to enabled when [kDebugMode] is true.
+  final bool? showDebugMessages;
+
+  /// The level of debug information you would like to receive when
+  /// [showDebugMessages] is true.
+  final OrtDebugLevel? ortDebugLevel;
+
+  const OrtInitializationOptions({
+    this.showDebugMessages,
+    this.ortDebugLevel,
+  });
+}
 
 class Ort {
   static final Ort _instance = Ort._internal();
@@ -36,16 +50,16 @@ class Ort {
   /// [throwOnFail] is true then you must catch the error.
   static Future<bool> ensureInitialized({
     bool throwOnFail = false,
-    bool? showDebugMessages,
-    OrtDebugLevel? ortDebugLevel,
+    OrtInitializationOptions options = const OrtInitializationOptions(),
   }) async {
     if (Ort._instance._initialized) return true;
 
     try {
       await RustLib.init();
 
+      final showDebugMessages = options.showDebugMessages;
       if (showDebugMessages == true || (showDebugMessages == null && kDebugMode)) {
-        ortDebug(ortDebugLevel);
+        ortDebug(options.ortDebugLevel);
       }
 
       Ort._instance._initialized = true;

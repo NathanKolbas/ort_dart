@@ -1,106 +1,165 @@
-import 'dart:math' as math;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:ort/ort.dart';
+import 'package:ort_example/main.dart';
 
 Future<void> main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  setUpAll(() async => await Ort.ensureInitialized());
+  await Ort.ensureInitialized(throwOnFail: true);
 
   group('Tensor', () {
-    test('handles type-cast from int to double', () async {
+    test('handles type-cast from int to double', () {
       const data = [10, 20, 30, 40, 50];
-      final tensor = await Tensor.fromArray<double>(
+      final tensor = Tensor.fromArray<double>(
         dtype: TensorElementType.float32,
         data: data,
       );
       expect(tensor.data, data);
 
-      tensor[0] = 1;
+      tensor.data[0] = 1;
       expect(tensor.data, [1, 20, 30, 40, 50]);
     });
 
-    double tensorIterationSum = 0;
-    double nativeIterationSum = 0;
-    double tensorIterationFromGettingDataSum = 0;
-    double arrayPointerIterationSum = 0;
+    group('get and modify Tensor data', () {
+      const List<double> floatList = [1, 2, 3, 4, 5];
+      for (final type in [
+        TensorElementType.float64,
+        TensorElementType.float32,
+        TensorElementType.float16,
+      ]) {
+        test(type.name, () {
+          final tensor = Tensor.fromArray<double>(
+            dtype: type,
+            data: floatList,
+          );
+          expect(tensor.data, floatList);
 
-    test('iteration speed test', () async {
-      final rand = math.Random(42);
-      final data = List.filled(1_000_000, rand.nextDouble());
+          tensor.data[0] = 42;
+          expect(tensor.data, [42, ...floatList.sublist(1)]);
+          expect(tensor.data, tensor.extractTensor());
+        });
+      }
+
+      const List<int> intList = [1, 2, 3, 4, 5];
+      for (final type in [
+        TensorElementType.int64,
+        TensorElementType.int32,
+        TensorElementType.int16,
+        TensorElementType.int8,
+
+        TensorElementType.uint64,
+        TensorElementType.uint32,
+        TensorElementType.uint16,
+        TensorElementType.uint8,
+      ]) {
+        test(type.name, () {
+          final tensor = Tensor.fromArray<int>(
+            dtype: type,
+            data: floatList,
+          );
+          expect(tensor.data, intList);
+
+          tensor.data[0] = 42;
+          expect(tensor.data, [42, ...intList.sublist(1)]);
+          expect(tensor.data, tensor.extractTensor());
+        });
+      }
+
+      const List<String> stringList = ['foo', 'bar', 'baz', 'qux', 'quux'];
+      test('String', () {
+        final tensor = Tensor.fromArray<String>(
+          dtype: TensorElementType.string,
+          data: stringList,
+        );
+        expect(tensor.data, stringList);
+
+        tensor.data[0] = '42';
+        expect(tensor.data, ['42', ...stringList.sublist(1)]);
+        expect(tensor.data, tensor.extractTensor());
+      });
+
+      const List<bool> boolList = [true, false, true, false, true];
+      test('bool', () {
+        final tensor = Tensor.fromArray<bool>(
+          dtype: TensorElementType.bool,
+          data: boolList,
+        );
+        expect(tensor.data, boolList);
+
+        tensor.data[0] = !boolList[0];
+        expect(tensor.data, [!boolList[0], ...boolList.sublist(1)]);
+        expect(tensor.data, tensor.extractTensor());
+      });
+    });
+
+    test('extracting tensor multiple times returns the same data', () {
+      const data = [10, 20, 30, 40, 50];
       final tensor = Tensor.fromArray<double>(
         dtype: TensorElementType.float32,
         data: data,
       );
+      expect(tensor.data, data);
 
-      Stopwatch stopwatch = Stopwatch()..start();
-      for (final e in tensor) {
-        tensorIterationSum += e;
-      }
-      stopwatch.stop();
-      final tensorIterationElapsed = stopwatch.elapsed;
+      expect(tensor.data, tensor.extractTensor());
+      expect(tensor.data, tensor.extractTensor());
 
-      stopwatch = Stopwatch()..start();
-      for (final e in data) {
-        nativeIterationSum += e;
-      }
-      stopwatch.stop();
-      final nativeIterationElapsed = stopwatch.elapsed;
+      expect(data, tensor.extractTensor());
+      expect(data, tensor.extractTensor());
+    });
 
-      stopwatch = Stopwatch()..start();
-      tensor.data;
-      stopwatch.stop();
-      final timeToGetTensorData = stopwatch.elapsed;
+    group('memoryInfo', () {
+      final tensor = Tensor.fromArray<double>(
+        dtype: TensorElementType.float32,
+        data: [10, 20, 30, 40, 50],
+      );
+      final memoryInfo = tensor.memoryInfo();
 
-      stopwatch = Stopwatch()..start();
-      for (final e in tensor.data) {
-        tensorIterationFromGettingDataSum += e;
-      }
-      stopwatch.stop();
-      final tensorIterationFromGettingDataElapsed = stopwatch.elapsed;
+      test('allocationDevice', () {
+        expect(memoryInfo.allocationDevice(), AllocationDevice.cpu());
+      });
 
-      stopwatch = Stopwatch()..start();
-      List<double>.from(tensor.data);
-      stopwatch.stop();
-      final listFromTime = stopwatch.elapsed;
+      test('allocatorType', () {
+        expect(memoryInfo.allocatorType(), AllocatorType.device);
+      });
 
-      stopwatch = Stopwatch()..start();
-      final dataPointer = tensor.dataPointer;
-      stopwatch.stop();
-      final loadingArrayPointerTime = stopwatch.elapsed;
+      test('deviceId', () {
+        expect(memoryInfo.deviceId(), 0);
+      });
 
-      stopwatch = Stopwatch()..start();
-      for (final e in dataPointer) {
-        arrayPointerIterationSum += e;
-      }
-      stopwatch.stop();
-      final arrayPointerIterationTime = stopwatch.elapsed;
+      test('deviceType', () {
+        expect(memoryInfo.deviceType(), DeviceType.cpu);
+      });
 
-      print(dataPointer[0]);
-      dataPointer[0] = 1.0;
-      print(dataPointer[0]);
-      print(tensor[0]);
+      test('isCpuAccessible', () {
+        expect(memoryInfo.isCpuAccessible(), true);
+      });
 
-      // Can free the memory
-      // tensor.dispose();
+      test('memoryType', () {
+        expect(memoryInfo.memoryType(), MemoryType.default_);
+      });
+    });
 
-      print('tensorIterationElapsed = $tensorIterationElapsed');
-      print('nativeIterationElapsed = $nativeIterationElapsed');
-      print('timeToGetTensorData = $timeToGetTensorData');
-      print('tensorIterationFromGettingDataElapsed = $tensorIterationFromGettingDataElapsed');
-      print('listFromTime = $listFromTime');
-      print('loadingArrayPointerTime = $loadingArrayPointerTime');
-      print('arrayPointerIterationTime = $arrayPointerIterationTime');
+    test("rust keeps Tensor in memory after running inference", () async {
+      const List<double> vec = [1, 2, 3];
+      final tensorA = Tensor.fromArrayF32(data: vec);
+      final tensorB = Tensor.fromArrayF32(data: vec);
 
-      // There might be a slight variance in the float/double value which is acceptable.
-      final expectedSum = closeTo(150925.45747756958, 0.01);
+      final session = await Session.builder()
+        .withExecutionProviders([
+          CUDAExecutionProvider(),
+          CPUExecutionProvider(),
+        ])
+        .commitFromMemory(matmulModel);
 
-      expect(tensorIterationSum, expectedSum);
-      expect(nativeIterationSum, expectedSum);
-      expect(tensorIterationFromGettingDataSum, expectedSum);
-      expect(arrayPointerIterationSum, expectedSum);
+      final output = await session.run(inputValues: {
+        'a': tensorA,
+        'b': tensorB,
+      });
 
-      expect(tensorIterationElapsed, greaterThan(nativeIterationElapsed));
+      expect(output.length, 1);
+      // Should not get this error:
+      // DroppableDisposedException: Try to use `RustArc<dynamic>` after it has been disposed
+      expect(tensorA.data, vec);
     });
   });
 }

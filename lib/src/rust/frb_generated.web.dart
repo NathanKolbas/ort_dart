@@ -16,6 +16,7 @@ import 'api/execution_providers/nnapi.dart';
 import 'api/execution_providers/qnn.dart';
 import 'api/execution_providers/rocm.dart';
 import 'api/execution_providers/tensorrt.dart';
+import 'api/memory.dart';
 import 'api/session.dart';
 import 'api/session/builder/impl_options.dart';
 import 'api/tensor.dart';
@@ -33,6 +34,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   });
 
   CrossPlatformFinalizerArg
+  get rust_arc_decrement_strong_count_MemoryInfoPtr => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo;
+
+  CrossPlatformFinalizerArg
   get rust_arc_decrement_strong_count_SessionImplPtr => wire
       .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl;
 
@@ -42,6 +47,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw);
+
+  @protected
+  MemoryInfo
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    dynamic raw,
+  );
 
   @protected
   SessionImpl
@@ -64,6 +75,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   TensorImpl
   dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
+    dynamic raw,
+  );
+
+  @protected
+  MemoryInfo
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
     dynamic raw,
   );
 
@@ -95,6 +112,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  MemoryInfo
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    dynamic raw,
+  );
+
+  @protected
   SessionImpl
   dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl(
     dynamic raw,
@@ -111,6 +134,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   ExecutionProviderBase dco_decode_TraitDef_ExecutionProviderBase(dynamic raw);
+
+  @protected
+  AllocationDevice dco_decode_allocation_device(dynamic raw);
+
+  @protected
+  AllocatorType dco_decode_allocator_type(dynamic raw);
 
   @protected
   ArenaExtendStrategy dco_decode_arena_extend_strategy(dynamic raw);
@@ -251,6 +280,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   CUDAExecutionProvider dco_decode_cuda_execution_provider(dynamic raw);
 
   @protected
+  DeviceType dco_decode_device_type(dynamic raw);
+
+  @protected
   DirectMLExecutionProvider dco_decode_direct_ml_execution_provider(
     dynamic raw,
   );
@@ -356,6 +388,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   dco_decode_list_record_string_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_tensor_impl(
     dynamic raw,
   );
+
+  @protected
+  MemoryType dco_decode_memory_type(dynamic raw);
 
   @protected
   NNAPIExecutionProvider dco_decode_nnapi_execution_provider(dynamic raw);
@@ -498,6 +533,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
 
   @protected
+  MemoryInfo
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   SessionImpl
   sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl(
     SseDeserializer deserializer,
@@ -518,6 +559,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   TensorImpl
   sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  MemoryInfo
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
     SseDeserializer deserializer,
   );
 
@@ -549,6 +596,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  MemoryInfo
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   SessionImpl
   sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl(
     SseDeserializer deserializer,
@@ -562,6 +615,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String sse_decode_String(SseDeserializer deserializer);
+
+  @protected
+  AllocationDevice sse_decode_allocation_device(SseDeserializer deserializer);
+
+  @protected
+  AllocatorType sse_decode_allocator_type(SseDeserializer deserializer);
 
   @protected
   ArenaExtendStrategy sse_decode_arena_extend_strategy(
@@ -736,6 +795,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  DeviceType sse_decode_device_type(SseDeserializer deserializer);
+
+  @protected
   DirectMLExecutionProvider sse_decode_direct_ml_execution_provider(
     SseDeserializer deserializer,
   );
@@ -845,6 +907,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   sse_decode_list_record_string_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_tensor_impl(
     SseDeserializer deserializer,
   );
+
+  @protected
+  MemoryType sse_decode_memory_type(SseDeserializer deserializer);
 
   @protected
   NNAPIExecutionProvider sse_decode_nnapi_execution_provider(
@@ -1017,6 +1082,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    MemoryInfo self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
   sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl(
     SessionImpl self,
     SseSerializer serializer,
@@ -1040,6 +1112,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void
   sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
     TensorImpl self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    MemoryInfo self,
     SseSerializer serializer,
   );
 
@@ -1075,6 +1154,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    MemoryInfo self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
   sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl(
     SessionImpl self,
     SseSerializer serializer,
@@ -1089,6 +1175,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_String(String self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_allocation_device(
+    AllocationDevice self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_allocator_type(AllocatorType self, SseSerializer serializer);
 
   @protected
   void sse_encode_arena_extend_strategy(
@@ -1292,6 +1387,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_device_type(DeviceType self, SseSerializer serializer);
+
+  @protected
   void sse_encode_direct_ml_execution_provider(
     DirectMLExecutionProvider self,
     SseSerializer serializer,
@@ -1453,6 +1551,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     List<(String, TensorImpl)> self,
     SseSerializer serializer,
   );
+
+  @protected
+  void sse_encode_memory_type(MemoryType self, SseSerializer serializer);
 
   @protected
   void sse_encode_nnapi_execution_provider(
@@ -1648,6 +1749,22 @@ class RustLibWire implements BaseWire {
   RustLibWire.fromExternalLibrary(ExternalLibrary lib);
 
   void
+  rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+        ptr,
+      );
+
+  void
+  rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+        ptr,
+      );
+
+  void
   rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl(
     int ptr,
   ) => wasmModule
@@ -1686,6 +1803,16 @@ external RustLibWasmModule get wasmModule;
 @JS()
 @anonymous
 extension type RustLibWasmModule._(JSObject _) implements JSObject {
+  external void
+  rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    int ptr,
+  );
+
+  external void
+  rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    int ptr,
+  );
+
   external void
   rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl(
     int ptr,

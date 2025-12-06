@@ -13,6 +13,7 @@ import 'api/execution_providers/nnapi.dart';
 import 'api/execution_providers/qnn.dart';
 import 'api/execution_providers/rocm.dart';
 import 'api/execution_providers/tensorrt.dart';
+import 'api/memory.dart';
 import 'api/session.dart';
 import 'api/session/builder/impl_options.dart';
 import 'api/tensor.dart';
@@ -78,7 +79,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 380986871;
+  int get rustContentHash => 1413858729;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -89,6 +90,22 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
+  AllocationDevice crateApiMemoryMemoryInfoAllocationDevice({
+    required MemoryInfo that,
+  });
+
+  AllocatorType crateApiMemoryMemoryInfoAllocatorType({
+    required MemoryInfo that,
+  });
+
+  int crateApiMemoryMemoryInfoDeviceId({required MemoryInfo that});
+
+  DeviceType crateApiMemoryMemoryInfoDeviceType({required MemoryInfo that});
+
+  bool crateApiMemoryMemoryInfoIsCpuAccessible({required MemoryInfo that});
+
+  MemoryType crateApiMemoryMemoryInfoMemoryType({required MemoryInfo that});
+
   SessionBuilderOptions crateApiSessionSessionImplBuilder();
 
   List<Input> crateApiSessionSessionImplInputs({required SessionImpl that});
@@ -102,9 +119,33 @@ abstract class RustLibApi extends BaseApi {
 
   TensorImpl crateApiTensorTensorImplClone({required TensorImpl that});
 
+  TensorImpl crateApiTensorTensorImplCopy({required TensorImpl that});
+
   TensorElementType crateApiTensorTensorImplDtype({required TensorImpl that});
 
-  void crateApiTensorTensorImplFreeF32Pointer({required ArrayPointer ptr});
+  void crateApiTensorTensorImplFreeBoolPointer({required ArrayPointer arr});
+
+  void crateApiTensorTensorImplFreeF32Pointer({required ArrayPointer arr});
+
+  void crateApiTensorTensorImplFreeF64Pointer({required ArrayPointer arr});
+
+  void crateApiTensorTensorImplFreeI16Pointer({required ArrayPointer arr});
+
+  void crateApiTensorTensorImplFreeI32Pointer({required ArrayPointer arr});
+
+  void crateApiTensorTensorImplFreeI64Pointer({required ArrayPointer arr});
+
+  void crateApiTensorTensorImplFreeI8Pointer({required ArrayPointer arr});
+
+  void crateApiTensorTensorImplFreeStringPointer({required ArrayPointer arr});
+
+  void crateApiTensorTensorImplFreeU16Pointer({required ArrayPointer arr});
+
+  void crateApiTensorTensorImplFreeU32Pointer({required ArrayPointer arr});
+
+  void crateApiTensorTensorImplFreeU64Pointer({required ArrayPointer arr});
+
+  void crateApiTensorTensorImplFreeU8Pointer({required ArrayPointer arr});
 
   TensorImpl crateApiTensorTensorImplFromArrayBool({
     List<int>? shape,
@@ -166,185 +207,57 @@ abstract class RustLibApi extends BaseApi {
     required List<int> data,
   });
 
-  List<bool> crateApiTensorTensorImplGetDataBool({required TensorImpl that});
-
-  Float32List crateApiTensorTensorImplGetDataF32({required TensorImpl that});
+  ArrayPointer crateApiTensorTensorImplGetDataBoolPointer({
+    required TensorImpl that,
+  });
 
   ArrayPointer crateApiTensorTensorImplGetDataF32Pointer({
     required TensorImpl that,
   });
 
-  Float64List crateApiTensorTensorImplGetDataF64({required TensorImpl that});
-
-  Int16List crateApiTensorTensorImplGetDataI16({required TensorImpl that});
-
-  Int32List crateApiTensorTensorImplGetDataI32({required TensorImpl that});
-
-  List<int> crateApiTensorTensorImplGetDataI64({required TensorImpl that});
-
-  Int8List crateApiTensorTensorImplGetDataI8({required TensorImpl that});
-
-  List<bool> crateApiTensorTensorImplGetDataMutBool({required TensorImpl that});
-
-  Float32List crateApiTensorTensorImplGetDataMutF32({required TensorImpl that});
-
-  Float64List crateApiTensorTensorImplGetDataMutF64({required TensorImpl that});
-
-  Int16List crateApiTensorTensorImplGetDataMutI16({required TensorImpl that});
-
-  Int32List crateApiTensorTensorImplGetDataMutI32({required TensorImpl that});
-
-  List<int> crateApiTensorTensorImplGetDataMutI64({required TensorImpl that});
-
-  Int8List crateApiTensorTensorImplGetDataMutI8({required TensorImpl that});
-
-  Uint16List crateApiTensorTensorImplGetDataMutU16({required TensorImpl that});
-
-  Uint32List crateApiTensorTensorImplGetDataMutU32({required TensorImpl that});
-
-  List<int> crateApiTensorTensorImplGetDataMutU64({required TensorImpl that});
-
-  Uint8List crateApiTensorTensorImplGetDataMutU8({required TensorImpl that});
-
-  List<String> crateApiTensorTensorImplGetDataString({
+  ArrayPointer crateApiTensorTensorImplGetDataF64Pointer({
     required TensorImpl that,
   });
 
-  Uint16List crateApiTensorTensorImplGetDataU16({required TensorImpl that});
-
-  Uint32List crateApiTensorTensorImplGetDataU32({required TensorImpl that});
-
-  List<int> crateApiTensorTensorImplGetDataU64({required TensorImpl that});
-
-  Uint8List crateApiTensorTensorImplGetDataU8({required TensorImpl that});
-
-  bool crateApiTensorTensorImplGetIndexBool({
+  ArrayPointer crateApiTensorTensorImplGetDataI16Pointer({
     required TensorImpl that,
-    required int index,
   });
 
-  double crateApiTensorTensorImplGetIndexF32({
+  ArrayPointer crateApiTensorTensorImplGetDataI32Pointer({
     required TensorImpl that,
-    required int index,
   });
 
-  double crateApiTensorTensorImplGetIndexF64({
+  ArrayPointer crateApiTensorTensorImplGetDataI64Pointer({
     required TensorImpl that,
-    required int index,
   });
 
-  int crateApiTensorTensorImplGetIndexI16({
+  ArrayPointer crateApiTensorTensorImplGetDataI8Pointer({
     required TensorImpl that,
-    required int index,
   });
 
-  int crateApiTensorTensorImplGetIndexI32({
+  ArrayPointer crateApiTensorTensorImplGetDataStringPointer({
     required TensorImpl that,
-    required int index,
   });
 
-  int crateApiTensorTensorImplGetIndexI64({
+  ArrayPointer crateApiTensorTensorImplGetDataU16Pointer({
     required TensorImpl that,
-    required int index,
   });
 
-  int crateApiTensorTensorImplGetIndexI8({
+  ArrayPointer crateApiTensorTensorImplGetDataU32Pointer({
     required TensorImpl that,
-    required int index,
   });
 
-  String crateApiTensorTensorImplGetIndexString({
+  ArrayPointer crateApiTensorTensorImplGetDataU64Pointer({
     required TensorImpl that,
-    required int index,
   });
 
-  int crateApiTensorTensorImplGetIndexU16({
+  ArrayPointer crateApiTensorTensorImplGetDataU8Pointer({
     required TensorImpl that,
-    required int index,
-  });
-
-  int crateApiTensorTensorImplGetIndexU32({
-    required TensorImpl that,
-    required int index,
-  });
-
-  int crateApiTensorTensorImplGetIndexU64({
-    required TensorImpl that,
-    required int index,
-  });
-
-  int crateApiTensorTensorImplGetIndexU8({
-    required TensorImpl that,
-    required int index,
   });
 
   bool crateApiTensorTensorImplIsMutable({required TensorImpl that});
 
-  void crateApiTensorTensorImplSetIndexBool({
-    required TensorImpl that,
-    required int index,
-    required bool value,
-  });
-
-  void crateApiTensorTensorImplSetIndexF32({
-    required TensorImpl that,
-    required int index,
-    required double value,
-  });
-
-  void crateApiTensorTensorImplSetIndexF64({
-    required TensorImpl that,
-    required int index,
-    required double value,
-  });
-
-  void crateApiTensorTensorImplSetIndexI16({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  });
-
-  void crateApiTensorTensorImplSetIndexI32({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  });
-
-  void crateApiTensorTensorImplSetIndexI64({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  });
-
-  void crateApiTensorTensorImplSetIndexI8({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  });
-
-  void crateApiTensorTensorImplSetIndexU16({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  });
-
-  void crateApiTensorTensorImplSetIndexU32({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  });
-
-  void crateApiTensorTensorImplSetIndexU64({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  });
-
-  void crateApiTensorTensorImplSetIndexU8({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  });
+  MemoryInfo crateApiTensorTensorImplMemoryInfo({required TensorImpl that});
 
   List<int> crateApiTensorTensorImplShape({required TensorImpl that});
 
@@ -511,6 +424,14 @@ abstract class RustLibApi extends BaseApi {
   });
 
   RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_MemoryInfo;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_MemoryInfo;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_MemoryInfoPtr;
+
+  RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_SessionImpl;
 
   RustArcDecrementStrongCountFnType
@@ -536,12 +457,190 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   });
 
   @override
+  AllocationDevice crateApiMemoryMemoryInfoAllocationDevice({
+    required MemoryInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_allocation_device,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiMemoryMemoryInfoAllocationDeviceConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiMemoryMemoryInfoAllocationDeviceConstMeta =>
+      const TaskConstMeta(
+        debugName: "MemoryInfo_allocation_device",
+        argNames: ["that"],
+      );
+
+  @override
+  AllocatorType crateApiMemoryMemoryInfoAllocatorType({
+    required MemoryInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_allocator_type,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiMemoryMemoryInfoAllocatorTypeConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiMemoryMemoryInfoAllocatorTypeConstMeta =>
+      const TaskConstMeta(
+        debugName: "MemoryInfo_allocator_type",
+        argNames: ["that"],
+      );
+
+  @override
+  int crateApiMemoryMemoryInfoDeviceId({required MemoryInfo that}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_i_32,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiMemoryMemoryInfoDeviceIdConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiMemoryMemoryInfoDeviceIdConstMeta =>
+      const TaskConstMeta(
+        debugName: "MemoryInfo_device_id",
+        argNames: ["that"],
+      );
+
+  @override
+  DeviceType crateApiMemoryMemoryInfoDeviceType({required MemoryInfo that}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_device_type,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiMemoryMemoryInfoDeviceTypeConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiMemoryMemoryInfoDeviceTypeConstMeta =>
+      const TaskConstMeta(
+        debugName: "MemoryInfo_device_type",
+        argNames: ["that"],
+      );
+
+  @override
+  bool crateApiMemoryMemoryInfoIsCpuAccessible({required MemoryInfo that}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiMemoryMemoryInfoIsCpuAccessibleConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiMemoryMemoryInfoIsCpuAccessibleConstMeta =>
+      const TaskConstMeta(
+        debugName: "MemoryInfo_is_cpu_accessible",
+        argNames: ["that"],
+      );
+
+  @override
+  MemoryType crateApiMemoryMemoryInfoMemoryType({required MemoryInfo that}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_memory_type,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiMemoryMemoryInfoMemoryTypeConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiMemoryMemoryInfoMemoryTypeConstMeta =>
+      const TaskConstMeta(
+        debugName: "MemoryInfo_memory_type",
+        argNames: ["that"],
+      );
+
+  @override
   SessionBuilderOptions crateApiSessionSessionImplBuilder() {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_session_builder_options,
@@ -567,7 +666,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_list_input,
@@ -593,7 +692,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_list_output,
@@ -629,7 +728,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 4,
+            funcId: 10,
             port: port_,
           );
         },
@@ -661,7 +760,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -679,6 +778,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "TensorImpl_clone", argNames: ["that"]);
 
   @override
+  TensorImpl crateApiTensorTensorImplCopy({required TensorImpl that}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData:
+              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiTensorTensorImplCopyConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTensorTensorImplCopyConstMeta =>
+      const TaskConstMeta(debugName: "TensorImpl_copy", argNames: ["that"]);
+
+  @override
   TensorElementType crateApiTensorTensorImplDtype({required TensorImpl that}) {
     return handler.executeSync(
       SyncTask(
@@ -688,7 +814,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_tensor_element_type,
@@ -705,20 +831,46 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "TensorImpl_dtype", argNames: ["that"]);
 
   @override
-  void crateApiTensorTensorImplFreeF32Pointer({required ArrayPointer ptr}) {
+  void crateApiTensorTensorImplFreeBoolPointer({required ArrayPointer arr}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_box_autoadd_array_pointer(ptr, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+          sse_encode_box_autoadd_array_pointer(arr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiTensorTensorImplFreeBoolPointerConstMeta,
+        argValues: [arr],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTensorTensorImplFreeBoolPointerConstMeta =>
+      const TaskConstMeta(
+        debugName: "TensorImpl_free_bool_pointer",
+        argNames: ["arr"],
+      );
+
+  @override
+  void crateApiTensorTensorImplFreeF32Pointer({required ArrayPointer arr}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_array_pointer(arr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
           decodeErrorData: null,
         ),
         constMeta: kCrateApiTensorTensorImplFreeF32PointerConstMeta,
-        argValues: [ptr],
+        argValues: [arr],
         apiImpl: this,
       ),
     );
@@ -727,7 +879,267 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiTensorTensorImplFreeF32PointerConstMeta =>
       const TaskConstMeta(
         debugName: "TensorImpl_free_f32_pointer",
-        argNames: ["ptr"],
+        argNames: ["arr"],
+      );
+
+  @override
+  void crateApiTensorTensorImplFreeF64Pointer({required ArrayPointer arr}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_array_pointer(arr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiTensorTensorImplFreeF64PointerConstMeta,
+        argValues: [arr],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTensorTensorImplFreeF64PointerConstMeta =>
+      const TaskConstMeta(
+        debugName: "TensorImpl_free_f64_pointer",
+        argNames: ["arr"],
+      );
+
+  @override
+  void crateApiTensorTensorImplFreeI16Pointer({required ArrayPointer arr}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_array_pointer(arr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiTensorTensorImplFreeI16PointerConstMeta,
+        argValues: [arr],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTensorTensorImplFreeI16PointerConstMeta =>
+      const TaskConstMeta(
+        debugName: "TensorImpl_free_i16_pointer",
+        argNames: ["arr"],
+      );
+
+  @override
+  void crateApiTensorTensorImplFreeI32Pointer({required ArrayPointer arr}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_array_pointer(arr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiTensorTensorImplFreeI32PointerConstMeta,
+        argValues: [arr],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTensorTensorImplFreeI32PointerConstMeta =>
+      const TaskConstMeta(
+        debugName: "TensorImpl_free_i32_pointer",
+        argNames: ["arr"],
+      );
+
+  @override
+  void crateApiTensorTensorImplFreeI64Pointer({required ArrayPointer arr}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_array_pointer(arr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiTensorTensorImplFreeI64PointerConstMeta,
+        argValues: [arr],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTensorTensorImplFreeI64PointerConstMeta =>
+      const TaskConstMeta(
+        debugName: "TensorImpl_free_i64_pointer",
+        argNames: ["arr"],
+      );
+
+  @override
+  void crateApiTensorTensorImplFreeI8Pointer({required ArrayPointer arr}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_array_pointer(arr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiTensorTensorImplFreeI8PointerConstMeta,
+        argValues: [arr],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTensorTensorImplFreeI8PointerConstMeta =>
+      const TaskConstMeta(
+        debugName: "TensorImpl_free_i8_pointer",
+        argNames: ["arr"],
+      );
+
+  @override
+  void crateApiTensorTensorImplFreeStringPointer({required ArrayPointer arr}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_array_pointer(arr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiTensorTensorImplFreeStringPointerConstMeta,
+        argValues: [arr],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTensorTensorImplFreeStringPointerConstMeta =>
+      const TaskConstMeta(
+        debugName: "TensorImpl_free_string_pointer",
+        argNames: ["arr"],
+      );
+
+  @override
+  void crateApiTensorTensorImplFreeU16Pointer({required ArrayPointer arr}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_array_pointer(arr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 22)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiTensorTensorImplFreeU16PointerConstMeta,
+        argValues: [arr],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTensorTensorImplFreeU16PointerConstMeta =>
+      const TaskConstMeta(
+        debugName: "TensorImpl_free_u16_pointer",
+        argNames: ["arr"],
+      );
+
+  @override
+  void crateApiTensorTensorImplFreeU32Pointer({required ArrayPointer arr}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_array_pointer(arr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiTensorTensorImplFreeU32PointerConstMeta,
+        argValues: [arr],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTensorTensorImplFreeU32PointerConstMeta =>
+      const TaskConstMeta(
+        debugName: "TensorImpl_free_u32_pointer",
+        argNames: ["arr"],
+      );
+
+  @override
+  void crateApiTensorTensorImplFreeU64Pointer({required ArrayPointer arr}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_array_pointer(arr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 24)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiTensorTensorImplFreeU64PointerConstMeta,
+        argValues: [arr],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTensorTensorImplFreeU64PointerConstMeta =>
+      const TaskConstMeta(
+        debugName: "TensorImpl_free_u64_pointer",
+        argNames: ["arr"],
+      );
+
+  @override
+  void crateApiTensorTensorImplFreeU8Pointer({required ArrayPointer arr}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_array_pointer(arr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 25)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiTensorTensorImplFreeU8PointerConstMeta,
+        argValues: [arr],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTensorTensorImplFreeU8PointerConstMeta =>
+      const TaskConstMeta(
+        debugName: "TensorImpl_free_u8_pointer",
+        argNames: ["arr"],
       );
 
   @override
@@ -741,7 +1153,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_list_CastedPrimitive_i_64(shape, serializer);
           sse_encode_list_bool(data, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 26)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -772,7 +1184,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_list_CastedPrimitive_i_64(shape, serializer);
           sse_encode_list_prim_f_32_loose(data, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 27)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -803,7 +1215,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_list_CastedPrimitive_i_64(shape, serializer);
           sse_encode_list_prim_f_64_loose(data, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 28)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -834,7 +1246,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_list_CastedPrimitive_i_64(shape, serializer);
           sse_encode_list_prim_i_16_loose(data, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 29)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -865,7 +1277,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_list_CastedPrimitive_i_64(shape, serializer);
           sse_encode_list_prim_i_32_loose(data, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 30)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -896,7 +1308,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_list_CastedPrimitive_i_64(shape, serializer);
           sse_encode_list_CastedPrimitive_i_64(data, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 31)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -927,7 +1339,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_list_CastedPrimitive_i_64(shape, serializer);
           sse_encode_list_prim_i_8_loose(data, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 32)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -958,7 +1370,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_list_CastedPrimitive_i_64(shape, serializer);
           sse_encode_list_String(data, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 33)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -989,7 +1401,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_list_CastedPrimitive_i_64(shape, serializer);
           sse_encode_list_prim_u_16_loose(data, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 34)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -1020,7 +1432,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_list_CastedPrimitive_i_64(shape, serializer);
           sse_encode_list_prim_u_32_loose(data, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 35)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -1051,7 +1463,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_list_CastedPrimitive_i_64(shape, serializer);
           sse_encode_list_CastedPrimitive_u_64(data, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 36)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -1082,7 +1494,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_list_CastedPrimitive_i_64(shape, serializer);
           sse_encode_list_prim_u_8_loose(data, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 37)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -1103,7 +1515,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  List<bool> crateApiTensorTensorImplGetDataBool({required TensorImpl that}) {
+  ArrayPointer crateApiTensorTensorImplGetDataBoolPointer({
+    required TensorImpl that,
+  }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
@@ -1112,51 +1526,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 38)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_list_bool,
+          decodeSuccessData: sse_decode_array_pointer,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateApiTensorTensorImplGetDataBoolConstMeta,
+        constMeta: kCrateApiTensorTensorImplGetDataBoolPointerConstMeta,
         argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataBoolConstMeta =>
+  TaskConstMeta get kCrateApiTensorTensorImplGetDataBoolPointerConstMeta =>
       const TaskConstMeta(
-        debugName: "TensorImpl_get_data_bool",
-        argNames: ["that"],
-      );
-
-  @override
-  Float32List crateApiTensorTensorImplGetDataF32({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_f_32_strict,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataF32ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataF32ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_f32",
+        debugName: "TensorImpl_get_data_bool_pointer",
         argNames: ["that"],
       );
 
@@ -1172,7 +1557,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 22)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 39)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_array_pointer,
@@ -1192,508 +1577,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Float64List crateApiTensorTensorImplGetDataF64({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_f_64_strict,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataF64ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataF64ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_f64",
-        argNames: ["that"],
-      );
-
-  @override
-  Int16List crateApiTensorTensorImplGetDataI16({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 24)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_i_16_strict,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataI16ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataI16ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_i16",
-        argNames: ["that"],
-      );
-
-  @override
-  Int32List crateApiTensorTensorImplGetDataI32({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 25)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_i_32_strict,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataI32ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataI32ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_i32",
-        argNames: ["that"],
-      );
-
-  @override
-  List<int> crateApiTensorTensorImplGetDataI64({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 26)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_CastedPrimitive_i_64,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataI64ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataI64ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_i64",
-        argNames: ["that"],
-      );
-
-  @override
-  Int8List crateApiTensorTensorImplGetDataI8({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 27)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_i_8_strict,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataI8ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataI8ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_i8",
-        argNames: ["that"],
-      );
-
-  @override
-  List<bool> crateApiTensorTensorImplGetDataMutBool({
+  ArrayPointer crateApiTensorTensorImplGetDataF64Pointer({
     required TensorImpl that,
   }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 28)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_bool,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataMutBoolConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataMutBoolConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_mut_bool",
-        argNames: ["that"],
-      );
-
-  @override
-  Float32List crateApiTensorTensorImplGetDataMutF32({
-    required TensorImpl that,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 29)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_f_32_strict,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataMutF32ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataMutF32ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_mut_f32",
-        argNames: ["that"],
-      );
-
-  @override
-  Float64List crateApiTensorTensorImplGetDataMutF64({
-    required TensorImpl that,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 30)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_f_64_strict,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataMutF64ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataMutF64ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_mut_f64",
-        argNames: ["that"],
-      );
-
-  @override
-  Int16List crateApiTensorTensorImplGetDataMutI16({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 31)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_i_16_strict,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataMutI16ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataMutI16ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_mut_i16",
-        argNames: ["that"],
-      );
-
-  @override
-  Int32List crateApiTensorTensorImplGetDataMutI32({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 32)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_i_32_strict,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataMutI32ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataMutI32ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_mut_i32",
-        argNames: ["that"],
-      );
-
-  @override
-  List<int> crateApiTensorTensorImplGetDataMutI64({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 33)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_CastedPrimitive_i_64,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataMutI64ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataMutI64ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_mut_i64",
-        argNames: ["that"],
-      );
-
-  @override
-  Int8List crateApiTensorTensorImplGetDataMutI8({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 34)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_i_8_strict,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataMutI8ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataMutI8ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_mut_i8",
-        argNames: ["that"],
-      );
-
-  @override
-  Uint16List crateApiTensorTensorImplGetDataMutU16({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 35)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_u_16_strict,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataMutU16ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataMutU16ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_mut_u16",
-        argNames: ["that"],
-      );
-
-  @override
-  Uint32List crateApiTensorTensorImplGetDataMutU32({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 36)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_u_32_strict,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataMutU32ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataMutU32ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_mut_u32",
-        argNames: ["that"],
-      );
-
-  @override
-  List<int> crateApiTensorTensorImplGetDataMutU64({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 37)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_CastedPrimitive_u_64,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataMutU64ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataMutU64ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_mut_u64",
-        argNames: ["that"],
-      );
-
-  @override
-  Uint8List crateApiTensorTensorImplGetDataMutU8({required TensorImpl that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 38)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_u_8_strict,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataMutU8ConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataMutU8ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_mut_u8",
-        argNames: ["that"],
-      );
-
-  @override
-  List<String> crateApiTensorTensorImplGetDataString({
-    required TensorImpl that,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 39)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_String,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetDataStringConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataStringConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_data_string",
-        argNames: ["that"],
-      );
-
-  @override
-  Uint16List crateApiTensorTensorImplGetDataU16({required TensorImpl that}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
@@ -1705,24 +1591,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 40)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_u_16_strict,
+          decodeSuccessData: sse_decode_array_pointer,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateApiTensorTensorImplGetDataU16ConstMeta,
+        constMeta: kCrateApiTensorTensorImplGetDataF64PointerConstMeta,
         argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataU16ConstMeta =>
+  TaskConstMeta get kCrateApiTensorTensorImplGetDataF64PointerConstMeta =>
       const TaskConstMeta(
-        debugName: "TensorImpl_get_data_u16",
+        debugName: "TensorImpl_get_data_f64_pointer",
         argNames: ["that"],
       );
 
   @override
-  Uint32List crateApiTensorTensorImplGetDataU32({required TensorImpl that}) {
+  ArrayPointer crateApiTensorTensorImplGetDataI16Pointer({
+    required TensorImpl that,
+  }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
@@ -1734,24 +1622,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 41)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_u_32_strict,
+          decodeSuccessData: sse_decode_array_pointer,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateApiTensorTensorImplGetDataU32ConstMeta,
+        constMeta: kCrateApiTensorTensorImplGetDataI16PointerConstMeta,
         argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataU32ConstMeta =>
+  TaskConstMeta get kCrateApiTensorTensorImplGetDataI16PointerConstMeta =>
       const TaskConstMeta(
-        debugName: "TensorImpl_get_data_u32",
+        debugName: "TensorImpl_get_data_i16_pointer",
         argNames: ["that"],
       );
 
   @override
-  List<int> crateApiTensorTensorImplGetDataU64({required TensorImpl that}) {
+  ArrayPointer crateApiTensorTensorImplGetDataI32Pointer({
+    required TensorImpl that,
+  }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
@@ -1763,24 +1653,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 42)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_list_CastedPrimitive_u_64,
+          decodeSuccessData: sse_decode_array_pointer,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateApiTensorTensorImplGetDataU64ConstMeta,
+        constMeta: kCrateApiTensorTensorImplGetDataI32PointerConstMeta,
         argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataU64ConstMeta =>
+  TaskConstMeta get kCrateApiTensorTensorImplGetDataI32PointerConstMeta =>
       const TaskConstMeta(
-        debugName: "TensorImpl_get_data_u64",
+        debugName: "TensorImpl_get_data_i32_pointer",
         argNames: ["that"],
       );
 
   @override
-  Uint8List crateApiTensorTensorImplGetDataU8({required TensorImpl that}) {
+  ArrayPointer crateApiTensorTensorImplGetDataI64Pointer({
+    required TensorImpl that,
+  }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
@@ -1792,26 +1684,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 43)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_u_8_strict,
+          decodeSuccessData: sse_decode_array_pointer,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateApiTensorTensorImplGetDataU8ConstMeta,
+        constMeta: kCrateApiTensorTensorImplGetDataI64PointerConstMeta,
         argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiTensorTensorImplGetDataU8ConstMeta =>
+  TaskConstMeta get kCrateApiTensorTensorImplGetDataI64PointerConstMeta =>
       const TaskConstMeta(
-        debugName: "TensorImpl_get_data_u8",
+        debugName: "TensorImpl_get_data_i64_pointer",
         argNames: ["that"],
       );
 
   @override
-  bool crateApiTensorTensorImplGetIndexBool({
+  ArrayPointer crateApiTensorTensorImplGetDataI8Pointer({
     required TensorImpl that,
-    required int index,
   }) {
     return handler.executeSync(
       SyncTask(
@@ -1821,30 +1712,28 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          sse_encode_CastedPrimitive_usize(index, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 44)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_bool,
+          decodeSuccessData: sse_decode_array_pointer,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateApiTensorTensorImplGetIndexBoolConstMeta,
-        argValues: [that, index],
+        constMeta: kCrateApiTensorTensorImplGetDataI8PointerConstMeta,
+        argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiTensorTensorImplGetIndexBoolConstMeta =>
+  TaskConstMeta get kCrateApiTensorTensorImplGetDataI8PointerConstMeta =>
       const TaskConstMeta(
-        debugName: "TensorImpl_get_index_bool",
-        argNames: ["that", "index"],
+        debugName: "TensorImpl_get_data_i8_pointer",
+        argNames: ["that"],
       );
 
   @override
-  double crateApiTensorTensorImplGetIndexF32({
+  ArrayPointer crateApiTensorTensorImplGetDataStringPointer({
     required TensorImpl that,
-    required int index,
   }) {
     return handler.executeSync(
       SyncTask(
@@ -1854,30 +1743,28 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          sse_encode_CastedPrimitive_usize(index, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 45)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_f_32,
+          decodeSuccessData: sse_decode_array_pointer,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateApiTensorTensorImplGetIndexF32ConstMeta,
-        argValues: [that, index],
+        constMeta: kCrateApiTensorTensorImplGetDataStringPointerConstMeta,
+        argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiTensorTensorImplGetIndexF32ConstMeta =>
+  TaskConstMeta get kCrateApiTensorTensorImplGetDataStringPointerConstMeta =>
       const TaskConstMeta(
-        debugName: "TensorImpl_get_index_f32",
-        argNames: ["that", "index"],
+        debugName: "TensorImpl_get_data_string_pointer",
+        argNames: ["that"],
       );
 
   @override
-  double crateApiTensorTensorImplGetIndexF64({
+  ArrayPointer crateApiTensorTensorImplGetDataU16Pointer({
     required TensorImpl that,
-    required int index,
   }) {
     return handler.executeSync(
       SyncTask(
@@ -1887,30 +1774,28 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          sse_encode_CastedPrimitive_usize(index, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 46)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_f_64,
+          decodeSuccessData: sse_decode_array_pointer,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateApiTensorTensorImplGetIndexF64ConstMeta,
-        argValues: [that, index],
+        constMeta: kCrateApiTensorTensorImplGetDataU16PointerConstMeta,
+        argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiTensorTensorImplGetIndexF64ConstMeta =>
+  TaskConstMeta get kCrateApiTensorTensorImplGetDataU16PointerConstMeta =>
       const TaskConstMeta(
-        debugName: "TensorImpl_get_index_f64",
-        argNames: ["that", "index"],
+        debugName: "TensorImpl_get_data_u16_pointer",
+        argNames: ["that"],
       );
 
   @override
-  int crateApiTensorTensorImplGetIndexI16({
+  ArrayPointer crateApiTensorTensorImplGetDataU32Pointer({
     required TensorImpl that,
-    required int index,
   }) {
     return handler.executeSync(
       SyncTask(
@@ -1920,30 +1805,28 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          sse_encode_CastedPrimitive_usize(index, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 47)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_i_16,
+          decodeSuccessData: sse_decode_array_pointer,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateApiTensorTensorImplGetIndexI16ConstMeta,
-        argValues: [that, index],
+        constMeta: kCrateApiTensorTensorImplGetDataU32PointerConstMeta,
+        argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiTensorTensorImplGetIndexI16ConstMeta =>
+  TaskConstMeta get kCrateApiTensorTensorImplGetDataU32PointerConstMeta =>
       const TaskConstMeta(
-        debugName: "TensorImpl_get_index_i16",
-        argNames: ["that", "index"],
+        debugName: "TensorImpl_get_data_u32_pointer",
+        argNames: ["that"],
       );
 
   @override
-  int crateApiTensorTensorImplGetIndexI32({
+  ArrayPointer crateApiTensorTensorImplGetDataU64Pointer({
     required TensorImpl that,
-    required int index,
   }) {
     return handler.executeSync(
       SyncTask(
@@ -1953,30 +1836,28 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          sse_encode_CastedPrimitive_usize(index, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 48)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_i_32,
+          decodeSuccessData: sse_decode_array_pointer,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateApiTensorTensorImplGetIndexI32ConstMeta,
-        argValues: [that, index],
+        constMeta: kCrateApiTensorTensorImplGetDataU64PointerConstMeta,
+        argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiTensorTensorImplGetIndexI32ConstMeta =>
+  TaskConstMeta get kCrateApiTensorTensorImplGetDataU64PointerConstMeta =>
       const TaskConstMeta(
-        debugName: "TensorImpl_get_index_i32",
-        argNames: ["that", "index"],
+        debugName: "TensorImpl_get_data_u64_pointer",
+        argNames: ["that"],
       );
 
   @override
-  int crateApiTensorTensorImplGetIndexI64({
+  ArrayPointer crateApiTensorTensorImplGetDataU8Pointer({
     required TensorImpl that,
-    required int index,
   }) {
     return handler.executeSync(
       SyncTask(
@@ -1986,222 +1867,23 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          sse_encode_CastedPrimitive_usize(index, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 49)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_CastedPrimitive_i_64,
+          decodeSuccessData: sse_decode_array_pointer,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateApiTensorTensorImplGetIndexI64ConstMeta,
-        argValues: [that, index],
+        constMeta: kCrateApiTensorTensorImplGetDataU8PointerConstMeta,
+        argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiTensorTensorImplGetIndexI64ConstMeta =>
+  TaskConstMeta get kCrateApiTensorTensorImplGetDataU8PointerConstMeta =>
       const TaskConstMeta(
-        debugName: "TensorImpl_get_index_i64",
-        argNames: ["that", "index"],
-      );
-
-  @override
-  int crateApiTensorTensorImplGetIndexI8({
-    required TensorImpl that,
-    required int index,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 50)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_i_8,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetIndexI8ConstMeta,
-        argValues: [that, index],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetIndexI8ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_index_i8",
-        argNames: ["that", "index"],
-      );
-
-  @override
-  String crateApiTensorTensorImplGetIndexString({
-    required TensorImpl that,
-    required int index,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 51)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_String,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetIndexStringConstMeta,
-        argValues: [that, index],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetIndexStringConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_index_string",
-        argNames: ["that", "index"],
-      );
-
-  @override
-  int crateApiTensorTensorImplGetIndexU16({
-    required TensorImpl that,
-    required int index,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 52)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_u_16,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetIndexU16ConstMeta,
-        argValues: [that, index],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetIndexU16ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_index_u16",
-        argNames: ["that", "index"],
-      );
-
-  @override
-  int crateApiTensorTensorImplGetIndexU32({
-    required TensorImpl that,
-    required int index,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 53)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_u_32,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetIndexU32ConstMeta,
-        argValues: [that, index],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetIndexU32ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_index_u32",
-        argNames: ["that", "index"],
-      );
-
-  @override
-  int crateApiTensorTensorImplGetIndexU64({
-    required TensorImpl that,
-    required int index,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 54)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_CastedPrimitive_u_64,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetIndexU64ConstMeta,
-        argValues: [that, index],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetIndexU64ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_index_u64",
-        argNames: ["that", "index"],
-      );
-
-  @override
-  int crateApiTensorTensorImplGetIndexU8({
-    required TensorImpl that,
-    required int index,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 55)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_u_8,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplGetIndexU8ConstMeta,
-        argValues: [that, index],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplGetIndexU8ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_get_index_u8",
-        argNames: ["that", "index"],
+        debugName: "TensorImpl_get_data_u8_pointer",
+        argNames: ["that"],
       );
 
   @override
@@ -2214,7 +1896,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 56)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 50)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -2234,388 +1916,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  void crateApiTensorTensorImplSetIndexBool({
-    required TensorImpl that,
-    required int index,
-    required bool value,
-  }) {
+  MemoryInfo crateApiTensorTensorImplMemoryInfo({required TensorImpl that}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
+          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
             that,
             serializer,
           );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          sse_encode_bool(value, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 57)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 51)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
+          decodeSuccessData:
+              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateApiTensorTensorImplSetIndexBoolConstMeta,
-        argValues: [that, index, value],
+        constMeta: kCrateApiTensorTensorImplMemoryInfoConstMeta,
+        argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiTensorTensorImplSetIndexBoolConstMeta =>
+  TaskConstMeta get kCrateApiTensorTensorImplMemoryInfoConstMeta =>
       const TaskConstMeta(
-        debugName: "TensorImpl_set_index_bool",
-        argNames: ["that", "index", "value"],
-      );
-
-  @override
-  void crateApiTensorTensorImplSetIndexF32({
-    required TensorImpl that,
-    required int index,
-    required double value,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          sse_encode_f_32(value, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 58)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplSetIndexF32ConstMeta,
-        argValues: [that, index, value],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplSetIndexF32ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_set_index_f32",
-        argNames: ["that", "index", "value"],
-      );
-
-  @override
-  void crateApiTensorTensorImplSetIndexF64({
-    required TensorImpl that,
-    required int index,
-    required double value,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          sse_encode_f_64(value, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 59)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplSetIndexF64ConstMeta,
-        argValues: [that, index, value],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplSetIndexF64ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_set_index_f64",
-        argNames: ["that", "index", "value"],
-      );
-
-  @override
-  void crateApiTensorTensorImplSetIndexI16({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          sse_encode_i_16(value, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 60)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplSetIndexI16ConstMeta,
-        argValues: [that, index, value],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplSetIndexI16ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_set_index_i16",
-        argNames: ["that", "index", "value"],
-      );
-
-  @override
-  void crateApiTensorTensorImplSetIndexI32({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          sse_encode_i_32(value, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 61)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplSetIndexI32ConstMeta,
-        argValues: [that, index, value],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplSetIndexI32ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_set_index_i32",
-        argNames: ["that", "index", "value"],
-      );
-
-  @override
-  void crateApiTensorTensorImplSetIndexI64({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          sse_encode_CastedPrimitive_i_64(value, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 62)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplSetIndexI64ConstMeta,
-        argValues: [that, index, value],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplSetIndexI64ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_set_index_i64",
-        argNames: ["that", "index", "value"],
-      );
-
-  @override
-  void crateApiTensorTensorImplSetIndexI8({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          sse_encode_i_8(value, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 63)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplSetIndexI8ConstMeta,
-        argValues: [that, index, value],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplSetIndexI8ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_set_index_i8",
-        argNames: ["that", "index", "value"],
-      );
-
-  @override
-  void crateApiTensorTensorImplSetIndexU16({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          sse_encode_u_16(value, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 64)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplSetIndexU16ConstMeta,
-        argValues: [that, index, value],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplSetIndexU16ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_set_index_u16",
-        argNames: ["that", "index", "value"],
-      );
-
-  @override
-  void crateApiTensorTensorImplSetIndexU32({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          sse_encode_u_32(value, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 65)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplSetIndexU32ConstMeta,
-        argValues: [that, index, value],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplSetIndexU32ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_set_index_u32",
-        argNames: ["that", "index", "value"],
-      );
-
-  @override
-  void crateApiTensorTensorImplSetIndexU64({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          sse_encode_CastedPrimitive_u_64(value, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 66)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplSetIndexU64ConstMeta,
-        argValues: [that, index, value],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplSetIndexU64ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_set_index_u64",
-        argNames: ["that", "index", "value"],
-      );
-
-  @override
-  void crateApiTensorTensorImplSetIndexU8({
-    required TensorImpl that,
-    required int index,
-    required int value,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTensorImpl(
-            that,
-            serializer,
-          );
-          sse_encode_CastedPrimitive_usize(index, serializer);
-          sse_encode_u_8(value, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 67)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiTensorTensorImplSetIndexU8ConstMeta,
-        argValues: [that, index, value],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiTensorTensorImplSetIndexU8ConstMeta =>
-      const TaskConstMeta(
-        debugName: "TensorImpl_set_index_u8",
-        argNames: ["that", "index", "value"],
+        debugName: "TensorImpl_memory_info",
+        argNames: ["that"],
       );
 
   @override
@@ -2628,7 +1955,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 68)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 52)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_list_CastedPrimitive_i_64,
@@ -2654,7 +1981,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 72,
+            funcId: 56,
             port: port_,
           );
         },
@@ -2686,7 +2013,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_core_ml_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 73)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 57)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -2716,7 +2043,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_core_ml_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 74)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 58)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -2744,7 +2071,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 75)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 59)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_core_ml_execution_provider,
@@ -2775,7 +2102,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_core_ml_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 76)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 60)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -2806,7 +2133,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 77,
+            funcId: 61,
             port: port_,
           );
         },
@@ -2838,7 +2165,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_cpu_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 78)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 62)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -2868,7 +2195,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_cpu_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 79)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 63)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -2895,7 +2222,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 80)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 64)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_cpu_execution_provider,
@@ -2925,7 +2252,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_cpu_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 81)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 65)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -2956,7 +2283,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 82,
+            funcId: 66,
             port: port_,
           );
         },
@@ -2988,7 +2315,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_cuda_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 83)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 67)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -3018,7 +2345,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_cuda_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 84)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 68)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -3046,7 +2373,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 85)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 69)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_cuda_execution_provider,
@@ -3076,7 +2403,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_cuda_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 86)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 70)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -3107,7 +2434,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 87,
+            funcId: 71,
             port: port_,
           );
         },
@@ -3139,7 +2466,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_direct_ml_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 88)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 72)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -3169,7 +2496,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_direct_ml_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 89)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 73)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -3197,7 +2524,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 90)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 74)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_direct_ml_execution_provider,
@@ -3228,7 +2555,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_direct_ml_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 91)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 75)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -3256,7 +2583,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_box_autoadd_ort_debug_level(level, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 92)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 76)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -3284,7 +2611,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 93,
+            funcId: 77,
             port: port_,
           );
         },
@@ -3312,7 +2639,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 94,
+            funcId: 78,
             port: port_,
           );
         },
@@ -3344,7 +2671,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_nnapi_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 95)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 79)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -3374,7 +2701,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_nnapi_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 96)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 80)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -3402,7 +2729,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 97)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 81)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_nnapi_execution_provider,
@@ -3433,7 +2760,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_nnapi_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 98)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 82)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -3464,7 +2791,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 99,
+            funcId: 83,
             port: port_,
           );
         },
@@ -3496,11 +2823,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_qnn_execution_provider(that, serializer);
-          return pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 100,
-          )!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 84)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -3530,11 +2853,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_qnn_execution_provider(that, serializer);
-          return pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 101,
-          )!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 85)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -3561,11 +2880,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 102,
-          )!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 86)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_qnn_execution_provider,
@@ -3595,11 +2910,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_qnn_execution_provider(that, serializer);
-          return pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 103,
-          )!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 87)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -3630,7 +2941,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 104,
+            funcId: 88,
             port: port_,
           );
         },
@@ -3662,11 +2973,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_ro_cm_execution_provider(that, serializer);
-          return pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 105,
-          )!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 89)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -3696,11 +3003,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_ro_cm_execution_provider(that, serializer);
-          return pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 106,
-          )!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 90)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -3728,11 +3031,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 107,
-          )!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 91)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_ro_cm_execution_provider,
@@ -3762,11 +3061,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_ro_cm_execution_provider(that, serializer);
-          return pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 108,
-          )!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 92)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -3801,7 +3096,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 109,
+            funcId: 93,
             port: port_,
           );
         },
@@ -3838,7 +3133,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 110,
+            funcId: 94,
             port: port_,
           );
         },
@@ -3871,7 +3166,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 111,
+            funcId: 95,
             port: port_,
           );
         },
@@ -3902,7 +3197,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 112,
+            funcId: 96,
             port: port_,
           );
         },
@@ -3934,11 +3229,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_tensor_rt_execution_provider(that, serializer);
-          return pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 113,
-          )!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 97)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -3968,11 +3259,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_tensor_rt_execution_provider(that, serializer);
-          return pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 114,
-          )!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 98)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -4000,11 +3287,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 115,
-          )!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 99)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_tensor_rt_execution_provider,
@@ -4038,7 +3321,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           return pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 116,
+            funcId: 100,
           )!;
         },
         codec: SseCodec(
@@ -4061,6 +3344,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_MemoryInfo => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_MemoryInfo => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo;
+
+  RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_SessionImpl => wire
       .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl;
 
@@ -4080,6 +3371,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AnyhowException dco_decode_AnyhowException(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return AnyhowException(raw as String);
+  }
+
+  @protected
+  MemoryInfo
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return MemoryInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -4116,6 +3416,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return TensorImplImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  MemoryInfo
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return MemoryInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -4174,6 +3483,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  MemoryInfo
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return MemoryInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   SessionImpl
   dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl(
     dynamic raw,
@@ -4204,6 +3522,47 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  AllocationDevice dco_decode_allocation_device(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return AllocationDevice_Cpu();
+      case 1:
+        return AllocationDevice_Cuda();
+      case 2:
+        return AllocationDevice_CudaPinned();
+      case 3:
+        return AllocationDevice_Cann();
+      case 4:
+        return AllocationDevice_CannPinned();
+      case 5:
+        return AllocationDevice_DirectML();
+      case 6:
+        return AllocationDevice_Hip();
+      case 7:
+        return AllocationDevice_HipPinned();
+      case 8:
+        return AllocationDevice_OpenVinoCpu();
+      case 9:
+        return AllocationDevice_OpenVinoGpu();
+      case 10:
+        return AllocationDevice_QnnHtpShared();
+      case 11:
+        return AllocationDevice_WebGpuBuffer();
+      case 12:
+        return AllocationDevice_Other(dco_decode_String(raw[1]));
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
+  AllocatorType dco_decode_allocator_type(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return AllocatorType.values[raw as int];
+  }
+
+  @protected
   ArenaExtendStrategy dco_decode_arena_extend_strategy(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return ArenaExtendStrategy.values[raw as int];
@@ -4216,8 +3575,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     if (arr.length != 2)
       throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
     return ArrayPointer(
-      data: dco_decode_CastedPrimitive_usize(arr[0]),
-      length: dco_decode_CastedPrimitive_usize(arr[1]),
+      ptr: dco_decode_CastedPrimitive_usize(arr[0]),
+      len: dco_decode_CastedPrimitive_usize(arr[1]),
     );
   }
 
@@ -4500,6 +3859,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  DeviceType dco_decode_device_type(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return DeviceType.values[raw as int];
+  }
+
+  @protected
   DirectMLExecutionProvider dco_decode_direct_ml_execution_provider(
     dynamic raw,
   ) {
@@ -4753,6 +4118,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dco_decode_record_string_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_tensor_impl,
         )
         .toList();
+  }
+
+  @protected
+  MemoryType dco_decode_memory_type(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return MemoryType.values[raw as int];
   }
 
   @protected
@@ -5143,6 +4514,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  MemoryInfo
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return MemoryInfoImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
   SessionImpl
   sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl(
     SseDeserializer deserializer,
@@ -5185,6 +4568,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return TensorImplImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  MemoryInfo
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return MemoryInfoImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -5249,6 +4644,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  MemoryInfo
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return MemoryInfoImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
   SessionImpl
   sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl(
     SseDeserializer deserializer,
@@ -5280,6 +4687,51 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  AllocationDevice sse_decode_allocation_device(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        return AllocationDevice_Cpu();
+      case 1:
+        return AllocationDevice_Cuda();
+      case 2:
+        return AllocationDevice_CudaPinned();
+      case 3:
+        return AllocationDevice_Cann();
+      case 4:
+        return AllocationDevice_CannPinned();
+      case 5:
+        return AllocationDevice_DirectML();
+      case 6:
+        return AllocationDevice_Hip();
+      case 7:
+        return AllocationDevice_HipPinned();
+      case 8:
+        return AllocationDevice_OpenVinoCpu();
+      case 9:
+        return AllocationDevice_OpenVinoGpu();
+      case 10:
+        return AllocationDevice_QnnHtpShared();
+      case 11:
+        return AllocationDevice_WebGpuBuffer();
+      case 12:
+        var var_field0 = sse_decode_String(deserializer);
+        return AllocationDevice_Other(var_field0);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
+  AllocatorType sse_decode_allocator_type(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return AllocatorType.values[inner];
+  }
+
+  @protected
   ArenaExtendStrategy sse_decode_arena_extend_strategy(
     SseDeserializer deserializer,
   ) {
@@ -5291,9 +4743,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   ArrayPointer sse_decode_array_pointer(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_data = sse_decode_CastedPrimitive_usize(deserializer);
-    var var_length = sse_decode_CastedPrimitive_usize(deserializer);
-    return ArrayPointer(data: var_data, length: var_length);
+    var var_ptr = sse_decode_CastedPrimitive_usize(deserializer);
+    var var_len = sse_decode_CastedPrimitive_usize(deserializer);
+    return ArrayPointer(ptr: var_ptr, len: var_len);
   }
 
   @protected
@@ -5627,6 +5079,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  DeviceType sse_decode_device_type(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return DeviceType.values[inner];
+  }
+
+  @protected
   DirectMLExecutionProvider sse_decode_direct_ml_execution_provider(
     SseDeserializer deserializer,
   ) {
@@ -5955,6 +5414,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
     }
     return ans_;
+  }
+
+  @protected
+  MemoryType sse_decode_memory_type(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return MemoryType.values[inner];
   }
 
   @protected
@@ -6544,6 +6010,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    MemoryInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as MemoryInfoImpl).frbInternalSseEncode(move: true),
+      serializer,
+    );
+  }
+
+  @protected
+  void
   sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl(
     SessionImpl self,
     SseSerializer serializer,
@@ -6590,6 +6069,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as TensorImplImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    MemoryInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as MemoryInfoImpl).frbInternalSseEncode(move: false),
       serializer,
     );
   }
@@ -6653,6 +6145,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo(
+    MemoryInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as MemoryInfoImpl).frbInternalSseEncode(move: null),
+      serializer,
+    );
+  }
+
+  @protected
+  void
   sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionImpl(
     SessionImpl self,
     SseSerializer serializer,
@@ -6684,6 +6189,49 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_allocation_device(
+    AllocationDevice self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case AllocationDevice_Cpu():
+        sse_encode_i_32(0, serializer);
+      case AllocationDevice_Cuda():
+        sse_encode_i_32(1, serializer);
+      case AllocationDevice_CudaPinned():
+        sse_encode_i_32(2, serializer);
+      case AllocationDevice_Cann():
+        sse_encode_i_32(3, serializer);
+      case AllocationDevice_CannPinned():
+        sse_encode_i_32(4, serializer);
+      case AllocationDevice_DirectML():
+        sse_encode_i_32(5, serializer);
+      case AllocationDevice_Hip():
+        sse_encode_i_32(6, serializer);
+      case AllocationDevice_HipPinned():
+        sse_encode_i_32(7, serializer);
+      case AllocationDevice_OpenVinoCpu():
+        sse_encode_i_32(8, serializer);
+      case AllocationDevice_OpenVinoGpu():
+        sse_encode_i_32(9, serializer);
+      case AllocationDevice_QnnHtpShared():
+        sse_encode_i_32(10, serializer);
+      case AllocationDevice_WebGpuBuffer():
+        sse_encode_i_32(11, serializer);
+      case AllocationDevice_Other(field0: final field0):
+        sse_encode_i_32(12, serializer);
+        sse_encode_String(field0, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_allocator_type(AllocatorType self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
   void sse_encode_arena_extend_strategy(
     ArenaExtendStrategy self,
     SseSerializer serializer,
@@ -6695,8 +6243,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_array_pointer(ArrayPointer self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_CastedPrimitive_usize(self.data, serializer);
-    sse_encode_CastedPrimitive_usize(self.length, serializer);
+    sse_encode_CastedPrimitive_usize(self.ptr, serializer);
+    sse_encode_CastedPrimitive_usize(self.len, serializer);
   }
 
   @protected
@@ -7032,6 +6580,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       serializer,
     );
     sse_encode_opt_box_autoadd_bool(self.fuseConvBias, serializer);
+  }
+
+  @protected
+  void sse_encode_device_type(DeviceType self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
   }
 
   @protected
@@ -7390,6 +6944,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         serializer,
       );
     }
+  }
+
+  @protected
+  void sse_encode_memory_type(MemoryType self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
   }
 
   @protected
@@ -7873,6 +7433,83 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 }
 
 @sealed
+class MemoryInfoImpl extends RustOpaque implements MemoryInfo {
+  // Not to be used by end users
+  MemoryInfoImpl.frbInternalDcoDecode(List<dynamic> wire)
+    : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  MemoryInfoImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_MemoryInfo,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_MemoryInfo,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_MemoryInfoPtr,
+  );
+
+  /// Returns the [`AllocationDevice`] this struct was created with.
+  /// ```
+  /// # use ort::memory::{MemoryInfo, MemoryType, AllocationDevice, AllocatorType};
+  /// # fn main() -> ort::Result<()> {
+  /// let mem = MemoryInfo::new(AllocationDevice::CPU, 0, AllocatorType::Device, MemoryType::Default)?;
+  /// assert_eq!(mem.allocation_device(), AllocationDevice::CPU);
+  /// # Ok(())
+  /// # }
+  /// ```
+  AllocationDevice allocationDevice() =>
+      RustLib.instance.api.crateApiMemoryMemoryInfoAllocationDevice(that: this);
+
+  /// Returns the [`AllocatorType`] described by this struct.
+  /// ```
+  /// # use ort::memory::{MemoryInfo, MemoryType, AllocationDevice, AllocatorType};
+  /// # fn main() -> ort::Result<()> {
+  /// let mem = MemoryInfo::new(AllocationDevice::CPU, 0, AllocatorType::Device, MemoryType::Default)?;
+  /// assert_eq!(mem.allocator_type(), AllocatorType::Device);
+  /// # Ok(())
+  /// # }
+  /// ```
+  AllocatorType allocatorType() =>
+      RustLib.instance.api.crateApiMemoryMemoryInfoAllocatorType(that: this);
+
+  /// Returns the ID of the [`AllocationDevice`] described by this struct.
+  /// ```
+  /// # use ort::memory::{MemoryInfo, MemoryType, AllocationDevice, AllocatorType};
+  /// # fn main() -> ort::Result<()> {
+  /// let mem = MemoryInfo::new(AllocationDevice::CPU, 0, AllocatorType::Device, MemoryType::Default)?;
+  /// assert_eq!(mem.device_id(), 0);
+  /// # Ok(())
+  /// # }
+  /// ```
+  int deviceId() =>
+      RustLib.instance.api.crateApiMemoryMemoryInfoDeviceId(that: this);
+
+  /// Returns the type of device (CPU/GPU) this memory is allocated on.
+  DeviceType deviceType() =>
+      RustLib.instance.api.crateApiMemoryMemoryInfoDeviceType(that: this);
+
+  /// Returns `true` if this memory is accessible by the CPU; meaning that, if a value were allocated on this device,
+  /// it could be extracted to an `ndarray` or slice.
+  bool isCpuAccessible() =>
+      RustLib.instance.api.crateApiMemoryMemoryInfoIsCpuAccessible(that: this);
+
+  /// Returns the [`MemoryType`] described by this struct.
+  /// ```
+  /// # use ort::memory::{MemoryInfo, MemoryType, AllocationDevice, AllocatorType};
+  /// # fn main() -> ort::Result<()> {
+  /// let mem = MemoryInfo::new(AllocationDevice::CPU, 0, AllocatorType::Device, MemoryType::Default)?;
+  /// assert_eq!(mem.memory_type(), MemoryType::Default);
+  /// # Ok(())
+  /// # }
+  /// ```
+  MemoryType memoryType() =>
+      RustLib.instance.api.crateApiMemoryMemoryInfoMemoryType(that: this);
+}
+
+@sealed
 class SessionImplImpl extends RustOpaque implements SessionImpl {
   // Not to be used by end users
   SessionImplImpl.frbInternalDcoDecode(List<dynamic> wire)
@@ -7946,198 +7583,56 @@ class TensorImplImpl extends RustOpaque implements TensorImpl {
   TensorImpl clone() =>
       RustLib.instance.api.crateApiTensorTensorImplClone(that: this);
 
+  /// Creates a copy of this tensor but pointing to the same data.
+  TensorImpl copy() =>
+      RustLib.instance.api.crateApiTensorTensorImplCopy(that: this);
+
   /// Get the data type of the Tensor
   TensorElementType dtype() =>
       RustLib.instance.api.crateApiTensorTensorImplDtype(that: this);
 
-  List<bool> getDataBool() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataBool(that: this);
-
-  Float32List getDataF32() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataF32(that: this);
+  ArrayPointer getDataBoolPointer() => RustLib.instance.api
+      .crateApiTensorTensorImplGetDataBoolPointer(that: this);
 
   ArrayPointer getDataF32Pointer() => RustLib.instance.api
       .crateApiTensorTensorImplGetDataF32Pointer(that: this);
 
-  Float64List getDataF64() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataF64(that: this);
+  ArrayPointer getDataF64Pointer() => RustLib.instance.api
+      .crateApiTensorTensorImplGetDataF64Pointer(that: this);
 
-  Int16List getDataI16() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataI16(that: this);
+  ArrayPointer getDataI16Pointer() => RustLib.instance.api
+      .crateApiTensorTensorImplGetDataI16Pointer(that: this);
 
-  Int32List getDataI32() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataI32(that: this);
+  ArrayPointer getDataI32Pointer() => RustLib.instance.api
+      .crateApiTensorTensorImplGetDataI32Pointer(that: this);
 
-  List<int> getDataI64() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataI64(that: this);
+  ArrayPointer getDataI64Pointer() => RustLib.instance.api
+      .crateApiTensorTensorImplGetDataI64Pointer(that: this);
 
-  Int8List getDataI8() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataI8(that: this);
+  ArrayPointer getDataI8Pointer() =>
+      RustLib.instance.api.crateApiTensorTensorImplGetDataI8Pointer(that: this);
 
-  List<bool> getDataMutBool() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataMutBool(that: this);
+  ArrayPointer getDataStringPointer() => RustLib.instance.api
+      .crateApiTensorTensorImplGetDataStringPointer(that: this);
 
-  Float32List getDataMutF32() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataMutF32(that: this);
+  ArrayPointer getDataU16Pointer() => RustLib.instance.api
+      .crateApiTensorTensorImplGetDataU16Pointer(that: this);
 
-  Float64List getDataMutF64() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataMutF64(that: this);
+  ArrayPointer getDataU32Pointer() => RustLib.instance.api
+      .crateApiTensorTensorImplGetDataU32Pointer(that: this);
 
-  Int16List getDataMutI16() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataMutI16(that: this);
+  ArrayPointer getDataU64Pointer() => RustLib.instance.api
+      .crateApiTensorTensorImplGetDataU64Pointer(that: this);
 
-  Int32List getDataMutI32() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataMutI32(that: this);
-
-  List<int> getDataMutI64() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataMutI64(that: this);
-
-  Int8List getDataMutI8() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataMutI8(that: this);
-
-  Uint16List getDataMutU16() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataMutU16(that: this);
-
-  Uint32List getDataMutU32() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataMutU32(that: this);
-
-  List<int> getDataMutU64() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataMutU64(that: this);
-
-  Uint8List getDataMutU8() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataMutU8(that: this);
-
-  List<String> getDataString() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataString(that: this);
-
-  Uint16List getDataU16() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataU16(that: this);
-
-  Uint32List getDataU32() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataU32(that: this);
-
-  List<int> getDataU64() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataU64(that: this);
-
-  Uint8List getDataU8() =>
-      RustLib.instance.api.crateApiTensorTensorImplGetDataU8(that: this);
-
-  bool getIndexBool({required int index}) => RustLib.instance.api
-      .crateApiTensorTensorImplGetIndexBool(that: this, index: index);
-
-  double getIndexF32({required int index}) => RustLib.instance.api
-      .crateApiTensorTensorImplGetIndexF32(that: this, index: index);
-
-  double getIndexF64({required int index}) => RustLib.instance.api
-      .crateApiTensorTensorImplGetIndexF64(that: this, index: index);
-
-  int getIndexI16({required int index}) => RustLib.instance.api
-      .crateApiTensorTensorImplGetIndexI16(that: this, index: index);
-
-  int getIndexI32({required int index}) => RustLib.instance.api
-      .crateApiTensorTensorImplGetIndexI32(that: this, index: index);
-
-  int getIndexI64({required int index}) => RustLib.instance.api
-      .crateApiTensorTensorImplGetIndexI64(that: this, index: index);
-
-  int getIndexI8({required int index}) => RustLib.instance.api
-      .crateApiTensorTensorImplGetIndexI8(that: this, index: index);
-
-  String getIndexString({required int index}) => RustLib.instance.api
-      .crateApiTensorTensorImplGetIndexString(that: this, index: index);
-
-  int getIndexU16({required int index}) => RustLib.instance.api
-      .crateApiTensorTensorImplGetIndexU16(that: this, index: index);
-
-  int getIndexU32({required int index}) => RustLib.instance.api
-      .crateApiTensorTensorImplGetIndexU32(that: this, index: index);
-
-  int getIndexU64({required int index}) => RustLib.instance.api
-      .crateApiTensorTensorImplGetIndexU64(that: this, index: index);
-
-  int getIndexU8({required int index}) => RustLib.instance.api
-      .crateApiTensorTensorImplGetIndexU8(that: this, index: index);
+  ArrayPointer getDataU8Pointer() =>
+      RustLib.instance.api.crateApiTensorTensorImplGetDataU8Pointer(that: this);
 
   /// If this Tensor's underlying data is mutable
   bool isMutable() =>
       RustLib.instance.api.crateApiTensorTensorImplIsMutable(that: this);
 
-  void setIndexBool({required int index, required bool value}) =>
-      RustLib.instance.api.crateApiTensorTensorImplSetIndexBool(
-        that: this,
-        index: index,
-        value: value,
-      );
-
-  void setIndexF32({required int index, required double value}) =>
-      RustLib.instance.api.crateApiTensorTensorImplSetIndexF32(
-        that: this,
-        index: index,
-        value: value,
-      );
-
-  void setIndexF64({required int index, required double value}) =>
-      RustLib.instance.api.crateApiTensorTensorImplSetIndexF64(
-        that: this,
-        index: index,
-        value: value,
-      );
-
-  void setIndexI16({required int index, required int value}) =>
-      RustLib.instance.api.crateApiTensorTensorImplSetIndexI16(
-        that: this,
-        index: index,
-        value: value,
-      );
-
-  void setIndexI32({required int index, required int value}) =>
-      RustLib.instance.api.crateApiTensorTensorImplSetIndexI32(
-        that: this,
-        index: index,
-        value: value,
-      );
-
-  void setIndexI64({required int index, required int value}) =>
-      RustLib.instance.api.crateApiTensorTensorImplSetIndexI64(
-        that: this,
-        index: index,
-        value: value,
-      );
-
-  void setIndexI8({required int index, required int value}) =>
-      RustLib.instance.api.crateApiTensorTensorImplSetIndexI8(
-        that: this,
-        index: index,
-        value: value,
-      );
-
-  void setIndexU16({required int index, required int value}) =>
-      RustLib.instance.api.crateApiTensorTensorImplSetIndexU16(
-        that: this,
-        index: index,
-        value: value,
-      );
-
-  void setIndexU32({required int index, required int value}) =>
-      RustLib.instance.api.crateApiTensorTensorImplSetIndexU32(
-        that: this,
-        index: index,
-        value: value,
-      );
-
-  void setIndexU64({required int index, required int value}) =>
-      RustLib.instance.api.crateApiTensorTensorImplSetIndexU64(
-        that: this,
-        index: index,
-        value: value,
-      );
-
-  void setIndexU8({required int index, required int value}) =>
-      RustLib.instance.api.crateApiTensorTensorImplSetIndexU8(
-        that: this,
-        index: index,
-        value: value,
-      );
+  MemoryInfo memoryInfo() =>
+      RustLib.instance.api.crateApiTensorTensorImplMemoryInfo(that: this);
 
   /// Get the shape of the Tensor
   List<int> shape() =>

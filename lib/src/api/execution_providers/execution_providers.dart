@@ -1,4 +1,21 @@
+import 'package:ort/src/api/execution_providers/coreml.dart';
+import 'package:ort/src/api/execution_providers/cpu.dart';
+import 'package:ort/src/api/execution_providers/cuda.dart';
+import 'package:ort/src/api/execution_providers/directml.dart';
+import 'package:ort/src/api/execution_providers/nnapi.dart';
+import 'package:ort/src/api/execution_providers/qnn.dart';
+import 'package:ort/src/api/execution_providers/rocm.dart';
+import 'package:ort/src/api/execution_providers/tensorrt.dart';
 import 'package:ort/src/rust/api/execution_providers.dart' as ort_ep;
+
+export 'package:ort/src/api/execution_providers/coreml.dart';
+export 'package:ort/src/api/execution_providers/cpu.dart';
+export 'package:ort/src/api/execution_providers/cuda.dart';
+export 'package:ort/src/api/execution_providers/directml.dart';
+export 'package:ort/src/api/execution_providers/nnapi.dart';
+export 'package:ort/src/api/execution_providers/qnn.dart';
+export 'package:ort/src/api/execution_providers/rocm.dart';
+export 'package:ort/src/api/execution_providers/tensorrt.dart';
 
 export 'package:ort/src/rust/api/execution_providers.dart' show ArenaExtendStrategy;
 
@@ -36,3 +53,22 @@ abstract class ExecutionProvider {
 
   ort_ep.ExecutionProvider toImpl();
 }
+
+/// Returns a list of [ExecutionProvider]s that pass [isAvailable], which is if
+/// ONNX Runtime was *compiled with support* for said execution provider.
+///
+/// **Note that this does not always mean the execution provider is *usable* for a specific session.** A model may
+/// use operators not supported by an execution provider, or the EP may encounter an error while attempting to load
+/// dependencies during session creation. In most cases (i.e. showing the user an error message if CUDA could not be
+/// enabled), you'll instead want to manually register this EP via [`ExecutionProvider::register`] and detect
+/// and handle any errors returned by that function.
+List<ExecutionProvider> getAvailableExecutionProviders() => [
+  CoreMLExecutionProvider(),
+  CPUExecutionProvider(),
+  CUDAExecutionProvider(),
+  DirectMLExecutionProvider(),
+  NNAPIExecutionProvider(),
+  QNNExecutionProvider(),
+  ROCmExecutionProvider(),
+  TensorRTExecutionProvider(),
+].where((ep) => ep.isAvailable()).toList(growable: false);

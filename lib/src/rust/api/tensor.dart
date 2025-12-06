@@ -4,6 +4,7 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import '../frb_generated.dart';
+import 'memory.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These functions are ignored because they are not marked as `pub`: `create_tensor`, `from_value_ref`, `parse_shape`
@@ -14,12 +15,47 @@ abstract class TensorImpl implements RustOpaqueInterface {
   /// Creates a copy of this tensor and its data on the same device it resides on.
   TensorImpl clone();
 
+  /// Creates a copy of this tensor but pointing to the same data.
+  TensorImpl copy();
+
   /// Get the data type of the Tensor
   TensorElementType dtype();
 
-  /// Frees the memory of a f32 pointer.
-  static void freeF32Pointer({required ArrayPointer ptr}) =>
-      RustLib.instance.api.crateApiTensorTensorImplFreeF32Pointer(ptr: ptr);
+  static void freeBoolPointer({required ArrayPointer arr}) =>
+      RustLib.instance.api.crateApiTensorTensorImplFreeBoolPointer(arr: arr);
+
+  static void freeF32Pointer({required ArrayPointer arr}) =>
+      RustLib.instance.api.crateApiTensorTensorImplFreeF32Pointer(arr: arr);
+
+  static void freeF64Pointer({required ArrayPointer arr}) =>
+      RustLib.instance.api.crateApiTensorTensorImplFreeF64Pointer(arr: arr);
+
+  static void freeI16Pointer({required ArrayPointer arr}) =>
+      RustLib.instance.api.crateApiTensorTensorImplFreeI16Pointer(arr: arr);
+
+  static void freeI32Pointer({required ArrayPointer arr}) =>
+      RustLib.instance.api.crateApiTensorTensorImplFreeI32Pointer(arr: arr);
+
+  static void freeI64Pointer({required ArrayPointer arr}) =>
+      RustLib.instance.api.crateApiTensorTensorImplFreeI64Pointer(arr: arr);
+
+  static void freeI8Pointer({required ArrayPointer arr}) =>
+      RustLib.instance.api.crateApiTensorTensorImplFreeI8Pointer(arr: arr);
+
+  static void freeStringPointer({required ArrayPointer arr}) =>
+      RustLib.instance.api.crateApiTensorTensorImplFreeStringPointer(arr: arr);
+
+  static void freeU16Pointer({required ArrayPointer arr}) =>
+      RustLib.instance.api.crateApiTensorTensorImplFreeU16Pointer(arr: arr);
+
+  static void freeU32Pointer({required ArrayPointer arr}) =>
+      RustLib.instance.api.crateApiTensorTensorImplFreeU32Pointer(arr: arr);
+
+  static void freeU64Pointer({required ArrayPointer arr}) =>
+      RustLib.instance.api.crateApiTensorTensorImplFreeU64Pointer(arr: arr);
+
+  static void freeU8Pointer({required ArrayPointer arr}) =>
+      RustLib.instance.api.crateApiTensorTensorImplFreeU8Pointer(arr: arr);
 
   static TensorImpl fromArrayBool({
     List<int>? shape,
@@ -101,123 +137,55 @@ abstract class TensorImpl implements RustOpaqueInterface {
         data: data,
       );
 
-  List<bool> getDataBool();
-
-  Float32List getDataF32();
+  ArrayPointer getDataBoolPointer();
 
   ArrayPointer getDataF32Pointer();
 
-  Float64List getDataF64();
+  ArrayPointer getDataF64Pointer();
 
-  Int16List getDataI16();
+  ArrayPointer getDataI16Pointer();
 
-  Int32List getDataI32();
+  ArrayPointer getDataI32Pointer();
 
-  List<int> getDataI64();
+  ArrayPointer getDataI64Pointer();
 
-  Int8List getDataI8();
+  ArrayPointer getDataI8Pointer();
 
-  List<bool> getDataMutBool();
+  ArrayPointer getDataStringPointer();
 
-  Float32List getDataMutF32();
+  ArrayPointer getDataU16Pointer();
 
-  Float64List getDataMutF64();
+  ArrayPointer getDataU32Pointer();
 
-  Int16List getDataMutI16();
+  ArrayPointer getDataU64Pointer();
 
-  Int32List getDataMutI32();
-
-  List<int> getDataMutI64();
-
-  Int8List getDataMutI8();
-
-  Uint16List getDataMutU16();
-
-  Uint32List getDataMutU32();
-
-  List<int> getDataMutU64();
-
-  Uint8List getDataMutU8();
-
-  List<String> getDataString();
-
-  Uint16List getDataU16();
-
-  Uint32List getDataU32();
-
-  List<int> getDataU64();
-
-  Uint8List getDataU8();
-
-  bool getIndexBool({required int index});
-
-  double getIndexF32({required int index});
-
-  double getIndexF64({required int index});
-
-  int getIndexI16({required int index});
-
-  int getIndexI32({required int index});
-
-  int getIndexI64({required int index});
-
-  int getIndexI8({required int index});
-
-  String getIndexString({required int index});
-
-  int getIndexU16({required int index});
-
-  int getIndexU32({required int index});
-
-  int getIndexU64({required int index});
-
-  int getIndexU8({required int index});
+  ArrayPointer getDataU8Pointer();
 
   /// If this Tensor's underlying data is mutable
   bool isMutable();
 
-  void setIndexBool({required int index, required bool value});
-
-  void setIndexF32({required int index, required double value});
-
-  void setIndexF64({required int index, required double value});
-
-  void setIndexI16({required int index, required int value});
-
-  void setIndexI32({required int index, required int value});
-
-  void setIndexI64({required int index, required int value});
-
-  void setIndexI8({required int index, required int value});
-
-  void setIndexU16({required int index, required int value});
-
-  void setIndexU32({required int index, required int value});
-
-  void setIndexU64({required int index, required int value});
-
-  void setIndexU8({required int index, required int value});
+  MemoryInfo memoryInfo();
 
   /// Get the shape of the Tensor
   List<int> shape();
 }
 
 class ArrayPointer {
-  final int data;
-  final int length;
+  final int ptr;
+  final int len;
 
-  const ArrayPointer({required this.data, required this.length});
+  const ArrayPointer({required this.ptr, required this.len});
 
   @override
-  int get hashCode => data.hashCode ^ length.hashCode;
+  int get hashCode => ptr.hashCode ^ len.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is ArrayPointer &&
           runtimeType == other.runtimeType &&
-          data == other.data &&
-          length == other.length;
+          ptr == other.ptr &&
+          len == other.len;
 }
 
 /// Enum mapping ONNX Runtime's supported tensor data types.
