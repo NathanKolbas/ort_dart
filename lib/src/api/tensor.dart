@@ -18,7 +18,7 @@ class _ArrayPointerWrapper {
 
   ArrayPointer? _arrayPointer;
   ArrayPointer? get arrayPointer => _arrayPointer;
-  set arrayPointer(ArrayPointer value) {
+  set arrayPointer(ArrayPointer? value) {
     dispose();
     _arrayPointer = value;
     _disposed = false;

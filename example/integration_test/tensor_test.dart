@@ -139,24 +139,77 @@ Future<void> main() async {
       });
     });
 
+    // Copy is no longer implemented due to very strange unknown bugs such as:
+    //
+    // package:flutter_rust_bridge/src/codec/base.dart 32:9                                                         SimpleDecoder.decode
+    // package:flutter_rust_bridge/src/codec/sse.dart 45:55                                                         SseCodec._decode
+    // package:flutter_rust_bridge/src/codec/sse.dart 40:7                                                          SseCodec.decodeWireSyncType
+    // package:flutter_rust_bridge/src/main_components/handler.dart 34:25                                           BaseHandler.executeSync
+    // package:ort/src/rust/frb_generated.dart 1552:20                                                              RustLibApiImpl.crateApiTensorTensorImplGetDataF32Pointer
+    // package:ort/src/rust/frb_generated.dart 7598:8                                                               TensorImplImpl.getDataF32Pointer
+    // package:ort/src/api/tensor.dart 265:44                                                                       Tensor.extractTensor
+    // package:ort/src/api/tensor.dart 407:12                                                                       Tensor.data
+    // integration_test\tensor_test.dart 157:22                                                                     main.<fn>.<fn>
+    // ===== asynchronous gap ===========================
+    // package:stream_channel                                                                                       _GuaranteeSink.add
+    // Temp/flutter_tools.664d7c8f/flutter_test_listener.ac40181f/listener.dart 56:22  main.<fn>
+    //
+    // AnyhowException(Unsuported type proto value case.)
+    //
+    // Original rust implementation:
+    // /// Creates a copy of this tensor but pointing to the same data.
+    // #[frb(sync)]
+    // pub fn copy(&mut self) -> TensorImpl {
+    //  Self {
+    //    tensor: unsafe { DynTensor::from_ptr(NonNull::new_unchecked(self.tensor.ptr_mut()), None) },
+    //    mutable: self.mutable,
+    //  }
+    // }
+    //
+    // test("copy points to the same data", () async {
+    //   const List<double> vec = [1, 2, 3];
+    //   final tensor = Tensor.fromArrayF32(data: vec);
+    //   final copy = tensor.copy();
+    //
+    //   expect(tensor.data, copy.data);
+    //
+    //   tensor.data[0] = 4;
+    //   copy.data[2] = 5;
+    //
+    //   expect(tensor.data, copy.data);
+    //
+    //   // Disposing the copy shouldn't dispose the underlying data
+    //   copy.dispose();
+    //   expect(tensor.data, [4, 2, 5]);
+    // });
+
     test("rust keeps Tensor in memory after running inference", () async {
       const List<double> vec = [1, 2, 3];
       final tensorA = Tensor.fromArrayF32(data: vec);
       final tensorB = Tensor.fromArrayF32(data: vec);
 
-      final session = await Session.builder()
-        .withExecutionProviders([
-          CUDAExecutionProvider(),
-          CPUExecutionProvider(),
-        ])
-        .commitFromMemory(matmulModel);
-
-      final output = await session.run(inputValues: {
+      Session session = await Session.builder().commitFromMemory(matmulModel);
+      Map<String, Tensor> output = await session.run(inputValues: {
         'a': tensorA,
         'b': tensorB,
       });
 
-      expect(output.length, 1);
+      expect(output['c']?.data, [14.0]);
+
+      // Should not get this error:
+      // DroppableDisposedException: Try to use `RustArc<dynamic>` after it has been disposed
+      expect(tensorA.data, vec);
+
+      // Should be able to run inference twice
+
+      session = await Session.builder().commitFromMemory(matmulModel);
+      output = await session.run(inputValues: {
+        'a': tensorA,
+        'b': tensorB,
+      });
+
+      expect(output['c']?.data, [14.0]);
+
       // Should not get this error:
       // DroppableDisposedException: Try to use `RustArc<dynamic>` after it has been disposed
       expect(tensorA.data, vec);

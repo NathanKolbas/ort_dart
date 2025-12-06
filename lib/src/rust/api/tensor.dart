@@ -15,9 +15,6 @@ abstract class TensorImpl implements RustOpaqueInterface {
   /// Creates a copy of this tensor and its data on the same device it resides on.
   TensorImpl clone();
 
-  /// Creates a copy of this tensor but pointing to the same data.
-  TensorImpl copy();
-
   /// Get the data type of the Tensor
   TensorElementType dtype();
 

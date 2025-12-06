@@ -41,7 +41,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1413858729;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -2080628040;
 
 // Section: executor
 
@@ -560,54 +560,6 @@ fn wire__crate__api__tensor__TensorImpl_clone_impl(
                 let api_that_guard = api_that_guard.unwrap();
                 let output_ok =
                     Result::<_, ()>::Ok(crate::api::tensor::TensorImpl::clone(&*api_that_guard))?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__crate__api__tensor__TensorImpl_copy_impl(
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "TensorImpl_copy",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_that = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<TensorImpl>,
-            >>::sse_decode(&mut deserializer);
-            deserializer.end();
-            transform_result_sse::<_, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, true,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
-                        _ => unreachable!(),
-                    }
-                }
-                let mut api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(crate::api::tensor::TensorImpl::copy(
-                    &mut *api_that_guard,
-                ))?;
                 Ok(output_ok)
             })())
         },
@@ -4739,18 +4691,18 @@ fn pde_ffi_dispatcher_primary_impl(
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
                         10 => wire__crate__api__session__SessionImpl_run_impl(port, ptr, rust_vec_len, data_len),
-56 => wire__crate__api__execution_providers__coreml__core_ml_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
-61 => wire__crate__api__execution_providers__cpu__cpu_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
-66 => wire__crate__api__execution_providers__cuda__cuda_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
-71 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
-77 => wire__crate__api__init_app_impl(port, ptr, rust_vec_len, data_len),
-78 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
-83 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
-88 => wire__crate__api__execution_providers__rocm__ro_cm_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
-93 => wire__crate__api__session__session_builder_options_commit_from_file_impl(port, ptr, rust_vec_len, data_len),
-94 => wire__crate__api__session__session_builder_options_commit_from_memory_impl(port, ptr, rust_vec_len, data_len),
-95 => wire__crate__api__session__session_builder_options_default_impl(port, ptr, rust_vec_len, data_len),
-96 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
+55 => wire__crate__api__execution_providers__coreml__core_ml_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
+60 => wire__crate__api__execution_providers__cpu__cpu_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
+65 => wire__crate__api__execution_providers__cuda__cuda_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
+70 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
+76 => wire__crate__api__init_app_impl(port, ptr, rust_vec_len, data_len),
+77 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
+82 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
+87 => wire__crate__api__execution_providers__rocm__ro_cm_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
+92 => wire__crate__api__session__session_builder_options_commit_from_file_impl(port, ptr, rust_vec_len, data_len),
+93 => wire__crate__api__session__session_builder_options_commit_from_memory_impl(port, ptr, rust_vec_len, data_len),
+94 => wire__crate__api__session__session_builder_options_default_impl(port, ptr, rust_vec_len, data_len),
+95 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
                         _ => unreachable!(),
                     }
 }
@@ -4773,80 +4725,79 @@ fn pde_ffi_dispatcher_sync_impl(
 8 => wire__crate__api__session__SessionImpl_inputs_impl(ptr, rust_vec_len, data_len),
 9 => wire__crate__api__session__SessionImpl_outputs_impl(ptr, rust_vec_len, data_len),
 11 => wire__crate__api__tensor__TensorImpl_clone_impl(ptr, rust_vec_len, data_len),
-12 => wire__crate__api__tensor__TensorImpl_copy_impl(ptr, rust_vec_len, data_len),
-13 => wire__crate__api__tensor__TensorImpl_dtype_impl(ptr, rust_vec_len, data_len),
-14 => wire__crate__api__tensor__TensorImpl_free_bool_pointer_impl(ptr, rust_vec_len, data_len),
-15 => wire__crate__api__tensor__TensorImpl_free_f32_pointer_impl(ptr, rust_vec_len, data_len),
-16 => wire__crate__api__tensor__TensorImpl_free_f64_pointer_impl(ptr, rust_vec_len, data_len),
-17 => wire__crate__api__tensor__TensorImpl_free_i16_pointer_impl(ptr, rust_vec_len, data_len),
-18 => wire__crate__api__tensor__TensorImpl_free_i32_pointer_impl(ptr, rust_vec_len, data_len),
-19 => wire__crate__api__tensor__TensorImpl_free_i64_pointer_impl(ptr, rust_vec_len, data_len),
-20 => wire__crate__api__tensor__TensorImpl_free_i8_pointer_impl(ptr, rust_vec_len, data_len),
-21 => wire__crate__api__tensor__TensorImpl_free_string_pointer_impl(ptr, rust_vec_len, data_len),
-22 => wire__crate__api__tensor__TensorImpl_free_u16_pointer_impl(ptr, rust_vec_len, data_len),
-23 => wire__crate__api__tensor__TensorImpl_free_u32_pointer_impl(ptr, rust_vec_len, data_len),
-24 => wire__crate__api__tensor__TensorImpl_free_u64_pointer_impl(ptr, rust_vec_len, data_len),
-25 => wire__crate__api__tensor__TensorImpl_free_u8_pointer_impl(ptr, rust_vec_len, data_len),
-26 => wire__crate__api__tensor__TensorImpl_from_array_bool_impl(ptr, rust_vec_len, data_len),
-27 => wire__crate__api__tensor__TensorImpl_from_array_f32_impl(ptr, rust_vec_len, data_len),
-28 => wire__crate__api__tensor__TensorImpl_from_array_f64_impl(ptr, rust_vec_len, data_len),
-29 => wire__crate__api__tensor__TensorImpl_from_array_i16_impl(ptr, rust_vec_len, data_len),
-30 => wire__crate__api__tensor__TensorImpl_from_array_i32_impl(ptr, rust_vec_len, data_len),
-31 => wire__crate__api__tensor__TensorImpl_from_array_i64_impl(ptr, rust_vec_len, data_len),
-32 => wire__crate__api__tensor__TensorImpl_from_array_i8_impl(ptr, rust_vec_len, data_len),
-33 => wire__crate__api__tensor__TensorImpl_from_array_string_impl(ptr, rust_vec_len, data_len),
-34 => wire__crate__api__tensor__TensorImpl_from_array_u16_impl(ptr, rust_vec_len, data_len),
-35 => wire__crate__api__tensor__TensorImpl_from_array_u32_impl(ptr, rust_vec_len, data_len),
-36 => wire__crate__api__tensor__TensorImpl_from_array_u64_impl(ptr, rust_vec_len, data_len),
-37 => wire__crate__api__tensor__TensorImpl_from_array_u8_impl(ptr, rust_vec_len, data_len),
-38 => wire__crate__api__tensor__TensorImpl_get_data_bool_pointer_impl(ptr, rust_vec_len, data_len),
-39 => wire__crate__api__tensor__TensorImpl_get_data_f32_pointer_impl(ptr, rust_vec_len, data_len),
-40 => wire__crate__api__tensor__TensorImpl_get_data_f64_pointer_impl(ptr, rust_vec_len, data_len),
-41 => wire__crate__api__tensor__TensorImpl_get_data_i16_pointer_impl(ptr, rust_vec_len, data_len),
-42 => wire__crate__api__tensor__TensorImpl_get_data_i32_pointer_impl(ptr, rust_vec_len, data_len),
-43 => wire__crate__api__tensor__TensorImpl_get_data_i64_pointer_impl(ptr, rust_vec_len, data_len),
-44 => wire__crate__api__tensor__TensorImpl_get_data_i8_pointer_impl(ptr, rust_vec_len, data_len),
-45 => wire__crate__api__tensor__TensorImpl_get_data_string_pointer_impl(ptr, rust_vec_len, data_len),
-46 => wire__crate__api__tensor__TensorImpl_get_data_u16_pointer_impl(ptr, rust_vec_len, data_len),
-47 => wire__crate__api__tensor__TensorImpl_get_data_u32_pointer_impl(ptr, rust_vec_len, data_len),
-48 => wire__crate__api__tensor__TensorImpl_get_data_u64_pointer_impl(ptr, rust_vec_len, data_len),
-49 => wire__crate__api__tensor__TensorImpl_get_data_u8_pointer_impl(ptr, rust_vec_len, data_len),
-50 => wire__crate__api__tensor__TensorImpl_is_mutable_impl(ptr, rust_vec_len, data_len),
-51 => wire__crate__api__tensor__TensorImpl_memory_info_impl(ptr, rust_vec_len, data_len),
-52 => wire__crate__api__tensor__TensorImpl_shape_impl(ptr, rust_vec_len, data_len),
-57 => wire__crate__api__execution_providers__coreml__core_ml_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
-58 => wire__crate__api__execution_providers__coreml__core_ml_execution_provider_name_impl(ptr, rust_vec_len, data_len),
-59 => wire__crate__api__execution_providers__coreml__core_ml_execution_provider_new_impl(ptr, rust_vec_len, data_len),
-60 => wire__crate__api__execution_providers__coreml__core_ml_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
-62 => wire__crate__api__execution_providers__cpu__cpu_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
-63 => wire__crate__api__execution_providers__cpu__cpu_execution_provider_name_impl(ptr, rust_vec_len, data_len),
-64 => wire__crate__api__execution_providers__cpu__cpu_execution_provider_new_impl(ptr, rust_vec_len, data_len),
-65 => wire__crate__api__execution_providers__cpu__cpu_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
-67 => wire__crate__api__execution_providers__cuda__cuda_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
-68 => wire__crate__api__execution_providers__cuda__cuda_execution_provider_name_impl(ptr, rust_vec_len, data_len),
-69 => wire__crate__api__execution_providers__cuda__cuda_execution_provider_new_impl(ptr, rust_vec_len, data_len),
-70 => wire__crate__api__execution_providers__cuda__cuda_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
-72 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
-73 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_name_impl(ptr, rust_vec_len, data_len),
-74 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_new_impl(ptr, rust_vec_len, data_len),
-75 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
-76 => wire__crate__api__debug__enable_ort_debug_messages_impl(ptr, rust_vec_len, data_len),
-79 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
-80 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_name_impl(ptr, rust_vec_len, data_len),
-81 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_new_impl(ptr, rust_vec_len, data_len),
-82 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
-84 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
-85 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_name_impl(ptr, rust_vec_len, data_len),
-86 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_new_impl(ptr, rust_vec_len, data_len),
-87 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
-89 => wire__crate__api__execution_providers__rocm__ro_cm_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
-90 => wire__crate__api__execution_providers__rocm__ro_cm_execution_provider_name_impl(ptr, rust_vec_len, data_len),
-91 => wire__crate__api__execution_providers__rocm__ro_cm_execution_provider_new_impl(ptr, rust_vec_len, data_len),
-92 => wire__crate__api__execution_providers__rocm__ro_cm_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
-97 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
-98 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_name_impl(ptr, rust_vec_len, data_len),
-99 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_new_impl(ptr, rust_vec_len, data_len),
-100 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
+12 => wire__crate__api__tensor__TensorImpl_dtype_impl(ptr, rust_vec_len, data_len),
+13 => wire__crate__api__tensor__TensorImpl_free_bool_pointer_impl(ptr, rust_vec_len, data_len),
+14 => wire__crate__api__tensor__TensorImpl_free_f32_pointer_impl(ptr, rust_vec_len, data_len),
+15 => wire__crate__api__tensor__TensorImpl_free_f64_pointer_impl(ptr, rust_vec_len, data_len),
+16 => wire__crate__api__tensor__TensorImpl_free_i16_pointer_impl(ptr, rust_vec_len, data_len),
+17 => wire__crate__api__tensor__TensorImpl_free_i32_pointer_impl(ptr, rust_vec_len, data_len),
+18 => wire__crate__api__tensor__TensorImpl_free_i64_pointer_impl(ptr, rust_vec_len, data_len),
+19 => wire__crate__api__tensor__TensorImpl_free_i8_pointer_impl(ptr, rust_vec_len, data_len),
+20 => wire__crate__api__tensor__TensorImpl_free_string_pointer_impl(ptr, rust_vec_len, data_len),
+21 => wire__crate__api__tensor__TensorImpl_free_u16_pointer_impl(ptr, rust_vec_len, data_len),
+22 => wire__crate__api__tensor__TensorImpl_free_u32_pointer_impl(ptr, rust_vec_len, data_len),
+23 => wire__crate__api__tensor__TensorImpl_free_u64_pointer_impl(ptr, rust_vec_len, data_len),
+24 => wire__crate__api__tensor__TensorImpl_free_u8_pointer_impl(ptr, rust_vec_len, data_len),
+25 => wire__crate__api__tensor__TensorImpl_from_array_bool_impl(ptr, rust_vec_len, data_len),
+26 => wire__crate__api__tensor__TensorImpl_from_array_f32_impl(ptr, rust_vec_len, data_len),
+27 => wire__crate__api__tensor__TensorImpl_from_array_f64_impl(ptr, rust_vec_len, data_len),
+28 => wire__crate__api__tensor__TensorImpl_from_array_i16_impl(ptr, rust_vec_len, data_len),
+29 => wire__crate__api__tensor__TensorImpl_from_array_i32_impl(ptr, rust_vec_len, data_len),
+30 => wire__crate__api__tensor__TensorImpl_from_array_i64_impl(ptr, rust_vec_len, data_len),
+31 => wire__crate__api__tensor__TensorImpl_from_array_i8_impl(ptr, rust_vec_len, data_len),
+32 => wire__crate__api__tensor__TensorImpl_from_array_string_impl(ptr, rust_vec_len, data_len),
+33 => wire__crate__api__tensor__TensorImpl_from_array_u16_impl(ptr, rust_vec_len, data_len),
+34 => wire__crate__api__tensor__TensorImpl_from_array_u32_impl(ptr, rust_vec_len, data_len),
+35 => wire__crate__api__tensor__TensorImpl_from_array_u64_impl(ptr, rust_vec_len, data_len),
+36 => wire__crate__api__tensor__TensorImpl_from_array_u8_impl(ptr, rust_vec_len, data_len),
+37 => wire__crate__api__tensor__TensorImpl_get_data_bool_pointer_impl(ptr, rust_vec_len, data_len),
+38 => wire__crate__api__tensor__TensorImpl_get_data_f32_pointer_impl(ptr, rust_vec_len, data_len),
+39 => wire__crate__api__tensor__TensorImpl_get_data_f64_pointer_impl(ptr, rust_vec_len, data_len),
+40 => wire__crate__api__tensor__TensorImpl_get_data_i16_pointer_impl(ptr, rust_vec_len, data_len),
+41 => wire__crate__api__tensor__TensorImpl_get_data_i32_pointer_impl(ptr, rust_vec_len, data_len),
+42 => wire__crate__api__tensor__TensorImpl_get_data_i64_pointer_impl(ptr, rust_vec_len, data_len),
+43 => wire__crate__api__tensor__TensorImpl_get_data_i8_pointer_impl(ptr, rust_vec_len, data_len),
+44 => wire__crate__api__tensor__TensorImpl_get_data_string_pointer_impl(ptr, rust_vec_len, data_len),
+45 => wire__crate__api__tensor__TensorImpl_get_data_u16_pointer_impl(ptr, rust_vec_len, data_len),
+46 => wire__crate__api__tensor__TensorImpl_get_data_u32_pointer_impl(ptr, rust_vec_len, data_len),
+47 => wire__crate__api__tensor__TensorImpl_get_data_u64_pointer_impl(ptr, rust_vec_len, data_len),
+48 => wire__crate__api__tensor__TensorImpl_get_data_u8_pointer_impl(ptr, rust_vec_len, data_len),
+49 => wire__crate__api__tensor__TensorImpl_is_mutable_impl(ptr, rust_vec_len, data_len),
+50 => wire__crate__api__tensor__TensorImpl_memory_info_impl(ptr, rust_vec_len, data_len),
+51 => wire__crate__api__tensor__TensorImpl_shape_impl(ptr, rust_vec_len, data_len),
+56 => wire__crate__api__execution_providers__coreml__core_ml_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
+57 => wire__crate__api__execution_providers__coreml__core_ml_execution_provider_name_impl(ptr, rust_vec_len, data_len),
+58 => wire__crate__api__execution_providers__coreml__core_ml_execution_provider_new_impl(ptr, rust_vec_len, data_len),
+59 => wire__crate__api__execution_providers__coreml__core_ml_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
+61 => wire__crate__api__execution_providers__cpu__cpu_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
+62 => wire__crate__api__execution_providers__cpu__cpu_execution_provider_name_impl(ptr, rust_vec_len, data_len),
+63 => wire__crate__api__execution_providers__cpu__cpu_execution_provider_new_impl(ptr, rust_vec_len, data_len),
+64 => wire__crate__api__execution_providers__cpu__cpu_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
+66 => wire__crate__api__execution_providers__cuda__cuda_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
+67 => wire__crate__api__execution_providers__cuda__cuda_execution_provider_name_impl(ptr, rust_vec_len, data_len),
+68 => wire__crate__api__execution_providers__cuda__cuda_execution_provider_new_impl(ptr, rust_vec_len, data_len),
+69 => wire__crate__api__execution_providers__cuda__cuda_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
+71 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
+72 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_name_impl(ptr, rust_vec_len, data_len),
+73 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_new_impl(ptr, rust_vec_len, data_len),
+74 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
+75 => wire__crate__api__debug__enable_ort_debug_messages_impl(ptr, rust_vec_len, data_len),
+78 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
+79 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_name_impl(ptr, rust_vec_len, data_len),
+80 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_new_impl(ptr, rust_vec_len, data_len),
+81 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
+83 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
+84 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_name_impl(ptr, rust_vec_len, data_len),
+85 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_new_impl(ptr, rust_vec_len, data_len),
+86 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
+88 => wire__crate__api__execution_providers__rocm__ro_cm_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
+89 => wire__crate__api__execution_providers__rocm__ro_cm_execution_provider_name_impl(ptr, rust_vec_len, data_len),
+90 => wire__crate__api__execution_providers__rocm__ro_cm_execution_provider_new_impl(ptr, rust_vec_len, data_len),
+91 => wire__crate__api__execution_providers__rocm__ro_cm_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
+96 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
+97 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_name_impl(ptr, rust_vec_len, data_len),
+98 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_new_impl(ptr, rust_vec_len, data_len),
+99 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
                         _ => unreachable!(),
                     }
 }

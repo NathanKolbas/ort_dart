@@ -56,9 +56,9 @@ class Session {
   Future<Map<String, Tensor>> run({required Map<String, Tensor> inputValues}) async {
     final output = await _session.run(
       // If we pass the rawTensor directly then rust will drop it from memory.
-      // To get around this we use copy which creates a new Tensor but doesn't
-      // copy the data.
-      inputValues: inputValues.map((k, v) => MapEntry(k, v.rawTensor.copy())),
+      // To get around this we use clone, however, this causes the data to be
+      // copied (bad). I don't have a work around for this at the moment...
+      inputValues: inputValues.map((k, v) => MapEntry(k, v.rawTensor.clone())),
     );
     return output.map((k, v) => MapEntry(k, tensorFromImpl(v)));
   }

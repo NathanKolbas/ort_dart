@@ -1,9 +1,8 @@
 use std::ffi::{CString, NulError};
 use std::fmt::Debug;
 use std::os::raw::c_char;
-use std::ptr::NonNull;
 use flutter_rust_bridge::frb;
-use ort::{AsPointer, Error};
+use ort::Error;
 pub use ort::error::Result;
 use ort::tensor::{IntoTensorElementType};
 pub use ort::tensor::TensorElementType;
@@ -242,15 +241,6 @@ impl TensorImpl {
   #[frb(sync)]
   pub fn shape(&self) -> Vec<i64> {
     self.tensor.shape().to_vec()
-  }
-
-  /// Creates a copy of this tensor but pointing to the same data.
-  #[frb(sync)]
-  pub fn copy(&mut self) -> TensorImpl {
-    Self {
-      tensor: unsafe { DynTensor::from_ptr(NonNull::new_unchecked(self.tensor.ptr_mut()), None) },
-      mutable: self.mutable,
-    }
   }
 
   /// Creates a copy of this tensor and its data on the same device it resides on.
