@@ -6,6 +6,7 @@ import 'package:ort/src/api/execution_providers/nnapi.dart';
 import 'package:ort/src/api/execution_providers/qnn.dart';
 import 'package:ort/src/api/execution_providers/rocm.dart';
 import 'package:ort/src/api/execution_providers/tensorrt.dart';
+import 'package:ort/src/api/execution_providers/xnnpack.dart';
 import 'package:ort/src/rust/api/execution_providers.dart' as ort_ep;
 
 export 'package:ort/src/api/execution_providers/coreml.dart';
@@ -16,6 +17,7 @@ export 'package:ort/src/api/execution_providers/nnapi.dart';
 export 'package:ort/src/api/execution_providers/qnn.dart';
 export 'package:ort/src/api/execution_providers/rocm.dart';
 export 'package:ort/src/api/execution_providers/tensorrt.dart';
+export 'package:ort/src/api/execution_providers/xnnpack.dart';
 
 export 'package:ort/src/rust/api/execution_providers.dart' show ArenaExtendStrategy;
 
@@ -71,4 +73,5 @@ List<ExecutionProvider> getAvailableExecutionProviders() => [
   QNNExecutionProvider(),
   ROCmExecutionProvider(),
   TensorRTExecutionProvider(),
+  XNNPACKExecutionProvider(),
 ].where((ep) => ep.isAvailable()).toList(growable: false);

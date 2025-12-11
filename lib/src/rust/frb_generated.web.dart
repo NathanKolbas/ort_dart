@@ -6,7 +6,6 @@
 // Static analysis wrongly picks the IO variant, thus ignore this
 // ignore_for_file: argument_type_not_assignable
 
-import 'api/debug.dart';
 import 'api/execution_providers.dart';
 import 'api/execution_providers/coreml.dart';
 import 'api/execution_providers/cpu.dart';
@@ -16,6 +15,8 @@ import 'api/execution_providers/nnapi.dart';
 import 'api/execution_providers/qnn.dart';
 import 'api/execution_providers/rocm.dart';
 import 'api/execution_providers/tensorrt.dart';
+import 'api/execution_providers/xnnpack.dart';
+import 'api/logging.dart';
 import 'api/memory.dart';
 import 'api/session.dart';
 import 'api/session/builder/impl_options.dart';
@@ -252,6 +253,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int dco_decode_box_autoadd_u_8(dynamic raw);
+
+  @protected
+  XNNPACKExecutionProvider dco_decode_box_autoadd_xnnpack_execution_provider(
+    dynamic raw,
+  );
 
   @protected
   CoreMLComputeUnits dco_decode_core_ml_compute_units(dynamic raw);
@@ -530,6 +536,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   BigInt dco_decode_usize(dynamic raw);
 
   @protected
+  XNNPACKExecutionProvider dco_decode_xnnpack_execution_provider(dynamic raw);
+
+  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
 
   @protected
@@ -753,6 +762,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int sse_decode_box_autoadd_u_8(SseDeserializer deserializer);
+
+  @protected
+  XNNPACKExecutionProvider sse_decode_box_autoadd_xnnpack_execution_provider(
+    SseDeserializer deserializer,
+  );
 
   @protected
   CoreMLComputeUnits sse_decode_core_ml_compute_units(
@@ -1075,6 +1089,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   BigInt sse_decode_usize(SseDeserializer deserializer);
 
   @protected
+  XNNPACKExecutionProvider sse_decode_xnnpack_execution_provider(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   void sse_encode_AnyhowException(
     AnyhowException self,
     SseSerializer serializer,
@@ -1337,6 +1356,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_box_autoadd_u_8(int self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_xnnpack_execution_provider(
+    XNNPACKExecutionProvider self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_core_ml_compute_units(
@@ -1741,6 +1766,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_usize(BigInt self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_xnnpack_execution_provider(
+    XNNPACKExecutionProvider self,
+    SseSerializer serializer,
+  );
 }
 
 // Section: wire_class

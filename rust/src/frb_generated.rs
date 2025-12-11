@@ -41,7 +41,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -2080628040;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -705982521;
 
 // Section: executor
 
@@ -2658,39 +2658,6 @@ fn wire__crate__api__execution_providers__directml__direct_ml_execution_provider
                      let output_ok = Result::<_,()>::Ok(crate::api::execution_providers::directml::DirectMLExecutionProvider::supported_by_platform(&api_that))?;   Ok(output_ok)
                 })()) })
 }
-fn wire__crate__api__debug__enable_ort_debug_messages_impl(
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "enable_ort_debug_messages",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_level =
-                <Option<crate::api::debug::OrtDebugLevel>>::sse_decode(&mut deserializer);
-            deserializer.end();
-            transform_result_sse::<_, ()>((move || {
-                let output_ok = Result::<_, ()>::Ok({
-                    crate::api::debug::enable_ort_debug_messages(api_level);
-                })?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
 fn wire__crate__api__init_app_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
@@ -2850,6 +2817,39 @@ fn wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_suppor
                 transform_result_sse::<_, ()>((move || {
                      let output_ok = Result::<_,()>::Ok(crate::api::execution_providers::nnapi::NNAPIExecutionProvider::supported_by_platform(&api_that))?;   Ok(output_ok)
                 })()) })
+}
+fn wire__crate__api__logging__ort_debug_messages_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ort_debug_messages",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_level =
+                <Option<crate::api::logging::OrtDebugLevel>>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok({
+                    crate::api::logging::ort_debug_messages(api_level);
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
 }
 fn wire__crate__api__execution_providers__qnn__qnn_execution_provider_default_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
@@ -3375,6 +3375,135 @@ fn wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider
                      let output_ok = Result::<_,()>::Ok(crate::api::execution_providers::tensorrt::TensorRTExecutionProvider::supported_by_platform(&api_that))?;   Ok(output_ok)
                 })()) })
 }
+fn wire__crate__api__execution_providers__xnnpack__xnnpack_execution_provider_default_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "xnnpack_execution_provider_default",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider::default(
+                        ),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__execution_providers__xnnpack__xnnpack_execution_provider_is_available_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "xnnpack_execution_provider_is_available", port: None, mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync }, move || { 
+            let message = unsafe { flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(ptr_, rust_vec_len_, data_len_) };
+            let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider>::sse_decode(&mut deserializer);deserializer.end();
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>((move || {
+                     let output_ok = crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider::is_available(&api_that)?;   Ok(output_ok)
+                })()) })
+}
+fn wire__crate__api__execution_providers__xnnpack__xnnpack_execution_provider_name_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "xnnpack_execution_provider_name",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that =
+                <crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider>::sse_decode(
+                    &mut deserializer,
+                );
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(
+                    crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider::name(
+                        &api_that,
+                    ),
+                )?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__execution_providers__xnnpack__xnnpack_execution_provider_new_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "xnnpack_execution_provider_new",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(
+                    crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider::new(),
+                )?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__execution_providers__xnnpack__xnnpack_execution_provider_supported_by_platform_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "xnnpack_execution_provider_supported_by_platform", port: None, mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync }, move || { 
+            let message = unsafe { flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(ptr_, rust_vec_len_, data_len_) };
+            let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider>::sse_decode(&mut deserializer);deserializer.end();
+                transform_result_sse::<_, ()>((move || {
+                     let output_ok = Result::<_,()>::Ok(crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider::supported_by_platform(&api_that))?;   Ok(output_ok)
+                })()) })
+}
 
 // Section: related_funcs
 
@@ -3793,6 +3922,10 @@ impl SseDecode for crate::api::execution_providers::ExecutionProvider {
             7 => {
                 let mut var_field0 = <crate::api::execution_providers::tensorrt::TensorRTExecutionProvider>::sse_decode(deserializer);
                 return crate::api::execution_providers::ExecutionProvider::TensorRT(var_field0);
+            }
+            8 => {
+                let mut var_field0 = <crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider>::sse_decode(deserializer);
+                return crate::api::execution_providers::ExecutionProvider::XNNPACK(var_field0);
             }
             _ => {
                 unimplemented!("");
@@ -4246,11 +4379,13 @@ impl SseDecode for Option<i8> {
     }
 }
 
-impl SseDecode for Option<crate::api::debug::OrtDebugLevel> {
+impl SseDecode for Option<crate::api::logging::OrtDebugLevel> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
-            return Some(<crate::api::debug::OrtDebugLevel>::sse_decode(deserializer));
+            return Some(<crate::api::logging::OrtDebugLevel>::sse_decode(
+                deserializer,
+            ));
         } else {
             return None;
         }
@@ -4346,16 +4481,16 @@ impl SseDecode for Option<Vec<crate::api::execution_providers::ExecutionProvider
     }
 }
 
-impl SseDecode for crate::api::debug::OrtDebugLevel {
+impl SseDecode for crate::api::logging::OrtDebugLevel {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <i32>::sse_decode(deserializer);
         return match inner {
-            0 => crate::api::debug::OrtDebugLevel::Trace,
-            1 => crate::api::debug::OrtDebugLevel::Debug,
-            2 => crate::api::debug::OrtDebugLevel::Info,
-            3 => crate::api::debug::OrtDebugLevel::Warn,
-            4 => crate::api::debug::OrtDebugLevel::Error,
+            0 => crate::api::logging::OrtDebugLevel::Trace,
+            1 => crate::api::logging::OrtDebugLevel::Debug,
+            2 => crate::api::logging::OrtDebugLevel::Info,
+            3 => crate::api::logging::OrtDebugLevel::Warn,
+            4 => crate::api::logging::OrtDebugLevel::Error,
             _ => unreachable!("Invalid variant for OrtDebugLevel: {}", inner),
         };
     }
@@ -4681,6 +4816,16 @@ impl SseDecode for usize {
     }
 }
 
+impl SseDecode for crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_intraOpNumThreads = <Option<usize>>::sse_decode(deserializer);
+        return crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider {
+            intra_op_num_threads: var_intraOpNumThreads,
+        };
+    }
+}
+
 fn pde_ffi_dispatcher_primary_impl(
     func_id: i32,
     port: flutter_rust_bridge::for_generated::MessagePort,
@@ -4695,14 +4840,15 @@ fn pde_ffi_dispatcher_primary_impl(
 60 => wire__crate__api__execution_providers__cpu__cpu_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
 65 => wire__crate__api__execution_providers__cuda__cuda_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
 70 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
-76 => wire__crate__api__init_app_impl(port, ptr, rust_vec_len, data_len),
-77 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
+75 => wire__crate__api__init_app_impl(port, ptr, rust_vec_len, data_len),
+76 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
 82 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
 87 => wire__crate__api__execution_providers__rocm__ro_cm_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
 92 => wire__crate__api__session__session_builder_options_commit_from_file_impl(port, ptr, rust_vec_len, data_len),
 93 => wire__crate__api__session__session_builder_options_commit_from_memory_impl(port, ptr, rust_vec_len, data_len),
 94 => wire__crate__api__session__session_builder_options_default_impl(port, ptr, rust_vec_len, data_len),
 95 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
+100 => wire__crate__api__execution_providers__xnnpack__xnnpack_execution_provider_default_impl(port, ptr, rust_vec_len, data_len),
                         _ => unreachable!(),
                     }
 }
@@ -4781,11 +4927,11 @@ fn pde_ffi_dispatcher_sync_impl(
 72 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_name_impl(ptr, rust_vec_len, data_len),
 73 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_new_impl(ptr, rust_vec_len, data_len),
 74 => wire__crate__api__execution_providers__directml__direct_ml_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
-75 => wire__crate__api__debug__enable_ort_debug_messages_impl(ptr, rust_vec_len, data_len),
-78 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
-79 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_name_impl(ptr, rust_vec_len, data_len),
-80 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_new_impl(ptr, rust_vec_len, data_len),
-81 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
+77 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
+78 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_name_impl(ptr, rust_vec_len, data_len),
+79 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_new_impl(ptr, rust_vec_len, data_len),
+80 => wire__crate__api__execution_providers__nnapi__nnapi_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
+81 => wire__crate__api__logging__ort_debug_messages_impl(ptr, rust_vec_len, data_len),
 83 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
 84 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_name_impl(ptr, rust_vec_len, data_len),
 85 => wire__crate__api__execution_providers__qnn__qnn_execution_provider_new_impl(ptr, rust_vec_len, data_len),
@@ -4798,6 +4944,10 @@ fn pde_ffi_dispatcher_sync_impl(
 97 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_name_impl(ptr, rust_vec_len, data_len),
 98 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_new_impl(ptr, rust_vec_len, data_len),
 99 => wire__crate__api__execution_providers__tensorrt__tensor_rt_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
+101 => wire__crate__api__execution_providers__xnnpack__xnnpack_execution_provider_is_available_impl(ptr, rust_vec_len, data_len),
+102 => wire__crate__api__execution_providers__xnnpack__xnnpack_execution_provider_name_impl(ptr, rust_vec_len, data_len),
+103 => wire__crate__api__execution_providers__xnnpack__xnnpack_execution_provider_new_impl(ptr, rust_vec_len, data_len),
+104 => wire__crate__api__execution_providers__xnnpack__xnnpack_execution_provider_supported_by_platform_impl(ptr, rust_vec_len, data_len),
                         _ => unreachable!(),
                     }
 }
@@ -5261,6 +5411,9 @@ impl flutter_rust_bridge::IntoDart for crate::api::execution_providers::Executio
             crate::api::execution_providers::ExecutionProvider::TensorRT(field0) => {
                 [7.into_dart(), field0.into_into_dart().into_dart()].into_dart()
             }
+            crate::api::execution_providers::ExecutionProvider::XNNPACK(field0) => {
+                [8.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
             _ => {
                 unimplemented!("");
             }
@@ -5377,7 +5530,7 @@ impl
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::debug::OrtDebugLevel {
+impl flutter_rust_bridge::IntoDart for crate::api::logging::OrtDebugLevel {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
             Self::Trace => 0.into_dart(),
@@ -5390,13 +5543,13 @@ impl flutter_rust_bridge::IntoDart for crate::api::debug::OrtDebugLevel {
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::debug::OrtDebugLevel
+    for crate::api::logging::OrtDebugLevel
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::debug::OrtDebugLevel>
-    for crate::api::debug::OrtDebugLevel
+impl flutter_rust_bridge::IntoIntoDart<crate::api::logging::OrtDebugLevel>
+    for crate::api::logging::OrtDebugLevel
 {
-    fn into_into_dart(self) -> crate::api::debug::OrtDebugLevel {
+    fn into_into_dart(self) -> crate::api::logging::OrtDebugLevel {
         self
     }
 }
@@ -5716,6 +5869,27 @@ impl
     fn into_into_dart(
         self,
     ) -> crate::api::execution_providers::tensorrt::TensorRTExecutionProvider {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart
+    for crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider
+{
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.intra_op_num_threads.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider
+{
+}
+impl
+    flutter_rust_bridge::IntoIntoDart<
+        crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider,
+    > for crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider
+{
+    fn into_into_dart(self) -> crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider {
         self
     }
 }
@@ -6101,6 +6275,12 @@ impl SseEncode for crate::api::execution_providers::ExecutionProvider {
             crate::api::execution_providers::ExecutionProvider::TensorRT(field0) => {
                 <i32>::sse_encode(7, serializer);
                 <crate::api::execution_providers::tensorrt::TensorRTExecutionProvider>::sse_encode(
+                    field0, serializer,
+                );
+            }
+            crate::api::execution_providers::ExecutionProvider::XNNPACK(field0) => {
+                <i32>::sse_encode(8, serializer);
+                <crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider>::sse_encode(
                     field0, serializer,
                 );
             }
@@ -6497,12 +6677,12 @@ impl SseEncode for Option<i8> {
     }
 }
 
-impl SseEncode for Option<crate::api::debug::OrtDebugLevel> {
+impl SseEncode for Option<crate::api::logging::OrtDebugLevel> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
-            <crate::api::debug::OrtDebugLevel>::sse_encode(value, serializer);
+            <crate::api::logging::OrtDebugLevel>::sse_encode(value, serializer);
         }
     }
 }
@@ -6585,16 +6765,16 @@ impl SseEncode for Option<Vec<crate::api::execution_providers::ExecutionProvider
     }
 }
 
-impl SseEncode for crate::api::debug::OrtDebugLevel {
+impl SseEncode for crate::api::logging::OrtDebugLevel {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(
             match self {
-                crate::api::debug::OrtDebugLevel::Trace => 0,
-                crate::api::debug::OrtDebugLevel::Debug => 1,
-                crate::api::debug::OrtDebugLevel::Info => 2,
-                crate::api::debug::OrtDebugLevel::Warn => 3,
-                crate::api::debug::OrtDebugLevel::Error => 4,
+                crate::api::logging::OrtDebugLevel::Trace => 0,
+                crate::api::logging::OrtDebugLevel::Debug => 1,
+                crate::api::logging::OrtDebugLevel::Info => 2,
+                crate::api::logging::OrtDebugLevel::Warn => 3,
+                crate::api::logging::OrtDebugLevel::Error => 4,
                 _ => {
                     unimplemented!("");
                 }
@@ -6859,6 +7039,13 @@ impl SseEncode for usize {
             .cursor
             .write_u64::<NativeEndian>(self as _)
             .unwrap();
+    }
+}
+
+impl SseEncode for crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Option<usize>>::sse_encode(self.intra_op_num_threads, serializer);
     }
 }
 

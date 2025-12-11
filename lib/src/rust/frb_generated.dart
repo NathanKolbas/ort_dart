@@ -3,7 +3,6 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
-import 'api/debug.dart';
 import 'api/execution_providers.dart';
 import 'api/execution_providers/coreml.dart';
 import 'api/execution_providers/cpu.dart';
@@ -13,6 +12,8 @@ import 'api/execution_providers/nnapi.dart';
 import 'api/execution_providers/qnn.dart';
 import 'api/execution_providers/rocm.dart';
 import 'api/execution_providers/tensorrt.dart';
+import 'api/execution_providers/xnnpack.dart';
+import 'api/logging.dart';
 import 'api/memory.dart';
 import 'api/session.dart';
 import 'api/session/builder/impl_options.dart';
@@ -79,7 +80,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -2080628040;
+  int get rustContentHash => -705982521;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -332,8 +333,6 @@ abstract class RustLibApi extends BaseApi {
     required DirectMLExecutionProvider that,
   });
 
-  void crateApiDebugEnableOrtDebugMessages({OrtDebugLevel? level});
-
   Future<void> crateApiInitApp();
 
   Future<NNAPIExecutionProvider>
@@ -354,6 +353,8 @@ abstract class RustLibApi extends BaseApi {
   crateApiExecutionProvidersNnapiNnapiExecutionProviderSupportedByPlatform({
     required NNAPIExecutionProvider that,
   });
+
+  void crateApiLoggingOrtDebugMessages({OrtDebugLevel? level});
 
   Future<QNNExecutionProvider>
   crateApiExecutionProvidersQnnQnnExecutionProviderDefault();
@@ -419,6 +420,25 @@ abstract class RustLibApi extends BaseApi {
   bool
   crateApiExecutionProvidersTensorrtTensorRtExecutionProviderSupportedByPlatform({
     required TensorRTExecutionProvider that,
+  });
+
+  Future<XNNPACKExecutionProvider>
+  crateApiExecutionProvidersXnnpackXnnpackExecutionProviderDefault();
+
+  bool crateApiExecutionProvidersXnnpackXnnpackExecutionProviderIsAvailable({
+    required XNNPACKExecutionProvider that,
+  });
+
+  String crateApiExecutionProvidersXnnpackXnnpackExecutionProviderName({
+    required XNNPACKExecutionProvider that,
+  });
+
+  XNNPACKExecutionProvider
+  crateApiExecutionProvidersXnnpackXnnpackExecutionProviderNew();
+
+  bool
+  crateApiExecutionProvidersXnnpackXnnpackExecutionProviderSupportedByPlatform({
+    required XNNPACKExecutionProvider that,
   });
 
   RustArcIncrementStrongCountFnType
@@ -2548,32 +2568,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  void crateApiDebugEnableOrtDebugMessages({OrtDebugLevel? level}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_opt_box_autoadd_ort_debug_level(level, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 75)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiDebugEnableOrtDebugMessagesConstMeta,
-        argValues: [level],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiDebugEnableOrtDebugMessagesConstMeta =>
-      const TaskConstMeta(
-        debugName: "enable_ort_debug_messages",
-        argNames: ["level"],
-      );
-
-  @override
   Future<void> crateApiInitApp() {
     return handler.executeNormal(
       NormalTask(
@@ -2582,7 +2576,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 76,
+            funcId: 75,
             port: port_,
           );
         },
@@ -2610,7 +2604,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 77,
+            funcId: 76,
             port: port_,
           );
         },
@@ -2642,7 +2636,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_nnapi_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 78)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 77)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -2672,7 +2666,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_nnapi_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 79)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 78)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -2700,7 +2694,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 80)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 79)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_nnapi_execution_provider,
@@ -2731,7 +2725,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_nnapi_execution_provider(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 81)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 80)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -2751,6 +2745,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         debugName: "nnapi_execution_provider_supported_by_platform",
         argNames: ["that"],
       );
+
+  @override
+  void crateApiLoggingOrtDebugMessages({OrtDebugLevel? level}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_opt_box_autoadd_ort_debug_level(level, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 81)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiLoggingOrtDebugMessagesConstMeta,
+        argValues: [level],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiLoggingOrtDebugMessagesConstMeta =>
+      const TaskConstMeta(debugName: "ort_debug_messages", argNames: ["level"]);
 
   @override
   Future<QNNExecutionProvider>
@@ -3310,6 +3327,174 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         argNames: ["that"],
       );
 
+  @override
+  Future<XNNPACKExecutionProvider>
+  crateApiExecutionProvidersXnnpackXnnpackExecutionProviderDefault() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 100,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_xnnpack_execution_provider,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiExecutionProvidersXnnpackXnnpackExecutionProviderDefaultConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiExecutionProvidersXnnpackXnnpackExecutionProviderDefaultConstMeta =>
+      const TaskConstMeta(
+        debugName: "xnnpack_execution_provider_default",
+        argNames: [],
+      );
+
+  @override
+  bool crateApiExecutionProvidersXnnpackXnnpackExecutionProviderIsAvailable({
+    required XNNPACKExecutionProvider that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_xnnpack_execution_provider(that, serializer);
+          return pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 101,
+          )!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_bool,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta:
+            kCrateApiExecutionProvidersXnnpackXnnpackExecutionProviderIsAvailableConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiExecutionProvidersXnnpackXnnpackExecutionProviderIsAvailableConstMeta =>
+      const TaskConstMeta(
+        debugName: "xnnpack_execution_provider_is_available",
+        argNames: ["that"],
+      );
+
+  @override
+  String crateApiExecutionProvidersXnnpackXnnpackExecutionProviderName({
+    required XNNPACKExecutionProvider that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_xnnpack_execution_provider(that, serializer);
+          return pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 102,
+          )!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_String,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiExecutionProvidersXnnpackXnnpackExecutionProviderNameConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiExecutionProvidersXnnpackXnnpackExecutionProviderNameConstMeta =>
+      const TaskConstMeta(
+        debugName: "xnnpack_execution_provider_name",
+        argNames: ["that"],
+      );
+
+  @override
+  XNNPACKExecutionProvider
+  crateApiExecutionProvidersXnnpackXnnpackExecutionProviderNew() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          return pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 103,
+          )!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_xnnpack_execution_provider,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiExecutionProvidersXnnpackXnnpackExecutionProviderNewConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiExecutionProvidersXnnpackXnnpackExecutionProviderNewConstMeta =>
+      const TaskConstMeta(
+        debugName: "xnnpack_execution_provider_new",
+        argNames: [],
+      );
+
+  @override
+  bool
+  crateApiExecutionProvidersXnnpackXnnpackExecutionProviderSupportedByPlatform({
+    required XNNPACKExecutionProvider that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_xnnpack_execution_provider(that, serializer);
+          return pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 104,
+          )!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiExecutionProvidersXnnpackXnnpackExecutionProviderSupportedByPlatformConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiExecutionProvidersXnnpackXnnpackExecutionProviderSupportedByPlatformConstMeta =>
+      const TaskConstMeta(
+        debugName: "xnnpack_execution_provider_supported_by_platform",
+        argNames: ["that"],
+      );
+
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_MemoryInfo => wire
       .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryInfo;
@@ -3737,6 +3922,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  XNNPACKExecutionProvider dco_decode_box_autoadd_xnnpack_execution_provider(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_xnnpack_execution_provider(raw);
+  }
+
+  @protected
   CoreMLComputeUnits dco_decode_core_ml_compute_units(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return CoreMLComputeUnits.values[raw as int];
@@ -3879,6 +4072,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case 7:
         return ExecutionProvider_TensorRT(
           dco_decode_box_autoadd_tensor_rt_execution_provider(raw[1]),
+        );
+      case 8:
+        return ExecutionProvider_XNNPACK(
+          dco_decode_box_autoadd_xnnpack_execution_provider(raw[1]),
         );
       default:
         throw Exception("unreachable");
@@ -4474,6 +4671,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  XNNPACKExecutionProvider dco_decode_xnnpack_execution_provider(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return XNNPACKExecutionProvider.raw(
+      intraOpNumThreads: dco_decode_opt_CastedPrimitive_usize(arr[0]),
+    );
+  }
+
+  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_String(deserializer);
@@ -4921,6 +5129,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  XNNPACKExecutionProvider sse_decode_box_autoadd_xnnpack_execution_provider(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_xnnpack_execution_provider(deserializer));
+  }
+
+  @protected
   CoreMLComputeUnits sse_decode_core_ml_compute_units(
     SseDeserializer deserializer,
   ) {
@@ -5109,6 +5325,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           deserializer,
         );
         return ExecutionProvider_TensorRT(var_field0);
+      case 8:
+        var var_field0 = sse_decode_box_autoadd_xnnpack_execution_provider(
+          deserializer,
+        );
+        return ExecutionProvider_XNNPACK(var_field0);
       default:
         throw UnimplementedError('');
     }
@@ -5967,6 +6188,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  XNNPACKExecutionProvider sse_decode_xnnpack_execution_provider(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_intraOpNumThreads = sse_decode_opt_CastedPrimitive_usize(
+      deserializer,
+    );
+    return XNNPACKExecutionProvider.raw(
+      intraOpNumThreads: var_intraOpNumThreads,
+    );
+  }
+
+  @protected
   void sse_encode_AnyhowException(
     AnyhowException self,
     SseSerializer serializer,
@@ -6440,6 +6674,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_xnnpack_execution_provider(
+    XNNPACKExecutionProvider self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_xnnpack_execution_provider(self, serializer);
+  }
+
+  @protected
   void sse_encode_core_ml_compute_units(
     CoreMLComputeUnits self,
     SseSerializer serializer,
@@ -6595,6 +6838,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case ExecutionProvider_TensorRT(field0: final field0):
         sse_encode_i_32(7, serializer);
         sse_encode_box_autoadd_tensor_rt_execution_provider(field0, serializer);
+      case ExecutionProvider_XNNPACK(field0: final field0):
+        sse_encode_i_32(8, serializer);
+        sse_encode_box_autoadd_xnnpack_execution_provider(field0, serializer);
     }
   }
 
@@ -7396,6 +7642,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_usize(BigInt self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putBigUint64(self);
+  }
+
+  @protected
+  void sse_encode_xnnpack_execution_provider(
+    XNNPACKExecutionProvider self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_CastedPrimitive_usize(self.intraOpNumThreads, serializer);
   }
 }
 

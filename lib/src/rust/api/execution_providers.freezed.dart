@@ -55,7 +55,7 @@ extension ExecutionProviderPatterns on ExecutionProvider {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ExecutionProvider_CoreML value)?  coreMl,TResult Function( ExecutionProvider_CPU value)?  cpu,TResult Function( ExecutionProvider_CUDA value)?  cuda,TResult Function( ExecutionProvider_DirectML value)?  directMl,TResult Function( ExecutionProvider_NNApi value)?  nnApi,TResult Function( ExecutionProvider_QNN value)?  qnn,TResult Function( ExecutionProvider_ROCm value)?  roCm,TResult Function( ExecutionProvider_TensorRT value)?  tensorRt,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ExecutionProvider_CoreML value)?  coreMl,TResult Function( ExecutionProvider_CPU value)?  cpu,TResult Function( ExecutionProvider_CUDA value)?  cuda,TResult Function( ExecutionProvider_DirectML value)?  directMl,TResult Function( ExecutionProvider_NNApi value)?  nnApi,TResult Function( ExecutionProvider_QNN value)?  qnn,TResult Function( ExecutionProvider_ROCm value)?  roCm,TResult Function( ExecutionProvider_TensorRT value)?  tensorRt,TResult Function( ExecutionProvider_XNNPACK value)?  xnnpack,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case ExecutionProvider_CoreML() when coreMl != null:
@@ -66,7 +66,8 @@ return directMl(_that);case ExecutionProvider_NNApi() when nnApi != null:
 return nnApi(_that);case ExecutionProvider_QNN() when qnn != null:
 return qnn(_that);case ExecutionProvider_ROCm() when roCm != null:
 return roCm(_that);case ExecutionProvider_TensorRT() when tensorRt != null:
-return tensorRt(_that);case _:
+return tensorRt(_that);case ExecutionProvider_XNNPACK() when xnnpack != null:
+return xnnpack(_that);case _:
   return orElse();
 
 }
@@ -84,7 +85,7 @@ return tensorRt(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ExecutionProvider_CoreML value)  coreMl,required TResult Function( ExecutionProvider_CPU value)  cpu,required TResult Function( ExecutionProvider_CUDA value)  cuda,required TResult Function( ExecutionProvider_DirectML value)  directMl,required TResult Function( ExecutionProvider_NNApi value)  nnApi,required TResult Function( ExecutionProvider_QNN value)  qnn,required TResult Function( ExecutionProvider_ROCm value)  roCm,required TResult Function( ExecutionProvider_TensorRT value)  tensorRt,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ExecutionProvider_CoreML value)  coreMl,required TResult Function( ExecutionProvider_CPU value)  cpu,required TResult Function( ExecutionProvider_CUDA value)  cuda,required TResult Function( ExecutionProvider_DirectML value)  directMl,required TResult Function( ExecutionProvider_NNApi value)  nnApi,required TResult Function( ExecutionProvider_QNN value)  qnn,required TResult Function( ExecutionProvider_ROCm value)  roCm,required TResult Function( ExecutionProvider_TensorRT value)  tensorRt,required TResult Function( ExecutionProvider_XNNPACK value)  xnnpack,}){
 final _that = this;
 switch (_that) {
 case ExecutionProvider_CoreML():
@@ -95,7 +96,8 @@ return directMl(_that);case ExecutionProvider_NNApi():
 return nnApi(_that);case ExecutionProvider_QNN():
 return qnn(_that);case ExecutionProvider_ROCm():
 return roCm(_that);case ExecutionProvider_TensorRT():
-return tensorRt(_that);}
+return tensorRt(_that);case ExecutionProvider_XNNPACK():
+return xnnpack(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -109,7 +111,7 @@ return tensorRt(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ExecutionProvider_CoreML value)?  coreMl,TResult? Function( ExecutionProvider_CPU value)?  cpu,TResult? Function( ExecutionProvider_CUDA value)?  cuda,TResult? Function( ExecutionProvider_DirectML value)?  directMl,TResult? Function( ExecutionProvider_NNApi value)?  nnApi,TResult? Function( ExecutionProvider_QNN value)?  qnn,TResult? Function( ExecutionProvider_ROCm value)?  roCm,TResult? Function( ExecutionProvider_TensorRT value)?  tensorRt,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ExecutionProvider_CoreML value)?  coreMl,TResult? Function( ExecutionProvider_CPU value)?  cpu,TResult? Function( ExecutionProvider_CUDA value)?  cuda,TResult? Function( ExecutionProvider_DirectML value)?  directMl,TResult? Function( ExecutionProvider_NNApi value)?  nnApi,TResult? Function( ExecutionProvider_QNN value)?  qnn,TResult? Function( ExecutionProvider_ROCm value)?  roCm,TResult? Function( ExecutionProvider_TensorRT value)?  tensorRt,TResult? Function( ExecutionProvider_XNNPACK value)?  xnnpack,}){
 final _that = this;
 switch (_that) {
 case ExecutionProvider_CoreML() when coreMl != null:
@@ -120,7 +122,8 @@ return directMl(_that);case ExecutionProvider_NNApi() when nnApi != null:
 return nnApi(_that);case ExecutionProvider_QNN() when qnn != null:
 return qnn(_that);case ExecutionProvider_ROCm() when roCm != null:
 return roCm(_that);case ExecutionProvider_TensorRT() when tensorRt != null:
-return tensorRt(_that);case _:
+return tensorRt(_that);case ExecutionProvider_XNNPACK() when xnnpack != null:
+return xnnpack(_that);case _:
   return null;
 
 }
@@ -137,7 +140,7 @@ return tensorRt(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( CoreMLExecutionProvider field0)?  coreMl,TResult Function( CPUExecutionProvider field0)?  cpu,TResult Function( CUDAExecutionProvider field0)?  cuda,TResult Function( DirectMLExecutionProvider field0)?  directMl,TResult Function( NNAPIExecutionProvider field0)?  nnApi,TResult Function( QNNExecutionProvider field0)?  qnn,TResult Function( ROCmExecutionProvider field0)?  roCm,TResult Function( TensorRTExecutionProvider field0)?  tensorRt,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( CoreMLExecutionProvider field0)?  coreMl,TResult Function( CPUExecutionProvider field0)?  cpu,TResult Function( CUDAExecutionProvider field0)?  cuda,TResult Function( DirectMLExecutionProvider field0)?  directMl,TResult Function( NNAPIExecutionProvider field0)?  nnApi,TResult Function( QNNExecutionProvider field0)?  qnn,TResult Function( ROCmExecutionProvider field0)?  roCm,TResult Function( TensorRTExecutionProvider field0)?  tensorRt,TResult Function( XNNPACKExecutionProvider field0)?  xnnpack,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ExecutionProvider_CoreML() when coreMl != null:
 return coreMl(_that.field0);case ExecutionProvider_CPU() when cpu != null:
@@ -147,7 +150,8 @@ return directMl(_that.field0);case ExecutionProvider_NNApi() when nnApi != null:
 return nnApi(_that.field0);case ExecutionProvider_QNN() when qnn != null:
 return qnn(_that.field0);case ExecutionProvider_ROCm() when roCm != null:
 return roCm(_that.field0);case ExecutionProvider_TensorRT() when tensorRt != null:
-return tensorRt(_that.field0);case _:
+return tensorRt(_that.field0);case ExecutionProvider_XNNPACK() when xnnpack != null:
+return xnnpack(_that.field0);case _:
   return orElse();
 
 }
@@ -165,7 +169,7 @@ return tensorRt(_that.field0);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( CoreMLExecutionProvider field0)  coreMl,required TResult Function( CPUExecutionProvider field0)  cpu,required TResult Function( CUDAExecutionProvider field0)  cuda,required TResult Function( DirectMLExecutionProvider field0)  directMl,required TResult Function( NNAPIExecutionProvider field0)  nnApi,required TResult Function( QNNExecutionProvider field0)  qnn,required TResult Function( ROCmExecutionProvider field0)  roCm,required TResult Function( TensorRTExecutionProvider field0)  tensorRt,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( CoreMLExecutionProvider field0)  coreMl,required TResult Function( CPUExecutionProvider field0)  cpu,required TResult Function( CUDAExecutionProvider field0)  cuda,required TResult Function( DirectMLExecutionProvider field0)  directMl,required TResult Function( NNAPIExecutionProvider field0)  nnApi,required TResult Function( QNNExecutionProvider field0)  qnn,required TResult Function( ROCmExecutionProvider field0)  roCm,required TResult Function( TensorRTExecutionProvider field0)  tensorRt,required TResult Function( XNNPACKExecutionProvider field0)  xnnpack,}) {final _that = this;
 switch (_that) {
 case ExecutionProvider_CoreML():
 return coreMl(_that.field0);case ExecutionProvider_CPU():
@@ -175,7 +179,8 @@ return directMl(_that.field0);case ExecutionProvider_NNApi():
 return nnApi(_that.field0);case ExecutionProvider_QNN():
 return qnn(_that.field0);case ExecutionProvider_ROCm():
 return roCm(_that.field0);case ExecutionProvider_TensorRT():
-return tensorRt(_that.field0);}
+return tensorRt(_that.field0);case ExecutionProvider_XNNPACK():
+return xnnpack(_that.field0);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -189,7 +194,7 @@ return tensorRt(_that.field0);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( CoreMLExecutionProvider field0)?  coreMl,TResult? Function( CPUExecutionProvider field0)?  cpu,TResult? Function( CUDAExecutionProvider field0)?  cuda,TResult? Function( DirectMLExecutionProvider field0)?  directMl,TResult? Function( NNAPIExecutionProvider field0)?  nnApi,TResult? Function( QNNExecutionProvider field0)?  qnn,TResult? Function( ROCmExecutionProvider field0)?  roCm,TResult? Function( TensorRTExecutionProvider field0)?  tensorRt,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( CoreMLExecutionProvider field0)?  coreMl,TResult? Function( CPUExecutionProvider field0)?  cpu,TResult? Function( CUDAExecutionProvider field0)?  cuda,TResult? Function( DirectMLExecutionProvider field0)?  directMl,TResult? Function( NNAPIExecutionProvider field0)?  nnApi,TResult? Function( QNNExecutionProvider field0)?  qnn,TResult? Function( ROCmExecutionProvider field0)?  roCm,TResult? Function( TensorRTExecutionProvider field0)?  tensorRt,TResult? Function( XNNPACKExecutionProvider field0)?  xnnpack,}) {final _that = this;
 switch (_that) {
 case ExecutionProvider_CoreML() when coreMl != null:
 return coreMl(_that.field0);case ExecutionProvider_CPU() when cpu != null:
@@ -199,7 +204,8 @@ return directMl(_that.field0);case ExecutionProvider_NNApi() when nnApi != null:
 return nnApi(_that.field0);case ExecutionProvider_QNN() when qnn != null:
 return qnn(_that.field0);case ExecutionProvider_ROCm() when roCm != null:
 return roCm(_that.field0);case ExecutionProvider_TensorRT() when tensorRt != null:
-return tensorRt(_that.field0);case _:
+return tensorRt(_that.field0);case ExecutionProvider_XNNPACK() when xnnpack != null:
+return xnnpack(_that.field0);case _:
   return null;
 
 }
@@ -793,6 +799,81 @@ as TensorRTExecutionProvider,
 $TensorRTExecutionProviderCopyWith<$Res> get field0 {
   
   return $TensorRTExecutionProviderCopyWith<$Res>(_self.field0, (value) {
+    return _then(_self.copyWith(field0: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class ExecutionProvider_XNNPACK extends ExecutionProvider {
+  const ExecutionProvider_XNNPACK(this.field0): super._();
+  
+
+@override final  XNNPACKExecutionProvider field0;
+
+/// Create a copy of ExecutionProvider
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ExecutionProvider_XNNPACKCopyWith<ExecutionProvider_XNNPACK> get copyWith => _$ExecutionProvider_XNNPACKCopyWithImpl<ExecutionProvider_XNNPACK>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExecutionProvider_XNNPACK&&(identical(other.field0, field0) || other.field0 == field0));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,field0);
+
+@override
+String toString() {
+  return 'ExecutionProvider.xnnpack(field0: $field0)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ExecutionProvider_XNNPACKCopyWith<$Res> implements $ExecutionProviderCopyWith<$Res> {
+  factory $ExecutionProvider_XNNPACKCopyWith(ExecutionProvider_XNNPACK value, $Res Function(ExecutionProvider_XNNPACK) _then) = _$ExecutionProvider_XNNPACKCopyWithImpl;
+@useResult
+$Res call({
+ XNNPACKExecutionProvider field0
+});
+
+
+$XNNPACKExecutionProviderCopyWith<$Res> get field0;
+
+}
+/// @nodoc
+class _$ExecutionProvider_XNNPACKCopyWithImpl<$Res>
+    implements $ExecutionProvider_XNNPACKCopyWith<$Res> {
+  _$ExecutionProvider_XNNPACKCopyWithImpl(this._self, this._then);
+
+  final ExecutionProvider_XNNPACK _self;
+  final $Res Function(ExecutionProvider_XNNPACK) _then;
+
+/// Create a copy of ExecutionProvider
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? field0 = null,}) {
+  return _then(ExecutionProvider_XNNPACK(
+null == field0 ? _self.field0 : field0 // ignore: cast_nullable_to_non_nullable
+as XNNPACKExecutionProvider,
+  ));
+}
+
+/// Create a copy of ExecutionProvider
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$XNNPACKExecutionProviderCopyWith<$Res> get field0 {
+  
+  return $XNNPACKExecutionProviderCopyWith<$Res>(_self.field0, (value) {
     return _then(_self.copyWith(field0: value));
   });
 }

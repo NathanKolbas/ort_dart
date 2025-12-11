@@ -6,11 +6,12 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored (category: IgnoreBecauseExplicitAttribute): `value`
+// These functions are ignored because they are not marked as `pub`: `update_log_level`
+// These functions are ignored (category: IgnoreBecauseExplicitAttribute): `init_logging`, `value`
 
 /// Enable logging ORT messages to the console
-void enableOrtDebugMessages({OrtDebugLevel? level}) =>
-    RustLib.instance.api.crateApiDebugEnableOrtDebugMessages(level: level);
+void ortDebugMessages({OrtDebugLevel? level}) =>
+    RustLib.instance.api.crateApiLoggingOrtDebugMessages(level: level);
 
-/// The level of logging for [enable_ort_debug_messages]
+/// The level of logging for [ort_debug_messages]
 enum OrtDebugLevel { trace, debug, info, warn, error }

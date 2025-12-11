@@ -13,6 +13,7 @@ import 'execution_providers/nnapi.dart';
 import 'execution_providers/qnn.dart';
 import 'execution_providers/rocm.dart';
 import 'execution_providers/tensorrt.dart';
+import 'execution_providers/xnnpack.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 import 'session/builder/impl_options.dart';

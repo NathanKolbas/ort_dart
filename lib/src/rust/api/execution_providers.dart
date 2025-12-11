@@ -12,6 +12,7 @@ import 'execution_providers/nnapi.dart';
 import 'execution_providers/qnn.dart';
 import 'execution_providers/rocm.dart';
 import 'execution_providers/tensorrt.dart';
+import 'execution_providers/xnnpack.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'execution_providers.freezed.dart';
@@ -82,4 +83,6 @@ sealed class ExecutionProvider with _$ExecutionProvider {
       ExecutionProvider_ROCm;
   const factory ExecutionProvider.tensorRt(TensorRTExecutionProvider field0) =
       ExecutionProvider_TensorRT;
+  const factory ExecutionProvider.xnnpack(XNNPACKExecutionProvider field0) =
+      ExecutionProvider_XNNPACK;
 }

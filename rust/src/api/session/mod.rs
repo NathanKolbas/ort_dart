@@ -68,6 +68,7 @@ impl SessionBuilderOptions {
           ExecutionProvider::QNN(qnn) => qnn.build(),
           ExecutionProvider::ROCm(rocm) => rocm.build(),
           ExecutionProvider::TensorRT(tensorrt) => tensorrt.build(),
+          ExecutionProvider::XNNPACK(xnnpack) => xnnpack.build(),
         }).collect::<Vec<_>>()
       )?;
     }

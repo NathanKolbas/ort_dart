@@ -6,6 +6,7 @@ pub mod nnapi;
 pub mod qnn;
 pub mod rocm;
 pub mod tensorrt;
+pub mod xnnpack;
 
 use flutter_rust_bridge::frb;
 use ort::Result;
@@ -20,6 +21,7 @@ use crate::api::execution_providers::nnapi::NNAPIExecutionProvider;
 use crate::api::execution_providers::qnn::QNNExecutionProvider;
 use crate::api::execution_providers::rocm::ROCmExecutionProvider;
 use crate::api::execution_providers::tensorrt::TensorRTExecutionProvider;
+use crate::api::execution_providers::xnnpack::XNNPACKExecutionProvider;
 
 /// ONNX Runtime works with different hardware acceleration libraries through its extensible **Execution Providers**
 /// (EP) framework to optimally execute the ONNX models on the hardware platform. This interface enables flexibility for
@@ -77,6 +79,7 @@ pub enum ExecutionProvider {
   QNN(QNNExecutionProvider),
   ROCm(ROCmExecutionProvider),
   TensorRT(TensorRTExecutionProvider),
+  XNNPACK(XNNPACKExecutionProvider),
 }
 
 /// The strategy for extending the device memory arena.

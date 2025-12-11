@@ -5,10 +5,10 @@ export 'src/api/tensor.dart' hide tensorFromImpl;
 export 'src/api/execution_providers/execution_providers.dart';
 
 export 'src/rust/api/session/builder/impl_options.dart';
-export 'src/rust/api/debug.dart' hide enableOrtDebugMessages;
+export 'src/rust/api/logging.dart' hide ortDebugMessages;
 
 import 'package:flutter/foundation.dart';
-import 'package:ort/src/rust/api/debug.dart';
+import 'package:ort/src/rust/api/logging.dart';
 
 import 'src/rust/frb_generated.dart' show RustLib;
 
@@ -73,10 +73,9 @@ class Ort {
     return Ort._instance._initialized;
   }
 
-  /// Enables ORT debug messages. Defaults to enabled when [kDebugMode] is true.
-  /// Calling this multiple times will not have an effect. You can also adjust
-  /// this in [ensureInitialized].
+  /// Enables/adjust ORT debug messages. Defaults to enabled when [kDebugMode]
+  /// is true. You can also adjust this in [ensureInitialized].
   static ortDebug([OrtDebugLevel? level]) {
-    enableOrtDebugMessages(level: level);
+    ortDebugMessages(level: level);
   }
 }
