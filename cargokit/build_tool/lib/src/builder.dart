@@ -170,8 +170,9 @@ class RustBuilder {
   }
 
   Future<Map<String, String>> _buildEnvironment({ String? ortBinaries }) async {
+    final ortLibLocation = Environment.ortLibLocation ?? ortBinaries;
     final environmentVars = <String, String>{
-      if (ortBinaries != null) 'ORT_LIB_LOCATION': ortBinaries,
+      if (ortLibLocation != null) 'ORT_LIB_LOCATION': ortLibLocation,
     };
 
     if (target.android != null) {
