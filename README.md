@@ -7,6 +7,12 @@ Under-the-hood this library uses the amazing rust [ort](https://ort.pyke.io/) li
 
 ## ONNX Runtime binaries
 
+> ⚠️ There are currently issues with some precompiled binaries. ⚠️
+> 
+> Windows (workaround - using pyke's binaries) - https://github.com/NathanKolbas/ort_dart/issues/1 \
+> MacOS (workaround - using pyke's binaries) - https://github.com/NathanKolbas/ort_dart/issues/4 \
+> iOS (failing) - https://github.com/NathanKolbas/ort_dart/issues/5
+
 Prebuilt binaries are available for all platforms and can be found at [dart-ort-artifacts](https://github.com/NathanKolbas/dart-ort-artifacts).
 They are downloaded during compile when creating the binaries for this library.
 
