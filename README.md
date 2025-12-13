@@ -160,3 +160,7 @@ passing it to Rust. You can disable this behavior by setting `doNotClone` in `ru
 
 So while you don't need to worry about this since by default the `Tensor` is cloned it might be helpful to you due to
 performance (while negligible). An issue tracking this is here: https://github.com/NathanKolbas/ort_dart/issues/2.
+
+## License
+
+To keep in the spirit of [ort](https://github.com/pykeio/ort), this library is dual licensed under Apache-2.0 and/or MIT.
