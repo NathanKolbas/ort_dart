@@ -53,7 +53,15 @@ class Session {
   /// # 	Ok(())
   /// # }
   /// ```
-  Future<Map<String, Tensor>> run({required Map<String, Tensor> inputValues}) async {
+  ///
+  /// [doNotClone] - By default, the [Tensor] is cloned before being being
+  /// passed to the session. Disable this by setting [doNotClone] to true. If
+  /// you do this then rust will drop it from memory and the passed in [Tensor]s
+  /// are no longer valid. I don't have a work around for this at the moment...
+  Future<Map<String, Tensor>> run({
+    required Map<String, Tensor> inputValues,
+    bool doNotClone = false,
+  }) async {
     final output = await _session.run(
       // If we pass the rawTensor directly then rust will drop it from memory.
       // To get around this we use clone, however, this causes the data to be

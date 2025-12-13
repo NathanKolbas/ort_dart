@@ -9,6 +9,7 @@ import 'android_environment.dart';
 import 'cargo.dart';
 import 'environment.dart';
 import 'options.dart';
+import 'ort_binaries.dart';
 import 'rustup.dart';
 import 'target.dart';
 import 'util.dart';
@@ -139,6 +140,8 @@ class RustBuilder {
   Future<String> build() async {
     final extraArgs = _buildOptions?.flags ?? [];
     final manifestPath = path.join(environment.manifestDir, 'Cargo.toml');
+    final isRelease = !environment.configuration.isDebug;
+    final ortBinaries = await OrtBinaries.setup(rustTarget: target.rust, release: isRelease);
     runCommand(
       'rustup',
       [
@@ -151,13 +154,13 @@ class RustBuilder {
         manifestPath,
         '-p',
         environment.crateInfo.packageName,
-        if (!environment.configuration.isDebug) '--release',
+        if (isRelease) '--release',
         '--target',
         target.rust,
         '--target-dir',
         environment.targetTempDir,
       ],
-      environment: await _buildEnvironment(),
+      environment: await _buildEnvironment(ortBinaries: ortBinaries),
     );
     return path.join(
       environment.targetTempDir,
@@ -166,10 +169,12 @@ class RustBuilder {
     );
   }
 
-  Future<Map<String, String>> _buildEnvironment() async {
-    if (target.android == null) {
-      return {};
-    } else {
+  Future<Map<String, String>> _buildEnvironment({ String? ortBinaries }) async {
+    final environmentVars = <String, String>{
+      if (ortBinaries != null) 'ORT_LIB_LOCATION': ortBinaries,
+    };
+
+    if (target.android != null) {
       final sdkPath = environment.androidSdkPath;
       final ndkVersion = environment.androidNdkVersion;
       final minSdkVersion = environment.androidMinSdkVersion;
@@ -192,7 +197,9 @@ class RustBuilder {
       if (!env.ndkIsInstalled() && environment.javaHome != null) {
         env.installNdk(javaHome: environment.javaHome!);
       }
-      return env.buildEnvironment();
+      environmentVars.addAll(await env.buildEnvironment());
     }
+
+    return environmentVars;
   }
 }

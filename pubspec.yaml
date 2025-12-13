@@ -1,7 +1,21 @@
 name: ort
 description: "Enabling cross-platform ONNX Runtime (ORT) in Flutter powered by Rust."
 version: 0.0.1
-homepage:
+homepage: https://github.com/NathanKolbas/ort_dart
+repository: https://github.com/NathanKolbas/ort_dart
+topics:
+  - onnx
+  - onnxruntime
+  - rust
+  - machine-learning
+  - models
+
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  windows:
 
 environment:
   sdk: ^3.9.2

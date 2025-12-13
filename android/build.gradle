@@ -45,7 +45,52 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 28
+    }
+
+    sourceSets {
+        main.jniLibs.srcDirs += 'src/main/jniLibs'
+    }
+}
+
+task copyAndroidNdkLibs(type: Copy) {
+    description = "Copies libc++_shared.so from the NDK to the jniLibs directory for each ABI."
+
+    def ndkDir = android.ndkDirectory
+    if (ndkDir == null || !ndkDir.exists()) {
+        throw new GradleException("NDK not found. Please, ensure the android.ndkVersion is set in your project's build.gradle.")
+    }
+
+    def hostTag = System.getProperty("os.name").toLowerCase().with {
+        if (it.contains("windows")) return "windows-x86_64"
+        if (it.contains("mac")) return "darwin-x86_64"
+        return "linux-x86_64"
+    }
+
+    def abiToTargetTriple = [
+        'arm64-v8a'  : 'aarch64-linux-android',
+        'armeabi-v7a': 'armv7-linux-androideabi',
+        'x86'        : 'i686-linux-android',
+        'x86_64'     : 'x86_64-linux-android'
+    ]
+
+    abiToTargetTriple.each { abi, triple ->
+        def srcPath = new File(ndkDir, "toolchains/llvm/prebuilt/${hostTag}/sysroot/usr/lib/${triple}/libc++_shared.so")
+        if (srcPath.exists()) {
+            copy {
+                from srcPath.getParent()
+                into "src/main/jniLibs/${abi}"
+                include srcPath.getName()
+            }
+        } else {
+            logger.warn("Could not find libc++_shared.so for ABI ${abi} at ${srcPath}. This may be okay if you are not targeting this ABI.")
+        }
+    }
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name.startsWith('merge') && task.name.endsWith('JniLibFolders')) {
+        task.dependsOn copyAndroidNdkLibs
     }
 }
 

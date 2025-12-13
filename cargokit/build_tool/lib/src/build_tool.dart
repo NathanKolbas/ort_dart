@@ -15,6 +15,7 @@ import 'build_gradle.dart';
 import 'build_pod.dart';
 import 'logging.dart';
 import 'options.dart';
+import 'ort_binaries.dart';
 import 'precompile_binaries.dart';
 import 'target.dart';
 import 'util.dart';
@@ -231,6 +232,31 @@ class VerifyBinariesCommand extends Command {
   }
 }
 
+class DumpOrtBinariesYamlCommand extends Command {
+  DumpOrtBinariesYamlCommand() {
+    argParser.addOption(
+      'rust-target',
+      defaultsTo: 'aarch64-linux-android',
+      help: 'The target of rust to get binaries for.',
+    );
+  }
+
+  @override
+  final name = "dump-ort-binaries-yaml";
+
+  @override
+  final description = 'Check ort_dis.yaml';
+
+  @override
+  Future<void> run() async {
+    enableVerboseLogging();
+
+    final rustTarget = argResults!['rust-target'] as String;
+    final outPath = await OrtBinaries.setup(rustTarget: rustTarget);
+    log.info('Output path to binaries: $outPath');
+  }
+}
+
 Future<void> runMain(List<String> args) async {
   try {
     // Init logging before options are loaded
@@ -246,7 +272,8 @@ Future<void> runMain(List<String> args) async {
       ..addCommand(BuildCMakeCommand())
       ..addCommand(GenKeyCommand())
       ..addCommand(PrecompileBinariesCommand())
-      ..addCommand(VerifyBinariesCommand());
+      ..addCommand(VerifyBinariesCommand())
+      ..addCommand(DumpOrtBinariesYamlCommand());
 
     await runner.run(args);
   } on ArgumentError catch (e) {

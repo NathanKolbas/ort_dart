@@ -284,7 +284,9 @@ class CargokitUserOptions {
 
   static CargokitUserOptions load() {
     String fileName = "cargokit_options.yaml";
-    var userProjectDir = Directory(Environment.rootProjectDir);
+    // use manifestDir instead of rootProjectDir otherwise it looks in the
+    // directory of who is using the plugin which doesn't make sense...
+    var userProjectDir = Directory(Environment.manifestDir);
 
     while (userProjectDir.parent.path != userProjectDir.path) {
       final configFile = File(path.join(userProjectDir.path, fileName));

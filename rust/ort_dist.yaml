@@ -1,0 +1,213 @@
+onnxruntime_ref: v1.22.2
+release_tag: ort-v1.22.2-1d323c6
+rust_targets:
+  aarch64-apple-darwin-debug:
+    archive: ort-v1.22.2-macos-aarch64-static-debug.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntimed.a
+    sha256: c0c3d304e53eaf5e3771c44cc18259e9bf396e27a53f8bc5ae3f86ee987f62dc
+  aarch64-apple-darwin-release:
+    archive: ort-v1.22.2-macos-aarch64-static-release.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntime.a
+    sha256: 072552d02f6ad79268ad4c417b45c7eb454d451587f851cdbe43b8fbbb629a4f
+  aarch64-apple-ios-debug:
+    archive: ort-v1.22.2-ios-aarch64-static-debug.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntimed.a
+    sha256: 86ffe87ee58b4763096a4e11a9d54bb5f1f03e675f895795c7c3969570fecfb8
+  aarch64-apple-ios-release:
+    archive: ort-v1.22.2-ios-aarch64-static-release.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntime.a
+    sha256: c02c84e6b9c6064786b9967161b16eaf86d6513151b0d8996d943d9704096afb
+  aarch64-apple-ios-sim-debug:
+    archive: ort-v1.22.2-ios-simulator-aarch64-static-debug.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntimed.a
+    sha256: 7910cedd533c7e59c7db04245234d1df9c8a7df703480a3f626dd30a83945d1a
+  aarch64-apple-ios-sim-release:
+    archive: ort-v1.22.2-ios-simulator-aarch64-static-release.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntime.a
+    sha256: 7e0505f6f0388b230fadb9de6c85e5aebd87b1cc45ee1b9bd0ddcb8676040132
+  aarch64-linux-android-debug:
+    archive: ort-v1.22.2-android-aarch64-static-debug.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntimed.a
+    sha256: e9d027a414358007db76132640cc63b15ad586853608364e2d754bd05777672c
+  aarch64-linux-android-release:
+    archive: ort-v1.22.2-android-aarch64-static-release.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntime.a
+    sha256: aff80caa8b8be273b3d35a6955daf5cebeaee1f51a438460e03be83a1a0eb5e2
+  aarch64-unknown-linux-gnu-debug:
+    archive: ort-v1.22.2-linux-aarch64-static-debug.zip
+    extra_files:
+    - onnxruntime/lib/libonnxruntime_providers_openvinod.so
+    - onnxruntime/lib/libonnxruntime_providers_sharedd.so
+    - onnxruntime/lib/libopenvino.so
+    - onnxruntime/lib/libopenvino.so.2025.2.0
+    - onnxruntime/lib/libopenvino.so.2520
+    - onnxruntime/lib/libopenvino_auto_batch_plugin.so
+    - onnxruntime/lib/libopenvino_auto_plugin.so
+    - onnxruntime/lib/libopenvino_hetero_plugin.so
+    - onnxruntime/lib/libopenvino_onnx_frontend.so
+    - onnxruntime/lib/libopenvino_onnx_frontend.so.2025.2.0
+    - onnxruntime/lib/libopenvino_onnx_frontend.so.2520
+    - onnxruntime/lib/libtbb.so
+    - onnxruntime/lib/libtbb.so.12
+    - onnxruntime/lib/libtbb.so.12.13
+    ort_lib: onnxruntime/lib/libonnxruntimed.a
+    sha256: d2f31508dc909eb2fb5174f6c4ef6010e237600d2d49875304dc6126eb4c676b
+  aarch64-unknown-linux-gnu-release:
+    archive: ort-v1.22.2-linux-aarch64-static-release.zip
+    extra_files:
+    - onnxruntime/lib/libonnxruntime_providers_openvino.so
+    - onnxruntime/lib/libonnxruntime_providers_shared.so
+    - onnxruntime/lib/libopenvino.so
+    - onnxruntime/lib/libopenvino.so.2025.2.0
+    - onnxruntime/lib/libopenvino.so.2520
+    - onnxruntime/lib/libopenvino_auto_batch_plugin.so
+    - onnxruntime/lib/libopenvino_auto_plugin.so
+    - onnxruntime/lib/libopenvino_hetero_plugin.so
+    - onnxruntime/lib/libopenvino_onnx_frontend.so
+    - onnxruntime/lib/libopenvino_onnx_frontend.so.2025.2.0
+    - onnxruntime/lib/libopenvino_onnx_frontend.so.2520
+    - onnxruntime/lib/libtbb.so
+    - onnxruntime/lib/libtbb.so.12
+    - onnxruntime/lib/libtbb.so.12.13
+    ort_lib: onnxruntime/lib/libonnxruntime.a
+    sha256: 38ebeb202370a74c999f5aa7eeaaf3874bd4ce42392cadf1c586efde497beaea
+  armv7-linux-androideabi-debug:
+    archive: ort-v1.22.2-android-armeabi-v7a-static-debug.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntimed.a
+    sha256: 300bafd7d26034b342b5a41cc60d5c425c9665e6f9faf58135eb55f757283288
+  armv7-linux-androideabi-release:
+    archive: ort-v1.22.2-android-armeabi-v7a-static-release.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntime.a
+    sha256: c8aae51b5d592a6e8716a4671d73f61385abc6e5556a875a42edbf3f3fc46dcd
+  i686-linux-android-debug:
+    archive: ort-v1.22.2-android-x86-static-debug.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntimed.a
+    sha256: 1548f24b11afe482664ddb284f7b9d806f91ee02e40caac1fe1a374a20bcd2b7
+  i686-linux-android-release:
+    archive: ort-v1.22.2-android-x86-static-release.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntime.a
+    sha256: 13750f09eac89c6c0b956932bccf7aaf1f66ed9c930dc82067506200f52848f3
+  wasm32-unknown-emscripten-debug:
+    archive: ort-v1.22.2-emscripten-wasm32-debug.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntime.a
+    sha256: 2b1b2f5a18f5fbd0cb6abead61e6df2cbbf2003edd66ce1471d16c1228401cfd
+  wasm32-unknown-emscripten-release:
+    archive: ort-v1.22.2-emscripten-wasm32-release.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntime.a
+    sha256: af8cf206532637db72432ce450f34b902dd1a1b15298d285064880c413570561
+  x86_64-apple-darwin-debug:
+    archive: ort-v1.22.2-macos-x86_64-static-debug.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntimed.a
+    sha256: 3e00960b44af562c552703f9f7aa53073a3fabfd54a2eef421d00cfb9f9d6c42
+  x86_64-apple-darwin-release:
+    archive: ort-v1.22.2-macos-x86_64-static-release.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntime.a
+    sha256: 710f6dd4f552ae62c504dd61208332540866a4ff66ac59b65deae6b1181c5edb
+  x86_64-linux-android-debug:
+    archive: ort-v1.22.2-android-x86_64-static-debug.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntimed.a
+    sha256: 09c3a4acede4287603771efed5bac33932394b4df69431c19560ee25c20f2fab
+  x86_64-linux-android-release:
+    archive: ort-v1.22.2-android-x86_64-static-release.zip
+    extra_files: []
+    ort_lib: onnxruntime/lib/libonnxruntime.a
+    sha256: 87e98baab228c44aad420c2a7aef023a0cd26cb5e90e7146c6af634e77b8e10a
+  x86_64-pc-windows-msvc-debug:
+    archive: ort-v1.22.2-windows-x86_64-static-debug.zip
+    extra_files:
+    - onnxruntime/bin/DirectML.Debug.dll
+    - onnxruntime/bin/DirectML.Debug.pdb
+    - onnxruntime/bin/onnxruntime_providers_openvinod.dll
+    - onnxruntime/bin/onnxruntime_providers_sharedd.dll
+    - onnxruntime/bin/openvino_auto_batch_plugind.dll
+    - onnxruntime/bin/openvino_auto_plugind.dll
+    - onnxruntime/bin/openvino_hetero_plugind.dll
+    - onnxruntime/bin/openvino_intel_cpu_plugind.dll
+    - onnxruntime/bin/openvino_intel_gpu_plugind.dll
+    - onnxruntime/bin/openvino_intel_npu_plugind.dll
+    - onnxruntime/bin/openvino_onnx_frontendd.dll
+    - onnxruntime/bin/openvinod.dll
+    - onnxruntime/bin/tbb12_debug.dll
+    - onnxruntime/lib/onnxruntime_providers_openvinod.dll
+    ort_lib: onnxruntime/lib/onnxruntimed.lib
+    sha256: 03431eae655358c7cde41ee709f36c69a6ec95a0830f5cd4b71460ec6e18b6d8
+  x86_64-pc-windows-msvc-release:
+    archive: ort-v1.22.2-windows-x86_64-static-release.zip
+    extra_files:
+    - onnxruntime/bin/DirectML.dll
+    - onnxruntime/bin/DirectML.pdb
+    - onnxruntime/bin/onnxruntime_providers_openvino.dll
+    - onnxruntime/bin/onnxruntime_providers_shared.dll
+    - onnxruntime/bin/openvino.dll
+    - onnxruntime/bin/openvino_auto_batch_plugin.dll
+    - onnxruntime/bin/openvino_auto_plugin.dll
+    - onnxruntime/bin/openvino_hetero_plugin.dll
+    - onnxruntime/bin/openvino_intel_cpu_plugin.dll
+    - onnxruntime/bin/openvino_intel_gpu_plugin.dll
+    - onnxruntime/bin/openvino_intel_npu_plugin.dll
+    - onnxruntime/bin/openvino_onnx_frontend.dll
+    - onnxruntime/bin/tbb12.dll
+    - onnxruntime/lib/onnxruntime_providers_openvino.dll
+    ort_lib: onnxruntime/lib/onnxruntime.lib
+    sha256: 6d3fc0a7f8fe0420e30859c68b3a718b88167dc5fed3025268652872f810b705
+  x86_64-unknown-linux-gnu-debug:
+    archive: ort-v1.22.2-linux-x86_64-static-debug.zip
+    extra_files:
+    - onnxruntime/lib/libonnxruntime_providers_openvinod.so
+    - onnxruntime/lib/libonnxruntime_providers_sharedd.so
+    - onnxruntime/lib/libopenvino.so
+    - onnxruntime/lib/libopenvino.so.2025.2.0
+    - onnxruntime/lib/libopenvino.so.2520
+    - onnxruntime/lib/libopenvino_auto_batch_plugin.so
+    - onnxruntime/lib/libopenvino_auto_plugin.so
+    - onnxruntime/lib/libopenvino_hetero_plugin.so
+    - onnxruntime/lib/libopenvino_intel_cpu_plugin.so
+    - onnxruntime/lib/libopenvino_intel_gpu_plugin.so
+    - onnxruntime/lib/libopenvino_intel_npu_plugin.so
+    - onnxruntime/lib/libopenvino_onnx_frontend.so
+    - onnxruntime/lib/libopenvino_onnx_frontend.so.2025.2.0
+    - onnxruntime/lib/libopenvino_onnx_frontend.so.2520
+    - onnxruntime/lib/libtbb.so
+    - onnxruntime/lib/libtbb.so.12
+    - onnxruntime/lib/libtbb.so.12.13
+    ort_lib: onnxruntime/lib/libonnxruntimed.a
+    sha256: 48f18827ceac37cf0f74fab485ece182e75f8f577b102c28562b08ed1ad67e1d
+  x86_64-unknown-linux-gnu-release:
+    archive: ort-v1.22.2-linux-x86_64-static-release.zip
+    extra_files:
+    - onnxruntime/lib/libonnxruntime_providers_openvino.so
+    - onnxruntime/lib/libonnxruntime_providers_shared.so
+    - onnxruntime/lib/libopenvino.so
+    - onnxruntime/lib/libopenvino.so.2025.2.0
+    - onnxruntime/lib/libopenvino.so.2520
+    - onnxruntime/lib/libopenvino_auto_batch_plugin.so
+    - onnxruntime/lib/libopenvino_auto_plugin.so
+    - onnxruntime/lib/libopenvino_hetero_plugin.so
+    - onnxruntime/lib/libopenvino_intel_cpu_plugin.so
+    - onnxruntime/lib/libopenvino_intel_gpu_plugin.so
+    - onnxruntime/lib/libopenvino_intel_npu_plugin.so
+    - onnxruntime/lib/libopenvino_onnx_frontend.so
+    - onnxruntime/lib/libopenvino_onnx_frontend.so.2025.2.0
+    - onnxruntime/lib/libopenvino_onnx_frontend.so.2520
+    - onnxruntime/lib/libtbb.so
+    - onnxruntime/lib/libtbb.so.12
+    - onnxruntime/lib/libtbb.so.12.13
+    ort_lib: onnxruntime/lib/libonnxruntime.a
+    sha256: 8432acb1765d7b810367d909a523d3d6cce6659806ba6d02e7ca0878db82247b

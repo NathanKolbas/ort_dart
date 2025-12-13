@@ -10,6 +10,8 @@ import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:path/path.dart' as path;
 
+import 'ort_binaries.dart';
+
 class CrateHash {
   /// Computes a hash uniquely identifying crate content. This takes into account
   /// content all all .rs files inside the src directory, as well as Cargo.toml,
@@ -116,6 +118,7 @@ class CrateHash {
     addFile('Cargo.lock');
     addFile('build.rs');
     addFile('cargokit.yaml');
+    addFile(OrtBinaries.yamlFileName);
     return files;
   }
 
