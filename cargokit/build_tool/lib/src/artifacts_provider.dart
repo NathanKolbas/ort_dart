@@ -10,6 +10,7 @@ import 'package:path/path.dart' as path;
 
 import 'builder.dart';
 import 'crate_hash.dart';
+import 'environment.dart';
 import 'options.dart';
 import 'precompile_binaries.dart';
 import 'rustup.dart';
@@ -187,6 +188,11 @@ class ArtifactProvider {
     required String signatureFileName,
     required String finalPath,
   }) async {
+    if (Environment.ortLibLocation == null) {
+      _log.info("ORT_LIB_LOCATION is set, therefore, skipping precompiled binaries");
+      return;
+    }
+
     final precompiledBinaries = environment.crateOptions.precompiledBinaries!;
     final prefix = precompiledBinaries.uriPrefix;
     final url = Uri.parse('$prefix$crateHash/$fileName');
