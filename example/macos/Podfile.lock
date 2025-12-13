@@ -1,0 +1,22 @@
+PODS:
+  - FlutterMacOS (1.0.0)
+  - ort (0.0.1):
+    - FlutterMacOS
+
+DEPENDENCIES:
+  - FlutterMacOS (from `Flutter/ephemeral`)
+  - ort (from `Flutter/ephemeral/.symlinks/plugins/ort/macos`)
+
+EXTERNAL SOURCES:
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+  ort:
+    :path: Flutter/ephemeral/.symlinks/plugins/ort/macos
+
+SPEC CHECKSUMS:
+  FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
+  ort: a4e5e31b04fca9d91f89366ebeee3a04e3c65329
+
+PODFILE CHECKSUM: c4dda72bffbbf606876d102a78d4d3a0e4c9b017
+
+COCOAPODS: 1.16.2
