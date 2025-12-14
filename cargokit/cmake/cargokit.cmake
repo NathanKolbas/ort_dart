@@ -63,6 +63,7 @@ function(apply_cargokit target manifest_dir lib_name any_symbol_name)
                 COMMAND ${CMAKE_COMMAND} -E env ${CARGOKIT_ENV}
                 "${cargokit_cmake_root}/run_build_tool${SCRIPT_EXTENSION}" build-cmake
                 VERBATIM
+                USES_TERMINAL
             )
         endforeach()
     else()
@@ -73,6 +74,7 @@ function(apply_cargokit target manifest_dir lib_name any_symbol_name)
             COMMAND ${CMAKE_COMMAND} -E env ${CARGOKIT_ENV}
             "${cargokit_cmake_root}/run_build_tool${SCRIPT_EXTENSION}" build-cmake
             VERBATIM
+            USES_TERMINAL
         )
     endif()
 

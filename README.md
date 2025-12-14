@@ -2,7 +2,7 @@
 
 Enabling cross-platform ONNX Runtime (ORT) in Flutter powered by Rust.
 
-Under-the-hood this library uses the amazing rust [ort](https://ort.pyke.io/) library by [pyke](https://pyke.io/). Then
+Under-the-hood this library uses the amazing rust library [ort](https://ort.pyke.io/) by [pyke](https://pyke.io/). Then
 [flutter_rust_bridge](https://cjycode.com/flutter_rust_bridge/) is used to help make this communication easier.
 
 ## ONNX Runtime binaries
@@ -11,13 +11,14 @@ Under-the-hood this library uses the amazing rust [ort](https://ort.pyke.io/) li
 > 
 > Windows (workaround - using pyke's binaries) - https://github.com/NathanKolbas/ort_dart/issues/1 \
 > MacOS (workaround - using pyke's binaries) - https://github.com/NathanKolbas/ort_dart/issues/4 \
+> Linux (workaround - using pyke's binaries) - https://github.com/NathanKolbas/ort_dart/issues/8 \
 > iOS (failing) - https://github.com/NathanKolbas/ort_dart/issues/5
 
 Prebuilt binaries are available for all platforms and can be found at [dart-ort-artifacts](https://github.com/NathanKolbas/dart-ort-artifacts).
-They are downloaded during compile when creating the binaries for this library.
+They are downloaded during compile time when creating the binaries for this library.
 
-> 🗒️ You typically do not need to worry about this since we create binaries for this library that statically link the 
-> onnxruntime.
+> 🗒️ You typically do not need to worry about this since binaries are created for this library that statically link the 
+> onnxruntime and are downloaded during compile time (if available).
 
 You are more than welcome to use your own binaries. Simply set the `ORT_LIB_LOCATION` environment variable to the
 location of your own static-binaries.
@@ -73,7 +74,7 @@ Comes bundled with the WebGPU execution provider.
 
 ### Windows
 
-> ⚠️ ARM Support is disabled for the time being until build can be fixed.
+> ⚠️ ARM Support is disabled for the time being until build can be fixed. ⚠️
 
 Supports Windows 10 and 11.
 
@@ -87,9 +88,9 @@ Once you have added the library
 flutter pub add ort
 ```
 
-> 🗒️ `flutter` is used in the command until Dart's Code Assets is working then you can use dart/flutter.
+> 🗒️ `flutter` is used in the command until Dart's Code Assets are working then you can use dart/flutter.
 
-Initialize the ort with:
+Initialize ort with:
 
 ```dart
 Future<void> main() async {
@@ -126,7 +127,7 @@ Future<void> main() async {
   // You can directly modify the Tensor's data from dart!
   tensorA.data[1] = 42.0;
 
-  // You can load a ONNX model from memory!
+  // You can load an ONNX model from memory!
   final session = await Session.builder().commitFromMemory(matmulModel);
 
   // output is Map<String, Tensor<dynamic>>
