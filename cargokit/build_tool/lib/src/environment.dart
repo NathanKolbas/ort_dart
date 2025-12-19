@@ -28,6 +28,18 @@ class Environment {
   /// not resolved on purpose.
   static String get rootProjectDir => _getEnv('CARGOKIT_ROOT_PROJECT_DIR');
 
+  /// Path to custom built static ort library.
+  static String? get ortLibLocation {
+    final ortLibLocation = Platform.environment['ORT_LIB_LOCATION'];
+    if (ortLibLocation == null || ortLibLocation.trim().isEmpty == true) return null;
+
+    if (Directory(ortLibLocation).existsSync()) {
+      return ortLibLocation.resolveSymlink();
+    } else {
+      return ortLibLocation;
+    }
+  }
+
   // Pod
 
   /// Platform name (macosx, iphoneos, iphonesimulator).
