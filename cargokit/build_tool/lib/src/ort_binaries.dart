@@ -57,13 +57,19 @@ class OrtBinaries {
       return null;
     }
 
-    return await _tryDownloadArtifacts(
+    String? ortLibLocation = await _tryDownloadArtifacts(
       rustTarget: rustTarget,
       manifestDir: manifestDir,
       ortTarget: target,
       asset: asset,
       downloadUrl: downloadUrl,
     );
+    if (ortLibLocation == null) return null;
+
+    // Always use absolute path - such as when compiling with rust
+    ortLibLocation = path.absolute(ortLibLocation);
+    _log.severe('ort binary path: $ortLibLocation');
+    return ortLibLocation;
   }
 
   static Future<Response> _get(Uri url, {Map<String, String>? headers}) async {
