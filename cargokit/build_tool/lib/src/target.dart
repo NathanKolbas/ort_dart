@@ -74,11 +74,6 @@ class Target {
       darwinPlatform: 'iphonesimulator',
       darwinArch: 'arm64',
     ),
-    Target(
-      rust: 'x86_64-apple-ios',
-      darwinPlatform: 'iphonesimulator',
-      darwinArch: 'x86_64',
-    ),
   ];
 
   static Target? forFlutterName(String flutterName) {
