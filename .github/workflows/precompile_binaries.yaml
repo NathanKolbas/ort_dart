@@ -5,10 +5,6 @@ on:
     branches:
       - main
 
-env:
-  MACOSX_DEPLOYMENT_TARGET: '13.3'
-  IPHONEOS_DEPLOYMENT_TARGET: '15.0'
-
 jobs:
   Precompile:
     runs-on: ${{ matrix.os }}
@@ -28,9 +24,6 @@ jobs:
       - name: Install GTK
         if: (matrix.os == 'ubuntu-22.04') || (matrix.os == 'ubuntu-22.04-arm')
         run: sudo apt-get update && sudo apt-get install libgtk-3-dev
-      - name: Set SDKROOT for iOS
-        if: (matrix.os == 'macOS-latest')
-        run: echo "SDKROOT=$(xcrun --sdk iphoneos --show-sdk-path)" >> $GITHUB_ENV
       - name: Precompile
         if: (matrix.os == 'ubuntu-22.04-arm') || (matrix.os == 'macOS-latest') || (matrix.os == 'windows-latest')
         run: dart run build_tool precompile-binaries -v --manifest-dir=../../rust --repository=NathanKolbas/ort_dart
@@ -38,11 +31,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
           PRIVATE_KEY: ${{ secrets.RELEASE_PRIVATE_KEY }}
+          MACOSX_DEPLOYMENT_TARGET: '13.3'
+          IPHONEOS_DEPLOYMENT_TARGET: '15.0'
       - name: Install NDK
         uses: nttld/setup-ndk@v1
         if: (matrix.os == 'ubuntu-22.04')
         with:
           add-to-path: false
+          link-to-sdk: true
           ndk-version: r28
       - name: Precompile (with Android)
         if: (matrix.os == 'ubuntu-22.04')
