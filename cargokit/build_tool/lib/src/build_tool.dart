@@ -8,6 +8,7 @@ import 'package:ed25519_edwards/ed25519_edwards.dart';
 import 'package:github/github.dart';
 import 'package:hex/hex.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
 
 import 'android_environment.dart';
 import 'build_cmake.dart';
@@ -252,7 +253,10 @@ class DumpOrtBinariesYamlCommand extends Command {
     enableVerboseLogging();
 
     final rustTarget = argResults!['rust-target'] as String;
-    final outPath = await OrtBinaries.setup(rustTarget: rustTarget);
+    final outPath = await OrtBinaries.setup(
+      rustTarget: rustTarget,
+      manifestDir: path.join(path.dirname(Platform.script.toFilePath()), '../../../rust'),
+    );
     log.info('Output path to binaries: $outPath');
   }
 }

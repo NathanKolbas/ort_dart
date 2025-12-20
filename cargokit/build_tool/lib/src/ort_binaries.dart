@@ -9,7 +9,6 @@ import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 
-import 'environment.dart';
 import 'options.dart';
 
 final _log = Logger('builder');
@@ -18,7 +17,6 @@ final _log = Logger('builder');
 class OrtBinaries {
   static const yamlFileName = 'ort_dist.yaml';
   static final RepositorySlug ortBinariesSlug = RepositorySlug('NathanKolbas', 'dart-ort-artifacts');
-  static final String binariesOutputPath = path.join(Environment.manifestDir, 'ort_binaries');
 
   OrtBinaries._();
 
@@ -26,6 +24,7 @@ class OrtBinaries {
   /// path to downloaded binaries for particular [rustTarget].
   static Future<String?> setup({
     required String rustTarget,
+    required String manifestDir,
     bool release = true,
   }) async {
     // TODO: Windows builds are broken and need fixed: https://github.com/NathanKolbas/ort_dart/issues/1
@@ -33,7 +32,7 @@ class OrtBinaries {
       return null;
     }
 
-    final binariesDist = OrtBinariesYaml.load();
+    final binariesDist = OrtBinariesYaml.load(manifestDir);
     if (binariesDist == null) return null;
 
     // Append debug or release to rust target
@@ -60,6 +59,7 @@ class OrtBinaries {
 
     return await _tryDownloadArtifacts(
       rustTarget: rustTarget,
+      manifestDir: manifestDir,
       ortTarget: target,
       asset: asset,
       downloadUrl: downloadUrl,
@@ -87,11 +87,12 @@ class OrtBinaries {
 
   static Future<String?> _tryDownloadArtifacts({
     required String rustTarget,
+    required String manifestDir,
     required OrtBinariesYamlTarget ortTarget,
     required ReleaseAsset asset,
     required String downloadUrl,
   }) async {
-    final outputPath = path.join(binariesOutputPath, rustTarget);
+    final outputPath = path.join(binariesOutputPath(manifestDir), rustTarget);
     final ortLibLocation = path.join(outputPath, path.dirname(ortTarget.ortLib));
     final sig = path.join(outputPath, '.sig');
 
@@ -130,6 +131,8 @@ class OrtBinaries {
   static bool _verifySha256(Uint8List input, String expectedHash) {
     return sha256.convert(input).toString() == expectedHash;
   }
+
+  static String binariesOutputPath(String manifestDir) => path.join(manifestDir, 'ort_binaries');
 }
 
 class OrtBinariesYaml {
@@ -143,8 +146,7 @@ class OrtBinariesYaml {
     required this.rustTargets,
   });
 
-  static OrtBinariesYaml? load() {
-    final manifestDir = Environment.manifestDir;
+  static OrtBinariesYaml? load(String manifestDir) {
     final uri = Uri.file(path.join(manifestDir, OrtBinaries.yamlFileName));
     final file = File.fromUri(uri);
     if (file.existsSync()) {

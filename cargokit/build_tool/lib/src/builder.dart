@@ -141,7 +141,11 @@ class RustBuilder {
     final extraArgs = _buildOptions?.flags ?? [];
     final manifestPath = path.join(environment.manifestDir, 'Cargo.toml');
     final isRelease = !environment.configuration.isDebug;
-    final ortBinaries = await OrtBinaries.setup(rustTarget: target.rust, release: isRelease);
+    final ortBinaries = await OrtBinaries.setup(
+      rustTarget: target.rust,
+      manifestDir: environment.manifestDir,
+      release: isRelease,
+    );
     runCommand(
       'rustup',
       [
