@@ -188,7 +188,7 @@ class ArtifactProvider {
     required String signatureFileName,
     required String finalPath,
   }) async {
-    if (Environment.ortLibLocation == null) {
+    if (Environment.ortLibLocation != null) {
       _log.info("ORT_LIB_LOCATION is set, therefore, skipping precompiled binaries");
       return;
     }
