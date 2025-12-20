@@ -28,6 +28,9 @@ jobs:
       - name: Install GTK
         if: (matrix.os == 'ubuntu-22.04') || (matrix.os == 'ubuntu-22.04-arm')
         run: sudo apt-get update && sudo apt-get install libgtk-3-dev
+      - name: Set SDKROOT for iOS
+        if: (matrix.os == 'macOS-latest')
+        run: echo "SDKROOT=$(xcrun --sdk iphoneos --show-sdk-path)" >> $GITHUB_ENV
       - name: Precompile
         if: (matrix.os == 'ubuntu-22.04-arm') || (matrix.os == 'macOS-latest') || (matrix.os == 'windows-latest')
         run: dart run build_tool precompile-binaries -v --manifest-dir=../../rust --repository=NathanKolbas/ort_dart
@@ -35,6 +38,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
           PRIVATE_KEY: ${{ secrets.RELEASE_PRIVATE_KEY }}
+      - name: Install NDK
+        uses: nttld/setup-ndk@v1
+        if: (matrix.os == 'ubuntu-22.04')
+        with:
+          add-to-path: false
+          ndk-version: r28
       - name: Precompile (with Android)
         if: (matrix.os == 'ubuntu-22.04')
         run: dart run build_tool precompile-binaries -v --manifest-dir=../../rust --repository=NathanKolbas/ort_dart --android-sdk-location=/usr/local/lib/android/sdk --android-ndk-version=28.0.13004108 --android-min-sdk-version=28
