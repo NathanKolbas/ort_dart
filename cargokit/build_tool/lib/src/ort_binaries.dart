@@ -68,7 +68,7 @@ class OrtBinaries {
 
     // Always use absolute path - such as when compiling with rust
     ortLibLocation = path.absolute(ortLibLocation);
-    _log.severe('ort binary path: $ortLibLocation');
+    _log.fine('ort binary path: $ortLibLocation');
     return ortLibLocation;
   }
 
