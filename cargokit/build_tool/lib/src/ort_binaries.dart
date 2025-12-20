@@ -28,12 +28,8 @@ class OrtBinaries {
     required String rustTarget,
     bool release = true,
   }) async {
-    // TODO: these builds are broken and need fixed:
-    // - https://github.com/NathanKolbas/ort_dart/issues/1
-    // - https://github.com/NathanKolbas/ort_dart/issues/4
-    // - https://github.com/NathanKolbas/ort_dart/issues/8
-    if (rustTarget.contains('windows') || rustTarget.contains('apple-darwin') ||
-        rustTarget.contains('linux-gnu')) {
+    // TODO: Windows builds are broken and need fixed: https://github.com/NathanKolbas/ort_dart/issues/1
+    if (rustTarget.contains('windows')) {
       return null;
     }
 

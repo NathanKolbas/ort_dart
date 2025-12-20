@@ -34,7 +34,7 @@ ort = { version = "2.0.0-rc.10", features = ["webgpu"] }
 ort = { version = "2.0.0-rc.10", features = ["directml", "xnnpack"] }
 
 [target.'cfg(all(target_os = "windows", not(target_arch = "aarch64")))'.dependencies]
-ort = { version = "2.0.0-rc.10", features = ["directml", "openvino", "xnnpack"] }
+ort = { version = "2.0.0-rc.10", features = ["directml", "xnnpack"] }
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

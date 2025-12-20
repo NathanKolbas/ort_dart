@@ -7,13 +7,6 @@ Under-the-hood this library uses the amazing rust library [ort](https://ort.pyke
 
 ## ONNX Runtime binaries
 
-> ⚠️ There are currently issues with some precompiled binaries. ⚠️
-> 
-> Windows (workaround - using pyke's binaries) - https://github.com/NathanKolbas/ort_dart/issues/1 \
-> MacOS (workaround - using pyke's binaries) - https://github.com/NathanKolbas/ort_dart/issues/4 \
-> Linux (workaround - using pyke's binaries) - https://github.com/NathanKolbas/ort_dart/issues/8 \
-> iOS (failing) - https://github.com/NathanKolbas/ort_dart/issues/5
-
 Prebuilt binaries are available for all platforms and can be found at [dart-ort-artifacts](https://github.com/NathanKolbas/dart-ort-artifacts).
 They are downloaded during compile time when creating the binaries for this library.
 
@@ -22,6 +15,10 @@ They are downloaded during compile time when creating the binaries for this libr
 
 You are more than welcome to use your own binaries. Simply set the `ORT_LIB_LOCATION` environment variable to the
 location of your own static-binaries.
+
+> ⚠️ I am having issues getting Windows binaries to work. In the meantime pyke's binaries will be used for Windows ⚠️
+> 
+> If you would like to help or know more see this issue: https://github.com/NathanKolbas/ort_dart/issues/1
 
 ## Execution Providers
 
@@ -37,14 +34,14 @@ Here is a matrix breakdown:
 [//]: # (https://onnxruntime.ai/docs/build/eps.html)
 [//]: # (CUDA, TensorRT, oneDNN, OpenVINO, QNN, DirectML, ACL, ANN, RKNPU, AMD Vitis AI, AMD MIGraphX, NNAPI, CoreML, XNNPACK, CANN, Azure)
 
-| Platform | Execution Providers                       |
-|----------|-------------------------------------------|
-| Android  | NNAPI, XNNPACK                            |
-| iOS      | CoreML, XNNPACK                           |
-| Linux    | OpenVINO, XNNPACK                         |
-| MacOS    | CoreML, XNNPACK                           |
-| WASM     | WebGPU                                    |
-| Windows  | DirectML, OpenVINO (x86_64 only), XNNPACK |
+| Platform | Execution Providers |
+|----------|---------------------|
+| Android  | NNAPI, XNNPACK      |
+| iOS      | CoreML, XNNPACK     |
+| Linux    | OpenVINO, XNNPACK   |
+| MacOS    | CoreML, XNNPACK     |
+| WASM     | WebGPU              |
+| Windows  | DirectML, XNNPACK   |
 
 If an execution provider is not available we fall back to CPU (this is how pyke's ort rust library works).
 
